@@ -12,22 +12,38 @@ def norm(m):
 
 # 数値解を求める
 def solve_equations(matrix, vector):
-    order = len(vector)
-    augmented_matrix = np.c_[matrix, vector]
+    size = len(vector)
+    matrix = matrix.copy()
+    vector = vector.copy()
 
-    for i in range(order):
-        pivot_index = np.argmax(np.abs(augmented_matrix[i:, i])) + i
-        augmented_matrix[[i, pivot_index]] = augmented_matrix[[pivot_index, i]]
+    # 行列Lと置換πの初期化
+    matrix_L = np.eye(size)
+    permutation = np.arange(size, dtype=int)
+    for i in range(size):
+        permutation[i] = i
 
-        pivot = augmented_matrix[i, i]
-        for j in range(i+1, order):
-            multiplier = augmented_matrix[j, i] / pivot
-            augmented_matrix[j, i:] -= multiplier * augmented_matrix[i, i:]
+    for k in range(size-1):
+        pivot_index = np.argmax(np.abs(matrix[k:, k])) + k
+        matrix[[k, pivot_index]] = matrix[[pivot_index, k]]
+        matrix_L[[k, pivot_index]] = matrix_L[[pivot_index, k]]
+        permutation[[k, pivot_index]] = permutation[[pivot_index, k]]
+
+        matrix_L[k, k] = 1
+        pivot = matrix[k, k]
+        for i in range(k+1, size):
+            multiplier = matrix[i, k] / pivot
+            matrix[i, k:] -= multiplier * matrix[k, k:]
+            matrix_L[i, k] = multiplier
         
-    solution = np.zeros(order)
-    for i in range(order-1, -1, -1):
-        sum = np.dot(augmented_matrix[i, i+1:order], solution[i+1:])
-        solution[i] = (augmented_matrix[i, order] - sum) / augmented_matrix[i,i]
+    solution_tmp = np.zeros(size)
+    for i in range(size):
+        sum = np.dot(matrix_L[i, :i], solution_tmp[:i])
+        solution_tmp[i] = vector[permutation[i]] - sum
+    
+    solution = np.zeros(size)
+    for i in range(size-1, -1, -1):
+        sum = np.dot(matrix[i, i+1:], solution[i+1:])
+        solution[i] = (solution_tmp[i] - sum) / matrix[i,i]
     
     return solution        
 

@@ -12,22 +12,22 @@ def norm(m):
 
 # 数値解を求める
 def solve_equations(matrix, vector):
-    order = len(vector)
+    size = len(vector)
     augmented_matrix = np.c_[matrix, vector]
 
-    for i in range(order):
+    for i in range(size):
         pivot_index = np.argmax(np.abs(augmented_matrix[i:, i])) + i
         augmented_matrix[[i, pivot_index]] = augmented_matrix[[pivot_index, i]]
 
         pivot = augmented_matrix[i, i]
-        for j in range(i+1, order):
+        for j in range(i+1, size):
             multiplier = augmented_matrix[j, i] / pivot
             augmented_matrix[j, i:] -= multiplier * augmented_matrix[i, i:]
         
-    solution = np.zeros(order)
-    for i in range(order-1, -1, -1):
-        sum = np.dot(augmented_matrix[i, i+1:order], solution[i+1:])
-        solution[i] = (augmented_matrix[i, order] - sum) / augmented_matrix[i,i]
+    solution = np.zeros(size)
+    for i in range(size-1, -1, -1):
+        sum = np.dot(augmented_matrix[i, i+1:size], solution[i+1:])
+        solution[i] = (augmented_matrix[i, size] - sum) / augmented_matrix[i,i]
     
     return solution        
 
