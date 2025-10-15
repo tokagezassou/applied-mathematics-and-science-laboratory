@@ -16,7 +16,7 @@ def calculate_first_eigenvalue(matrix, vector_x):
     size = len(vector_x)
     threshold = 1e-12
     max_calculate_num = 1000000
-    mu = 999
+    mu = 999999
 
     for k in range(max_calculate_num):
         vector_y = np.dot(matrix, vector_x)
@@ -37,7 +37,7 @@ def calculate_eigenvector_relative_error(main_vector, sub_vector):
     main_norm = norm(main_vector)
     sub_norm = norm(sub_vector)
     if main_norm < 1e-12 or sub_norm < 1e-12:
-        return 999
+        return 999999
 
     sub_vector = sub_vector * (norm(main_vector) / norm(sub_vector))
 
