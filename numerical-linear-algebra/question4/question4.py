@@ -74,7 +74,7 @@ def main():
                 )
                 calculation_time = end_time - start_time
                 
-                # trial  residual_norm  relative_error  calculation_time
+                # trial  residual_norm  relative_error  calculation_time  calculate_num
                 print(
                     j+1,
                     residual_norm,
