@@ -96,7 +96,7 @@ def solve_equations(matrix_L, matrix_U, permutation, vector):
         sum = np.dot(matrix_U[i, i+1:], solution[i+1:])
         solution[i] = (solution_tmp[i] - sum) / matrix_U[i,i]
     
-    return solution 
+    return solution
 
 def calculate_eigenvector_relative_error(main_vector, sub_vector):
     main_norm = norm(main_vector)
