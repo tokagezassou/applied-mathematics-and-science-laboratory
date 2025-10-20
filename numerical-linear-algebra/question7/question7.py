@@ -13,23 +13,30 @@ def norm(m):
 # 全ての固有値を求める
 def calculate_eigenvalues(m):
     matrix = m.copy()
-    size = matrix.shape[0]
     threshold = 1e-6
     max_calculate_num = 100000
+    eigenvalues = []
 
     for k in range (max_calculate_num):
-        not_converged_count = 0
+        size = matrix.shape[0]
+        not_converged_counts = np.zeros(size)
+        shift = 0
         for i in range(size):
             for j in range(i):
                 if norm(matrix[i,j]) / norm(matrix[i,i]) > threshold:
-                    not_converged_count += 1
+                    not_converged_counts[j] += 1
         
-        if not_converged_count == 0:
-            eigenvalues = np.zeros(size)
-            for i in range(size):
-                eigenvalues[i] = matrix[i,i]
-            return eigenvalues, k+1
-        
+        for j in range(size):
+            if not_converged_counts[j] == 0:
+                eigenvalue = matrix[j,j] + shift
+                eigenvalues.append(eigenvalue)
+                shift += eigenvalue
+
+                rows = np.r_[:j, j+1:size]
+                cols = np.r_[:j, j+1:size]
+                matrix = matrix[np.ix_(rows, cols)]
+                matrix -= eigenvalue * np.eye(size-1)
+                        
         matrix_Q, matrix_R = QR_decomposition(matrix)
         matrix = np.dot(matrix_R, matrix_Q)
     
@@ -63,7 +70,7 @@ def main():
             print("size = ", size, file = f)
             # print("size = ", size)
 
-            for j in range(100):
+            for j in range(3):
                 matrix = generate_random_matrix(size)
                 true_eigenvalues, true_eigenvectors = np.linalg.eig(matrix)
 
