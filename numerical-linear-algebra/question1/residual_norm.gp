@@ -30,10 +30,10 @@ plot 'output.dat' using 1:2 every ::2::101 linetype 1 pointsize 1 pointtype 7 ti
     'output.dat' using 1:2 every ::104::203 linetype 2 pointsize 1 pointtype 7 title 'n = 200' ,\
     'output.dat' using 1:2 every ::206::305 linetype 3 pointsize 1 pointtype 7 title 'n = 400' ,\
     'output.dat' using 1:2 every ::308::407 linetype 4 pointsize 1 pointtype 7 title 'n = 800' ,\
-    n100_mean with lines linetype 1 linewidth 2 title 'n = 100 mean' ,\
-    n200_mean with lines linetype 2 linewidth 2 title 'n = 200 mean' ,\
-    n400_mean with lines linetype 3 linewidth 2 title 'n = 400 mean' ,\
-    n800_mean with lines linetype 4 linewidth 2 title 'n = 800 mean'
+    n100_median with lines linetype 1 linewidth 2 title 'n = 100 median' ,\
+    n200_median with lines linetype 2 linewidth 2 title 'n = 200 median' ,\
+    n400_median with lines linetype 3 linewidth 2 title 'n = 400 median' ,\
+    n800_median with lines linetype 4 linewidth 2 title 'n = 800 median'
 
 
 quit
