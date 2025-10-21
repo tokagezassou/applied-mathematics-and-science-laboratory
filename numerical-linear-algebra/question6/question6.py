@@ -14,15 +14,37 @@ def norm(m):
 def calculate_eigenvalues(m):
     matrix = m.copy()
     size = matrix.shape[0]
-    threshold = 1e-6
+    threshold = 1e-4
     max_calculate_num = 100000
 
     for k in range (max_calculate_num):
         not_converged_count = 0
-        for i in range(size):
-            for j in range(i):
-                if norm(matrix[i,j]) / norm(matrix[i,i]) > threshold:
-                    not_converged_count += 1
+        # for i in range(size):
+        #     for j in range(i):
+        #         if norm(matrix[i,j]) / norm(matrix[i,i]) > threshold:
+        #             not_converged_count += 1
+
+        # ▽▽▽ ここから変更 ▽▽▽
+        # 高速な収束判定（ベクトル化）
+        
+        # 1. 対角成分の絶対値を取得
+        diag_abs = np.abs(np.diag(matrix))
+        # ゼロ除算を避けるための小さな値
+        diag_abs[diag_abs == 0] = 1.0e-12
+        
+        # 2. 下三角行列（対角成分を除く）の絶対値を取得
+        #    （元が行列対称なので、下三角だけで十分）
+        lower_tri_abs = np.abs(np.tril(matrix, k=-1))
+        
+        # 3. 各要素を「その行の対角成分の絶対値」で割る
+        #    NumPyのブロードキャスティング機能を利用
+        #    diag_abs.reshape(-1, 1) で (size,) -> (size, 1) の列ベクトルに変換
+        ratios = lower_tri_abs / diag_abs.reshape(-1, 1)
+        
+        # 4. thresholdを超えている要素の数をカウント
+        not_converged_count = np.sum(ratios > threshold)
+        
+        # △△△ ここまで変更 △△△
         
         if not_converged_count == 0:
             eigenvalues = np.zeros(size)
@@ -40,8 +62,8 @@ def calculate_eigenvalues(m):
 def QR_decomposition(m):
     matrix = m.copy()
     size = matrix.shape[0]
-    matrix_Q = np.eye(size)
-    matrix_R = np.eye(size)
+    matrix_Q = np.zeros((size, size))
+    matrix_R = np.zeros((size, size))
     
     for j in range(size):
         vector_b = matrix[:,j]
@@ -63,7 +85,8 @@ def main():
             print("size = ", size, file = f)
             # print("size = ", size)
 
-            for j in range(100):
+            for j in range(50):
+                print("size: ", size, "  trial: ", j+1)
                 matrix = generate_random_matrix(size)
                 true_eigenvalues, true_eigenvectors = np.linalg.eig(matrix)
 

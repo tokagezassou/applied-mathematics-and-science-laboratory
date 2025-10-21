@@ -13,33 +13,31 @@ def norm(m):
 # 全ての固有値を求める
 def calculate_eigenvalues(m):
     matrix = m.copy()
-    threshold = 1e-6
+    threshold = 1e-4
     max_calculate_num = 100000
+    calculate_count = 0
     eigenvalues = []
+    size = matrix.shape[0]
+    current_size = size
 
     for k in range (max_calculate_num):
-        size = matrix.shape[0]
-        not_converged_counts = np.zeros(size)
-        shift = 0
-        for i in range(size):
-            for j in range(i):
-                if norm(matrix[i,j]) / norm(matrix[i,i]) > threshold:
-                    not_converged_counts[j] += 1
-        
-        for j in range(size):
-            if not_converged_counts[j] == 0:
-                eigenvalue = matrix[j,j] + shift
-                eigenvalues.append(eigenvalue)
-                shift += eigenvalue
+        matrix = matrix[:current_size, :current_size]
+        diag_val = matrix[current_size-1, current_size-1]
 
-                rows = np.r_[:j, j+1:size]
-                cols = np.r_[:j, j+1:size]
-                matrix = matrix[np.ix_(rows, cols)]
-                matrix -= eigenvalue * np.eye(size-1)
-                        
-        matrix_Q, matrix_R = QR_decomposition(matrix)
-        matrix = np.dot(matrix_R, matrix_Q)
-    
+        if current_size == 1:
+            eigenvalues.append(diag_val)
+            return np.array(eigenvalues), k+1
+
+        bottom_row = matrix[current_size-1, :current_size-1]
+        if np.max(np.abs(bottom_row) / np.abs(diag_val)) < threshold:
+            eigenvalues.append(diag_val)
+            current_size -= 1
+        else:
+            shift = diag_val
+            shifted_matrix = matrix - shift * np.eye(current_size)
+            matrix_Q, matrix_R = QR_decomposition(shifted_matrix)
+            matrix = np.dot(matrix_R, matrix_Q) + shift * np.eye(current_size)
+            
     print("not finished within ", max_calculate_num, "times")
     return np.zeros(size), 0
 
@@ -70,7 +68,7 @@ def main():
             print("size = ", size, file = f)
             # print("size = ", size)
 
-            for j in range(3):
+            for j in range(50):
                 matrix = generate_random_matrix(size)
                 true_eigenvalues, true_eigenvectors = np.linalg.eig(matrix)
 

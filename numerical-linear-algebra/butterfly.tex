@@ -1,11 +1,10 @@
-\documentclass[a4j]{jarticle}
+\documentclass[uplatex,a4j]{jsarticle}
 \usepackage[dvipdfmx]{graphicx}
 \usepackage{amsmath,ascmac}
 \usepackage{bm}
 \usepackage{algorithm,algorithmic}
 \usepackage{listings}
 \usepackage{subcaption}
-\usepackage{bm}
 \usepackage{amsfonts}
 \lstset{%
   language={C},
@@ -29,6 +28,7 @@
 \renewcommand{\lstlistingname}{コード}
 \renewcommand{\lstlistlistingname}{コード目次}
 \renewcommand{\thesubsection}{(\arabic{subsection})}
+\renewcommand{\thesection}{課題\arabic{section}}
 
 % ***************ここ変える*****************
 \title{数値線形代数レポート}
