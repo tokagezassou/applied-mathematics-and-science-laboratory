@@ -53,7 +53,7 @@
 \end{align}
 の数値解を計算した. \\
 各$n$に対する数値解$\bm{\tilde{x}}$の残差ノルム$\| \bm{b} - A \bm{\tilde{x}} \|$, 
-真の解$\bm{x}$との相対誤差$\frac{\| \bm{x} - \bm{\tilde{x}} \|}{\bm{x}}$, 計算時間は
+真の解$\bm{x}$との相対誤差$\frac{\| \bm{x} - \bm{\tilde{x}} \|}{\| \bm{x} \|}$, 計算時間は
 それぞれ図\ref{fig:q1_rn}, 図\ref{fig:q1_le}, 図\ref{fig:q1_ct}の通り. 
 それぞれのグラフの直線はデータの中央値を表している.
 
@@ -92,8 +92,72 @@
 
 \subsection{計算時間と次数$n$の関係}
 \label{sec:q1_3}
-図\ref{fig:q1_ct}において各$n$における中央値の幅が一定なことから, 
+図\ref{fig:q1_ct}において各$n$における中央値の幅が概ね一定なことから, 
 計算時間は多項式のオーダーで増加していると読み取れる. 
 さらに図\ref{fig:q1_rn}, 図\ref{fig:q1_le}と比べてデータのばらつきが大幅に少なくなっている.
 消去法の計算量は$O(n^3)$であり, 最初の行列及びベクトルにはよらないので, このような結果になったと考えられる.
+
+
+\section{LU分解を用いた連立一次方程式の解法}
+\label{sec:q2}
+
+\subsection{データのプロット}
+\label{sec:q2_1}
+
+大きさが$n = 100,200,400,800$の対角行列$A$とベクトル$\bm{b}$の組を100個ずつ生成して, 
+それぞれのペアに対してLU分解を用いて連立一次方程式
+\begin{align}
+  A \bm{x} = \bm{b}
+\end{align}
+の数値解を計算した. \\
+各$n$に対する数値解$\bm{\tilde{x}}$の残差ノルム$\| \bm{b} - A \bm{\tilde{x}} \|$, 
+真の解$\bm{x}$との相対誤差$\frac{\| \bm{x} - \bm{\tilde{x}} \|}{\| \bm{x} \|}$, 計算時間は
+それぞれ図\ref{fig:q1_rn}, 図\ref{fig:q1_le}, 図\ref{fig:q1_ct}の通り. 
+それぞれのグラフの直線はデータの中央値を表している.
+
+\begin{figure}[htbp]
+  \centering
+
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question2/q2_residual_norm.png}
+    \captionof{figure}{残差ノルム}
+    \label{fig:q2_rn}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question2/q2_relative_error.png}
+    \captionof{figure}{相対誤差}
+    \label{fig:q2_le}
+  \end{minipage}
+  
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.48\textwidth]{question2/q2_calculation_time.png}
+  \caption{計算時間}
+  \label{fig:q2_ct}
+\end{figure}
+
+\newpage
+\subsection{数値解の精度と次数$n$の関係}
+\label{sec:q2_2}
+図\ref{fig:q2_rn}, 図\ref{fig:q2_le}において各$n$における中央値の幅が一定なことから, 
+残差ノルム及び相対誤差は多項式のオーダーで増加していると読み取れる. 
+LU分解の計算量は$O(n^3)$であり, 計算の丸め誤差が$O(n^3)$で蓄積されていくので, このような結果になったと考えられる.
+
+\subsection{計算時間と次数$n$の関係}
+\label{sec:q2_3}
+図\ref{fig:q2_ct}において各$n$における中央値の幅が概ね一定なことから, 
+計算時間は多項式のオーダーで増加していると読み取れる. 
+さらに図\ref{fig:q2_rn}, 図\ref{fig:q2_le}と比べてデータのばらつきが大幅に少なくなっている.
+LU分解の計算量は$O(n^3)$であり, 最初の行列及びベクトルにはよらないので, このような結果になったと考えられる.
+
+
+
+
+
+
 \end{document}
