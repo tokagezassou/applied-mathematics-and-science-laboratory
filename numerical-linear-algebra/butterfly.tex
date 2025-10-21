@@ -46,7 +46,7 @@
 \subsection{データのプロット}
 \label{sec:q1_1}
 
-大きさが$n = 100,200,400,800$の対角行列$A$とベクトル$\bm{b}$の組を100個ずつ生成して, 
+大きさが$n = 100,200,400,800$の正方行列$A$とベクトル$\bm{b}$の組を100個ずつ生成して, 
 それぞれのペアに対して消去法を用いて連立一次方程式
 \begin{align}
   A \bm{x} = \bm{b}
@@ -86,7 +86,7 @@
 \newpage
 \subsection{数値解の精度と次数$n$の関係}
 \label{sec:q1_2}
-図\ref{fig:q1_rn}, 図\ref{fig:q1_re}において各$n$における中央値の幅が一定なことから, 
+図\ref{fig:q1_rn}, 図\ref{fig:q1_re}において各$n$における中央値の幅が概ね一定なことから, 
 残差ノルム及び相対誤差は多項式のオーダーで増加していると読み取れる. 
 消去法の計算量は$O(n^3)$であり, 計算の丸め誤差が$O(n^3)$で蓄積されていくので, このような結果になったと考えられる.
 
@@ -104,7 +104,7 @@
 \subsection{データのプロット}
 \label{sec:q2_1}
 
-大きさが$n = 100,200,400,800$の対角行列$A$とベクトル$\bm{b}$の組を100個ずつ生成して, 
+大きさが$n = 100,200,400,800$の正方行列$A$とベクトル$\bm{b}$の組を100個ずつ生成して, 
 それぞれのペアに対してLU分解を用いて連立一次方程式
 \begin{align}
   A \bm{x} = \bm{b}
@@ -144,7 +144,7 @@
 \newpage
 \subsection{数値解の精度と次数$n$の関係}
 \label{sec:q2_2}
-図\ref{fig:q2_rn}, 図\ref{fig:q2_re}において各$n$における中央値の幅が一定なことから, 
+図\ref{fig:q2_rn}, 図\ref{fig:q2_re}において各$n$における中央値の幅が概ね一定なことから, 
 残差ノルム及び相対誤差は多項式のオーダーで増加していると読み取れる. 
 LU分解の計算量は$O(n^3)$であり, 計算の丸め誤差が$O(n^3)$で蓄積されていくので, このような結果になったと考えられる.
 
@@ -164,6 +164,79 @@ LU分解の計算量は$O(n^3)$であり, 最初の行列及びベクトルに�
 それは加減算と除算をそれぞれ$O(n^3)$回ずつ行うものである. 
 そのため消去法とLU分解で差が見られないと考えられる. 
 
+\section{べき乗法を用いた第1固有ベクトルの計算}
+\label{sec:q4}
+
+\subsection{データのプロット}
+\label{sec:q4_1}
+大きさが$n = 100,200,400,800$の正方行列$A$を100個ずつ生成して, 
+それぞれの行列に対してべき乗法を用いて第1固有ベクトルを計算した. \\
+各$n$に対して, 数値計算で求めた第1固有値$\tilde{\lambda_1}$と第1固有ベクトル$\bm{\tilde{v_1}}$に対する
+固有方程式の残差ノルム$\| \tilde{\lambda_1}\bm{\tilde{v_1}} - A \bm{\tilde{v_1}} \|$, 
+$\tilde{\lambda_1}$の相対誤差$\frac{|\lambda_1 - \tilde{\lambda_1}|}{|\lambda_1|}$, 
+$\bm{\tilde{v_1}}$の相対誤差$\frac{\| \bm{v_1} - \bm{\tilde{v_1}} \|}{\| \bm{v_1} \|}$, 
+計算時間, 収束までに要した反復回数は, 
+それぞれ図\ref{fig:q4_rn}, 図\ref{fig:q4_val_re}, 図\ref{fig:q4_vec_re}, 図\ref{fig:q4_ct}, 図\ref{fig:q4_ic}, の通り. 
+それぞれのグラフの直線はデータの中央値を表している.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.48\textwidth]{question4/q4_residual_norm.png}
+  \caption{残差ノルム}
+  \label{fig:q4_rn}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question4/q4_eigenvalue_relative_error.png}
+    \captionof{figure}{第1固有値の相対誤差}
+    \label{fig:q4_val_re}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question4/q4_eigenvector_relative_error.png}
+    \captionof{figure}{第1固有ベクトルの相対誤差}
+    \label{fig:q4_vec_re}
+  \end{minipage}
+  
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question4/q4_calculation_time.png}
+    \captionof{figure}{計算時間}
+    \label{fig:q4_ct}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question4/q4_iteration_count.png}
+    \captionof{figure}{反復回数}
+    \label{fig:q4_ic}
+  \end{minipage}
+  
+\end{figure}
+
+\newpage
+\subsection{$\tilde{\lambda_1}, \bm{\tilde{v_1}}$の精度と次数$n$の関係}
+\label{sec:q4_2}
+図\ref{fig:q4_val_re}, 図\ref{fig:q4_vec_re}において各中央値が概ね等しいことから, 
+次数$n$に関わらず$\tilde{\lambda_1}$と$\bm{\tilde{v_1}}$は常に等しい精度で計算できていると読み取れる. 
+一方図\ref{fig:q4_rn}において各中央値は異なっており, その幅が概ね一定なことから, 
+残差ノルムは次数$n$に対して多項式のオーダーで増加していると読み取れる. \\
+$\tilde{\lambda_1}, \bm{\tilde{v_1}}$の精度が次数$n$によらないのは, 
+べき乗法の収束判定を同じ閾値で判断してるからだと考えられる. 
+今回は閾値を$1.0 \times 10^{-12}$に設定しており, 現に相対誤差は$10^{-13}$から$10^{-12}$のオーダーである. 
+一方残差ノルムの計算量は$O(n^2)$であり, 第1固有値と第1固有ベクトルの計算時点からの誤差が$O(n^2)$で蓄積されていく. 
+そのため残差ノルムの値は相対誤差よりも大きい$10^{-11}$のオーダーになり, 
+さらに多項式のオーダーの有意な差が発生したと考えられる.
 
 
 
