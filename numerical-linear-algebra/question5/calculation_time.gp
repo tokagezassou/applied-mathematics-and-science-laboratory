@@ -1,6 +1,6 @@
 # png ファイルに出力する
 set term png
-set output "q4_calculation_time.png"
+set output "q5_calculation_time.png"
 
 # 軸と key(凡例)
 set xlabel '{Trial}'

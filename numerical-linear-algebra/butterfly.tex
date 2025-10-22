@@ -28,7 +28,7 @@
 \renewcommand{\lstlistingname}{コード}
 \renewcommand{\lstlistlistingname}{コード目次}
 \renewcommand{\thesubsection}{(\arabic{subsection})}
-\renewcommand{\thesection}{課題\arabic{section}}
+\renewcommand{\thesection}{\arabic{section}}
 
 % ***************ここ変える*****************
 \title{数値線形代数レポート}
@@ -40,7 +40,7 @@
 
 \maketitle
 
-\section{消去法を用いた連立一次方程式の解法}
+\section{課題1 消去法を用いた連立一次方程式の解法}
 \label{sec:q1}
 
 \subsection{データのプロット}
@@ -98,7 +98,7 @@
 消去法の計算量は$O(n^3)$であり, 最初の行列及びベクトルにはよらないので, このような結果になったと考えられる.
 
 
-\section{LU分解を用いた連立一次方程式の解法}
+\section{課題2 LU分解を用いた連立一次方程式の解法}
 \label{sec:q2}
 
 \subsection{データのプロット}
@@ -156,20 +156,20 @@ LU分解の計算量は$O(n^3)$であり, 計算の丸め誤差が$O(n^3)$で蓄
 LU分解の計算量は$O(n^3)$であり, 最初の行列及びベクトルにはよらないので, このような結果になったと考えられる.
 
 
-\section{消去法とLU分解の比較}
+\section{課題3 消去法とLU分解の比較}
 図\ref{fig:q1_rn}と\ref{fig:q2_rn}, \ref{fig:q1_re}と\ref{fig:q2_re}, 
 \ref{fig:q1_ct}と\ref{fig:q2_ct}の中央値を比較するとどれも概ね等しいので, 
 消去法とLU分解で数値解の精度と計算速度は変わらないと読み取れる. 
-実際どちらの方法においても, ボトルネックになっている計算はピボットを用いた掃き出しであり, 
+理論的にどちらの方法においても, ボトルネックになっている計算はピボットを用いた掃き出しであり, 
 それは加減算と除算をそれぞれ$O(n^3)$回ずつ行うものである. 
 そのため消去法とLU分解で差が見られないと考えられる. 
 
-\section{べき乗法を用いた第1固有ベクトルの計算}
+\section{課題4 べき乗法を用いた第1固有ベクトルの計算}
 \label{sec:q4}
 
 \subsection{データのプロット}
 \label{sec:q4_1}
-大きさが$n = 100,200,400,800$の正方行列$A$を100個ずつ生成して, 
+大きさが$n = 50,100,200,400$の正方行列$A$を100個ずつ生成して, 
 それぞれの行列に対してべき乗法を用いて第1固有ベクトルを計算した. \\
 各$n$に対して, 数値計算で求めた第1固有値$\tilde{\lambda_1}$と第1固有ベクトル$\bm{\tilde{v_1}}$に対する
 固有方程式の残差ノルム$\| \tilde{\lambda_1}\bm{\tilde{v_1}} - A \bm{\tilde{v_1}} \|$, 
@@ -236,7 +236,90 @@ $\tilde{\lambda_1}, \bm{\tilde{v_1}}$の精度が次数$n$によらないのは,
 今回は閾値を$1.0 \times 10^{-12}$に設定しており, 現に相対誤差は$10^{-13}$から$10^{-12}$のオーダーである. 
 一方残差ノルムの計算量は$O(n^2)$であり, 第1固有値と第1固有ベクトルの計算時点からの誤差が$O(n^2)$で蓄積されていく. 
 そのため残差ノルムの値は相対誤差よりも大きい$10^{-11}$のオーダーになり, 
-さらに多項式のオーダーの有意な差が発生したと考えられる.
+さらに多項式のオーダーの有意な差が発生したと考えられる. 
+
+\subsection{計算時間と次数$n$の関係}
+\label{sec:q4_3}
+図\ref{fig:q4_ct}より, 次数$n$の増加に伴って計算時間も増加している. 
+ただしグラフからはどのようなオーダーで増加しているかはグラフからは特定できなかった. 
+理論的にべき乗法の1回の反復での計算量は$O(n^2)$であり, 次数$n$の増加に伴って計算時間は増加する傾向にある. 
+しかし収束の速度は第1固有値$\lambda_1$と第2固有値$\lambda_2$の絶対値の比$\frac{|\lambda_2|}{|\lambda_1|}$に依存しており, 
+次数$n$には依存していない. 
+実際に図\ref{fig:q4_ic}において, 次数$n$の違いによる反復回数の分布の有意な差は見られない. 
+
+
+\section{課題5 べき乗法と逆反復法を組み合わせた第1固有ベクトルの計算}
+\label{sec:q5}
+大きさが$n = 50,100,200,400$の正方行列$A$を100個ずつ生成して, 
+それぞれの行列に対して収束判定の閾値を$1.0 \times 10^{-6}$と甘めに設定し, 
+べき乗法を用いて第1固有ベクトルの近似値を計算した. 
+そしてその近似値を逆反復法に適用して第1固有ベクトルを計算した. \\
+各$n$に対して, 数値計算で求めた第1固有値$\tilde{\lambda_1}$と第1固有ベクトル$\bm{\tilde{v_1}}$に対する
+固有方程式の残差ノルム$\| \tilde{\lambda_1}\bm{\tilde{v_1}} - A \bm{\tilde{v_1}} \|$, 
+$\tilde{\lambda_1}$の相対誤差$\frac{|\lambda_1 - \tilde{\lambda_1}|}{|\lambda_1|}$, 
+$\bm{\tilde{v_1}}$の相対誤差$\frac{\| \bm{v_1} - \bm{\tilde{v_1}} \|}{\| \bm{v_1} \|}$, 
+計算時間, 収束までに要した反復回数は, 
+それぞれ図\ref{fig:q5_rn}, 図\ref{fig:q5_val_re}, 図\ref{fig:q5_vec_re}, 図\ref{fig:q5_ct}, 図\ref{fig:q5_ic}, の通り. 
+それぞれのグラフの直線はデータの中央値を表している. \\
+図\ref{fig:q4_rn}, \ref{fig:q4_val_re}, \ref{fig:q4_vec_re}と図\ref{fig:q5_rn}, \ref{fig:q5_val_re}, \ref{fig:q5_vec_re}より, 
+残差ノルム及び相対誤差はべき乗法のみを用いたときと比較して$\frac{1}{10}$-$\frac{1}{100}$倍ほどになっているため, 
+計算精度は逆反復法を組み合わせた方が高くなっている. 
+さらに図\ref{fig:q4_ic}と図\ref{fig:q5_ic}より, 
+反復回数も$\frac{1}{10}$-$\frac{1}{100}$倍ほどになっているため, 収束が速くなっていることが読み取れる. 
+これは逆反復法のアルゴリズムがべき乗法よりも, 精度においても収束速度においても優れていることを表している. \\
+一方図\ref{fig:q4_ct}と図\ref{fig:q5_ct}より, 計算時間に有意な差は見られない. 
+収束が速くなっているのに計算時間が減少しないことの理由は, 
+逆反復法で行っているLU分解の計算に時間がかかっているからだと考えられる. 
+理論上べき乗法及び逆反復法の各反復の計算量は$O(n^2)$なのに対して, LU分解の計算量は$O(n^3)$であり, 
+確かにLU分解の処理が各反復と比べて支配的に遅いと言える. \\
+以上より, 逆反復法を組み合わせることで収束速度は大幅に向上したが, 計算速度は短縮されなかった. \\
+なお図\ref{fig:q5_rn}で残差ノルムの値が等しい組が多数見つかったが, 
+その原因は究明できなかった. 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.48\textwidth]{question5/q5_residual_norm.png}
+  \caption{残差ノルム}
+  \label{fig:q5_rn}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question5/q5_eigenvalue_relative_error.png}
+    \captionof{figure}{第1固有値の相対誤差}
+    \label{fig:q5_val_re}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question5/q5_eigenvector_relative_error.png}
+    \captionof{figure}{第1固有ベクトルの相対誤差}
+    \label{fig:q5_vec_re}
+  \end{minipage}
+  
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question5/q5_calculation_time.png}
+    \captionof{figure}{計算時間}
+    \label{fig:q5_ct}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question5/q5_iteration_count.png}
+    \captionof{figure}{反復回数}
+    \label{fig:q5_ic}
+  \end{minipage}
+  
+\end{figure}
 
 
 

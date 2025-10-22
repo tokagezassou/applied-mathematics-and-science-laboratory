@@ -13,9 +13,10 @@ def norm(m):
 
 # 第１固有値のあたりをつける
 def estimate_first_eigenvalue(matrix, vector_x):
-    threshold = 1e-1
+    matrix = matrix.copy()
+    threshold = 1e-6
     max_calculate_num = 1000000
-    mu = 999999
+    mu = 999
 
     for k in range(max_calculate_num):
         vector_y = np.dot(matrix, vector_x)
@@ -40,18 +41,17 @@ def calculate_first_eigenvalue(matrix, vector_x, sigma):
     
     threshold = 1e-12
     max_calculate_num = 1000000
-    mu = 999999
+    mu = 999
 
     for k in range(max_calculate_num):
         vector_y = solve_equations(matrix_L, matrix_U, permutation, vector_x)
         max_index = np.argmax(np.abs(vector_x))
         mu_prev = mu
         mu = vector_y[max_index] / vector_x[max_index]
+        vector_x = vector_y / norm(vector_y)
 
         if np.abs((mu - mu_prev) / mu) < threshold:
             return 1 / mu + sigma, vector_x, k + 1
-        
-        vector_x = vector_y / norm(vector_y)
 
         if k == max_calculate_num-1:
             print("not finished within ", max_calculate_num, "times")
@@ -102,7 +102,8 @@ def calculate_eigenvector_relative_error(main_vector, sub_vector):
     main_norm = norm(main_vector)
     sub_norm = norm(sub_vector)
     if main_norm < 1e-12 or sub_norm < 1e-12:
-        return 999999
+        print("norm is zero")
+        return 999
 
     sub_vector = sub_vector * (norm(main_vector) / norm(sub_vector))
 
@@ -120,7 +121,7 @@ def main():
             print("--------------------------------------------------------------------------------", file = f)
             print("size = ", size, file = f)
 
-            for j in range(10):
+            for j in range(100):
                 matrix, vector = generate_random_matrixes(size)
                 true_eigenvalues, true_eigenvectors = np.linalg.eig(matrix)
                 max_index = np.argmax(np.abs(true_eigenvalues))

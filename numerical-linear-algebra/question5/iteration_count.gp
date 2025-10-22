@@ -1,10 +1,10 @@
 # png ファイルに出力する
 set term png
-set output "q4_calculation_time.png"
+set output "q5_iteration_count.png"
 
 # 軸と key(凡例)
 set xlabel '{Trial}'
-set ylabel '{Calculation Time}'
+set ylabel '{Iteration Count}'
 # set yrange [0:1]
 set logscale y
 set format y "10^{%T}"
@@ -21,15 +21,15 @@ set ylabel offset 1,0
 # set key at 0.54, 0.8
 set key outside
 
-stats 'output.dat' using 5 every ::2::101 name 'n50'
-stats 'output.dat' using 5 every ::104::203 name 'n100'
-stats 'output.dat' using 5 every ::206::305 name 'n200'
-stats 'output.dat' using 5 every ::308::407 name 'n400'
+stats 'output.dat' using 6 every ::2::101 name 'n50'
+stats 'output.dat' using 6 every ::104::203 name 'n100'
+stats 'output.dat' using 6 every ::206::305 name 'n200'
+stats 'output.dat' using 6 every ::308::407 name 'n400'
 
-plot 'output.dat' using 1:5 every ::2::101 linetype 1 pointsize 1 pointtype 7 title 'n = 50' ,\
-    'output.dat' using 1:5 every ::104::203 linetype 2 pointsize 1 pointtype 7 title 'n = 100' ,\
-    'output.dat' using 1:5 every ::206::305 linetype 3 pointsize 1 pointtype 7 title 'n = 200' ,\
-    'output.dat' using 1:5 every ::308::407 linetype 4 pointsize 1 pointtype 7 title 'n = 400' ,\
+plot 'output.dat' using 1:6 every ::2::101 linetype 1 pointsize 1 pointtype 7 title 'n = 50' ,\
+    'output.dat' using 1:6 every ::104::203 linetype 2 pointsize 1 pointtype 7 title 'n = 100' ,\
+    'output.dat' using 1:6 every ::206::305 linetype 3 pointsize 1 pointtype 7 title 'n = 200' ,\
+    'output.dat' using 1:6 every ::308::407 linetype 4 pointsize 1 pointtype 7 title 'n = 400' ,\
     n50_median with lines linetype 1 linewidth 2 title 'n = 50 median' ,\
     n100_median with lines linetype 2 linewidth 2 title 'n = 100 median' ,\
     n200_median with lines linetype 3 linewidth 2 title 'n = 200 median' ,\
