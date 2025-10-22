@@ -30,15 +30,31 @@
 \renewcommand{\thesubsection}{(\arabic{subsection})}
 \renewcommand{\thesection}{\arabic{section}}
 
-% ***************ここ変える*****************
-\title{数値線形代数レポート}
-\author{1029 36 1263 天野塁}
-\date{2025/10/27}
-% ****************************************
-
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+    \centering
+    \vfill
+    
+    {\Huge 数理工学実験\par}
+    \vspace{1cm}
+    
+    {\Large 数値線形代数レポート\par}
+    
+    \vfill
+    
+    {\Large
+    所属: 工学部情報学科数理工学コース２年\par
+    学籍番号: 1029-36-1263\par
+    氏名: 天野 塁\par
+    }
+    
+    \vfill
+    
+    {\Large 提出日: \today \par}
+    
+    \vfill
+\end{titlepage}
 
 \section{課題1 消去法を用いた連立一次方程式の解法}
 \label{sec:q1}
@@ -492,6 +508,30 @@ $\tilde{\lambda_i}$の相対誤差の最大値$\max{\frac{|\lambda_i - \tilde{\l
   \end{minipage}
   
 \end{figure}
+
+\newpage
+\section{実行環境}
+\label{sec:env}
+本課題の実行環境は以下の通り.
+
+\begin{table}[ht]
+  \centering
+  \caption{実行環境}
+  \label{tab:num}
+  \begin{tabular}[ht]{c c}
+    \hline
+    OS & Ubuntu 22.04.5 LTS \\
+    CPU & 13th Gen Intel(R) Core(TM) i7-1360P \\
+    メモリ & 8GB \\
+    使用言語 & Python 3.12.4 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\section{参考文献}
+\label{sec:ref}
+数値計算のためのコードで誤っている箇所の修正, 及びより効率の良い書き方の勉強のため, 
+Gemini 2.5 Proを使用した.
 
 
 \end{document}
