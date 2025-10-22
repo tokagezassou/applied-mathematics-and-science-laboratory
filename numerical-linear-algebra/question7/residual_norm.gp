@@ -1,6 +1,6 @@
 # png ファイルに出力する
 set term png
-set output "q6_residual_norm.png"
+set output "q7_residual_norm.png"
 
 # 軸と key(凡例)
 set xlabel '{Trial}'

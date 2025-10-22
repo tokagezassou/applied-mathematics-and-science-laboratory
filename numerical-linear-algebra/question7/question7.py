@@ -15,7 +15,6 @@ def calculate_eigenvalues(m):
     matrix = m.copy()
     threshold = 1e-4
     max_calculate_num = 100000
-    calculate_count = 0
     eigenvalues = []
     size = matrix.shape[0]
     current_size = size

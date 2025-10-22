@@ -322,5 +322,176 @@ $\bm{\tilde{v_1}}$の相対誤差$\frac{\| \bm{v_1} - \bm{\tilde{v_1}} \|}{\| \b
 \end{figure}
 
 
+\section{課題6 QR法を用いた全ての固有値の計算}
+\label{sec:q6}
+
+\subsection{データのプロット}
+\label{sec:q6_1}
+大きさが$n = 10,20,40,80$の正方行列$A$を50個ずつ生成して, 
+それぞれの行列に対してQR法を用いて全ての固有値を計算した. \\
+各$n$に対して, 数値計算で求めた固有値$\tilde{\lambda_i}$に対する
+固有方程式の残差ノルムの最大値$\max{\| (A - \tilde{\lambda_i}I) \bm{v_i} \| }$, 
+$\tilde{\lambda_i}$の相対誤差の最大値$\max{\frac{|\lambda_1 - \tilde{\lambda_1}|}{|\lambda_1|}}$, 
+計算時間, 収束までに要した反復回数は, 
+それぞれ図\ref{fig:q6_rn}, 図\ref{fig:q6_re}, 図\ref{fig:q6_ct}, 図\ref{fig:q6_ic}, の通り. 
+それぞれのグラフの直線はデータの中央値を表している. 
+図\ref{fig:q6_rn_whole}及び図\ref{fig:q6_re_whole}において極端に大きな値を取っているものは, 
+既定の100000回以内に収束しなかったものである. 
+収束したものと明確に区別をするため, 100000回時点の値ではなくゼロ値を返している. \\
+この実験でこれまでと同等の精度を求めようとすると, 計算が現実的な時間では終了しなかったため, 
+やむを得ず反復回数を絞ったり精度及び試行回数を落としたりして実験した. 
+
+
+\begin{figure}[htbp]
+  \centering
+
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question6/q6_residual_norm.png}
+    \caption{全体}
+    \label{fig:q6_rn_whole}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question6/q6_residual_norm_zoom.png}
+    \caption{中央値付近}
+    \label{fig:q6_rn_zoom}
+  \end{subfigure}
+  
+  \caption{残差ノルムの最大値}
+  \label{fig:q6_rn}
+\end{figure}
+
+
+\begin{figure}[htbp]
+  \centering
+
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question6/q6_relative_error.png}
+    \caption{全体}
+    \label{fig:q6_re_whole}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question6/q6_relative_error_zoom.png}
+    \caption{中央値付近}
+    \label{fig:q6_re_zoom}
+  \end{subfigure}
+  
+  \caption{相対誤差の最大値}
+  \label{fig:q6_re}
+\end{figure}
+
+
+\begin{figure}[htbp]
+  \centering
+
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question6/q6_calculation_time.png}
+    \captionof{figure}{計算時間}
+    \label{fig:q6_ct}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question6/q6_iteration_count.png}
+    \captionof{figure}{反復回数}
+    \label{fig:q6_ic}
+  \end{minipage}
+  
+\end{figure}
+
+
+\newpage
+\subsection{$\tilde{\lambda_1} ... \tilde{\lambda_n}$の精度と次数$n$の関係}
+\label{sec:q6_2}
+図\ref{fig:q6_rn_zoom}及び図\ref{fig:q6_re_zoom}において各中央値が概ね等しいことから, 
+数値的に求めた各固有値$\tilde{\lambda_i}$の精度は次数$n$によらないと読み取れる.
+実際収束判定の閾値は$n$によらず一定であるため, 
+固有値の精度が$n$によらず一定であるのは自然な結果であるといえる. 
+
+\subsection{計算時間と次数$n$の関係}
+\label{sec:q6_3}
+図\ref{fig:q6_ct}において各中央値の幅が概ね一定なことより, 
+計算時間は多項式のオーダーで増加していると読み取れる. 
+理論上QR法の各反復の計算量は$(n^3)$であるが, 反復回数は$n$によらず固有値のみに依存する. 
+実際のところ図\ref{fig:q6_ic}より反復回数は$n$の増加に伴って増加する傾向が見られるが, 
+図\ref{fig:q6_ic}の反復回数の増加幅よりも図\ref{fig:q6_ct}の計算量の増加幅の方が大きいため, 
+計算時間は次数$n$に伴って増加しているといえる. 
+
+
+\section{課題7 シフトと減次を用いたQR法の高速化}
+\label{sec:q7}
+大きさが$n = 10,20,40,80$の正方行列$A$を50個ずつ生成して, 
+それぞれの行列に対してQR法にシフトと減次を組み込んで用いて全ての固有値を計算した. 
+具体的には, 小行列$B_k$の添え字最大の成分から順に減次していくようにした. 
+また各反復ごとに添え字最大の対角成分の値だけシフトすることで, 収束速度を速めた. \\
+各$n$に対して, 数値計算で求めた固有値$\tilde{\lambda_i}$に対する
+固有方程式の残差ノルムの最大値$\max{\| (A - \tilde{\lambda_i}I) \bm{v_i} \| }$, 
+$\tilde{\lambda_i}$の相対誤差の最大値$\max{\frac{|\lambda_i - \tilde{\lambda_i}|}{|\lambda_i|}}$, 
+計算時間, 収束までに要した反復回数は, 
+それぞれ図\ref{fig:q6_rn}, 図\ref{fig:q6_re}, 図\ref{fig:q6_ct}, 図\ref{fig:q6_ic}, の通り. 
+それぞれのグラフの直線はデータの中央値を表している. \\
+\ref{sec:q6}章の実験6と比較をするため, 
+反復回数を絞ったり精度及び試行回数を落としたりしたままの条件で実験した. \\
+図\ref{fig:q6_rn},\ref{fig:q6_re}及び図\ref{fig:q7_rn},\ref{fig:q7_re}において, 
+各次数$n$の中央値の平均は概ね等しいため, シフトと減次を取り入れる前と同程度の精度で計算できていると読み取れる. 
+実際収束判定の閾値は同じ値に設定しているため, 精度が同等なのは自然な結果といえる. 
+しかし図\ref{fig:q7_rn},\ref{fig:q7_re}では図\ref{fig:q6_rn},\ref{fig:q6_re}と違って, 
+残差ノルムの最大値及び相対誤差の最大値が次数$n$に対して多項式のオーダーで増加している. 
+これは収束判定を甘くしたことで, 収束しきっていなくても固有値が返ってきてしまうことが原因だと考えられる. 
+固有値の数が多いほど収束していない成分による誤差が多項式のオーダーで蓄積されることで, 
+結果的に残差ノルム及び相対誤差の値が大きくなっていると推定される. \\
+一方図\ref{fig:q7_ct},\ref{fig:q6_ic}及び図\ref{fig:q7_ct},\ref{fig:q7_ic}より, 
+シフトと減次を組み込んだことで計算時間は$\frac{1}{100}$-$\frac{1}{1000}$倍, 
+反復回数は$\frac{1}{10}$-$\frac{1}{100}$倍になっている. 
+反復回数が減少していることから, シフトにより収束速度が速くなっていることが分かる. 
+また反復回数の減少幅よりも計算時間の減少幅の方が大きいことから, 
+減次により各反復における平均的な計算量が約$\frac{1}{10}$倍に減少していることが分かる. 
+つまりシフトも減次も計算を高速化させることができるアルゴリズムであるといえる. 
+
+
+\begin{figure}[htbp]
+  \centering
+
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question7/q7_residual_norm.png}
+    \captionof{figure}{残差ノルムの最大値}
+    \label{fig:q7_rn}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question7/q7_relative_error.png}
+    \captionof{figure}{相対誤差の最大値}
+    \label{fig:q7_re}
+  \end{minipage}
+  
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question7/q7_calculation_time.png}
+    \captionof{figure}{計算時間}
+    \label{fig:q7_ct}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question7/q7_iteration_count.png}
+    \captionof{figure}{反復回数}
+    \label{fig:q7_ic}
+  \end{minipage}
+  
+\end{figure}
+
 
 \end{document}

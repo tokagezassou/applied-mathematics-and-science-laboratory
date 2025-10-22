@@ -1,6 +1,6 @@
 # png ファイルに出力する
 set term png
-set output "q6_residual_norm.png"
+set output "q6_residual_norm_zoom.png"
 
 # 軸と key(凡例)
 set xlabel '{Trial}'
@@ -8,6 +8,7 @@ set ylabel '{Residual Norm}'
 # set yrange [0:1]
 set logscale y
 set format y "10^{%T}"
+set yrange [1e-9:1e-7]
 
 # フォント設定
 set xlabel font "Arial,20"
