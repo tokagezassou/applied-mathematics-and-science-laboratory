@@ -38,14 +38,14 @@ function calculate_min_sqr_err_estimate(f, matrix_X, vector_y)
     inv_XTX = inv(matrix_X' * matrix_X)
     cov_matrix_estimate = sigma2_hat * inv_XTX
 
-    println(f, "----- question1.1 -----")
+    println(f, "----- question2.1 -----")
     println(f, "$min_sqr_err_estimate  $cov_matrix_estimate") 
     return min_sqr_err_estimate
 end
 
 # 課題2.2
 function increase_data_num(f, matrix_X, vector_y)
-    println(f, "----- question1.2 -----")
+    println(f, "----- question2.2 -----")
     for i in 2:13
         data_num = 2^i
         
@@ -73,7 +73,7 @@ function calculate_determination_coefficient(f, matrix_X, vector_y, theta_hat)
         determination_coefficient = numerator / denominator
     end
 
-    println(f, "----- question1.3 -----")
+    println(f, "----- question2.3 -----")
     println(f, determination_coefficient)
     return
 end
