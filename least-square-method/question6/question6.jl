@@ -18,8 +18,6 @@ end
 # 推定誤差共分散の計算
 function calculate_min_sqr_err_estimate(f, vector_x, matrix_Y, is_print_required)
     data_num = length(vector_x)
-    matrix_V = [100.0 0.0; 0.0 1.0]
-    V_inv = inv(matrix_V)
 
     sum_phi_T_phi = zeros(2, 2)
     sum_phi_T_y = zeros(2)
@@ -28,6 +26,13 @@ function calculate_min_sqr_err_estimate(f, vector_x, matrix_Y, is_print_required
     sum_phi_T_Vinv_y = zeros(2)
 
     for i in 1:data_num
+        if i <= 500
+            matrix_V = [100.0 0.0; 0.0 1.0]
+        else
+            matrix_V = [2.0 0.0; 0.0 1.0]
+        end
+        V_inv = inv(matrix_V)
+
         x_i = vector_x[i]
         y_i = matrix_Y[i, :]
 
