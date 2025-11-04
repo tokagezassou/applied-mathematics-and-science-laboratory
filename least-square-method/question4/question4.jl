@@ -30,7 +30,9 @@ end
 function calculate_min_sqr_err_estimate(f, matrix_X, vector_y)
     data_num, data_size = size(matrix_X)
     
-    min_sqr_err_estimate = matrix_X \ vector_y
+    inv_XTX = inv(matrix_X' * matrix_X)
+    min_sqr_err_estimate = inv_XTX * (matrix_X' * vector_y)
+    
     residuals = vector_y - matrix_X * min_sqr_err_estimate
     rss = sum(residuals.^2) 
     sigma2_hat = rss / (data_num - data_size)

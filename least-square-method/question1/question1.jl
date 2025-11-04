@@ -19,7 +19,9 @@ end
 function calculate_min_sqr_err_estimate(f, matrix_X, vector_y)
     data_num, data_size = size(matrix_X)
     
-    min_sqr_err_estimate = matrix_X \ vector_y
+    inv_XTX = inv(matrix_X' * matrix_X)
+    min_sqr_err_estimate = inv_XTX * (matrix_X' * vector_y)
+    
     residuals = vector_y - matrix_X * min_sqr_err_estimate
     rss = sum(residuals.^2) 
     sigma2_hat = rss / (data_num - data_size)
@@ -41,7 +43,7 @@ function increase_data_num(f, matrix_X, vector_y)
         cut_X = matrix_X[1:data_num, :]
         cut_y = vector_y[1:data_num]
         
-        min_sqr_err_estimate = cut_X \ cut_y
+        min_sqr_err_estimate = inv(cut_X' * cut_X) * (cut_X' * cut_y)
         
         println(f, "$data_num  $(min_sqr_err_estimate[1])  $(min_sqr_err_estimate[2])")
     end
