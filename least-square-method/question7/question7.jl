@@ -72,8 +72,8 @@ function main()
         println(f, "$theta_hat_synthesized")
 
         println(f, "----- full data -----")
-        theta_hat_all, _, _ = calculate_estimate_values(vector_x, vector_y)
-        println(f, "$theta_hat_all")
+        theta_hat_full, _, _ = calculate_estimate_values(vector_x, vector_y)
+        println(f, "$theta_hat_full")
     end
 end
 
