@@ -42,15 +42,11 @@ function estimate_parameters_with_constant_force()
         
         y_k = theta1_true * y_-1 + theta2_true * y_-2 + theta3_true * F_-2 + w_k
 
-        phi_k = [y_k_minus_1 y_-2 F_-2] 
-        phi_k_T = transpose(phi_k) # (3 x 1) の列ベクトル
-
-        # 4.3. 逐次最小二乗法アルゴリズムの適用 
+        phi_k = [y_-1 y_-2 F_-2] 
+        phi_k_T = transpose(phi_k)
         
-        # ゲイン K_k を計算 
-        # (I_m + phi_k * Phi_tilde * phi_k^T) はスカラ (m=1)
-        denom = 1.0 + (phi_k * Phi_tilde * phi_k_T)[1]
-        K_k = (Phi_tilde * phi_k_T) / denom # (3 x 1) ベクトル
+        denominator = 1.0 + (phi_k * Phi_tilde * phi_k_T)[1]
+        K_k = (Phi_tilde * phi_k_T) / denominator
 
         # パラメータ theta_hat_k を更新 
         prediction_error = y_k - (phi_k * theta_hat)[1] # スカラ
