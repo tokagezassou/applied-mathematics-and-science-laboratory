@@ -18,11 +18,11 @@ function estimate_parameters_with_constant_force()
     theta_hat = zeros(3)
     Phi_tilde = (1.0 / epsilon) * Matrix(I, 3, 3) 
 
-    y_k-2 = 0.0 
-    y_k-1 = 0.0 
+    y_km2 = 0.0 
+    y_km1 = 0.0 
     
-    F_k-2 = 1.0 
-    F_k-1 = 1.0
+    F_km2 = 1.0 
+    F_km1 = 1.0
     F_k = 1.0         
 
     theta_history = zeros(10000, 3)
@@ -30,9 +30,9 @@ function estimate_parameters_with_constant_force()
     for k in 1:10000
         w_k = rand() * 2.0 - 1.0 
         
-        y_k = theta1_true * y_k-1 + theta2_true * y_k-2 + theta3_true * F_k-2 + w_k
+        y_k = theta1_true * y_km1 + theta2_true * y_km2 + theta3_true * F_km2 + w_k
 
-        phi_k = [y_-1 y_-2 F_-2] 
+        phi_k = [y_km1 y_km2 F_km2] 
         phi_k_T = transpose(phi_k)
         
         denominator = 1.0 + (phi_k * Phi_tilde * phi_k_T)[1]
@@ -44,10 +44,10 @@ function estimate_parameters_with_constant_force()
 
         theta_history[k, :] = theta_hat
 
-        y_k-2 = y_k-1
-        y_k-1 = y_k 
-        F_k-2 = F_k-1
-        F_k-1 = F_k
+        y_km2 = y_km1
+        y_km1 = ymk 
+        F_km2 = F_km1
+        F_km1 = F_k
     end
 
     return theta_hat
