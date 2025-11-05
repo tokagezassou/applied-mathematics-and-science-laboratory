@@ -14,55 +14,35 @@ using Printf
 - theta_history: 各ステップ k での推定パラメータ theta_hat の履歴 (k_max x 3 の行列)
 - theta_final: 最終的な推定パラメータ (3要素ベクトル)
 """
-function estimate_parameters_with_constant_force()
-    # --- 1. システムの真のパラメータ設定 ---
-    # 
+function estimate_parameters_with_constant_force() 
     M_true = 2.0
     D_true = 1.0
     K_true = 3.0
-    epsilon = 1.0e-6
     dt = 0.01
+    epsilon = 1.0e-6
 
-    # 式(2.65) に基づく真の theta を計算
     theta1_true = 2.0 - (D_true / M_true) * dt
     theta2_true = -(1.0 - (D_true / M_true) * dt + (K_true / M_true) * dt^2)
     theta3_true = (dt^2) / M_true
-    
-    # --- 2. 逐次最小二乗法の初期化 ---
-    n = 3 # パラメータの数
-    
-    # theta_hat_0 = 0 
-    theta_hat = zeros(3) 
-    
-    # Phi_tilde_0 = (1/epsilon) * I_n 
+     
+    theta_hat = zeros(3)
     Phi_tilde = (1.0 / epsilon) * Matrix(I, 3, 3) 
 
-    # --- 3. シミュレーションの初期状態 ---
-    # y_{-2}=0, y_{-1}=0 
-    y_k_minus_2 = 0.0 
-    y_k_minus_1 = 0.0 
+    y_-2 = 0.0 
+    y_-1 = 0.0 
     
-    # F_k = 1 (k >= -2) 
-    F_k_minus_2 = 1.0 
-    F_k_minus_1 = 1.0
+    F_-2 = 1.0 
+    F_-1 = 1.0
     F_k = 1.0         
 
-    # 結果を格納する配列
-    theta_history = zeros(k_max, n)
+    theta_history = zeros(10000, 3)
 
-    # --- 4. 逐次推定ループ (k = 1 から k_max) ---
     for k in 1:10000
-        # 4.1. 真のシステムをシミュレートして y_k を取得
-        # 観測誤差 w_k: [-1, 1] の一様分布 
         w_k = rand() * 2.0 - 1.0 
         
-        # 式(2.65) を使って y_k を計算
-        y_k = theta1_true * y_k_minus_1 + theta2_true * y_k_minus_2 + theta3_true * F_k_minus_2 + w_k
+        y_k = theta1_true * y_-1 + theta2_true * y_-2 + theta3_true * F_-2 + w_k
 
-        # 4.2. regressor ベクトル phi_k を作成
-        # x_k = [y_{k-1}, y_{k-2}, F_{k-2}]^T 
-        # アルゴリズム のため (1 x 3) の行ベクトル phi_k を使用
-        phi_k = [y_k_minus_1 y_k_minus_2 F_k_minus_2] 
+        phi_k = [y_k_minus_1 y_-2 F_-2] 
         phi_k_T = transpose(phi_k) # (3 x 1) の列ベクトル
 
         # 4.3. 逐次最小二乗法アルゴリズムの適用 
@@ -109,7 +89,7 @@ function main()
         println(f, "初期共分散行列 Phi_tilde_0 = (1 / $EPSILON) * I ")
 
         # 課題9.1の関数を実行
-        theta_history, theta_final =  estimate_parameters_with_constant_force(K_MAX, EPSILON)
+        estimate_parameters_with_constant_force()
 
         println(f, "\n--- 最終推定パラメータ (k = $K_MAX) ---")
         @printf(f, "theta_hat_final = [%.8f, %.8f, %.8f]\n", theta_final[1], theta_final[2], theta_final[3])
