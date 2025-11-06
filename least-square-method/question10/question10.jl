@@ -44,6 +44,7 @@ function main()
     open("output.dat", "w") do f
         vector_y, vector_theta_true = generate_data()
         vector_theta_hat = estimate_theta(vector_y)
+        
         println(f, "# k  theta_hat  theta_true")
         for k in 1:10000
             println(f, "$k  $(vector_theta_hat[k])  $(vector_theta_true[k])")
