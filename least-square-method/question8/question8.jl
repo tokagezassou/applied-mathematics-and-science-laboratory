@@ -3,7 +3,7 @@ using DataFrames
 using LinearAlgebra
 using Statistics
 
-function read_csv(csv_file_path::String)
+function read_csv(csv_file_path)
     if !isfile(csv_file_path)
         println("file not found: $csv_file_path")
         return nothing, nothing, true
