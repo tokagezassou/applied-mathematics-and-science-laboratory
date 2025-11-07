@@ -97,10 +97,8 @@ function main()
         end
 
         for k in 1:10
-            # alpha_j = rand(2) * 100 .- 50
-            # beta_j = rand(3) * 100 .- 50
-            alpha_j = rand(2)
-            beta_j = rand(3)
+            alpha_j = rand(2) * 100 .- 50
+            beta_j = rand(3) * 100 .- 50
             println(f, "alpha_0 = $alpha_j, beta_0 = $beta_j")
             
             for j in 1:MAX_ITERATIONS
@@ -113,7 +111,8 @@ function main()
                 diff_norm_sq = norm(alpha_j - alpha_prev)^2 + norm(beta_j - beta_prev)^2
                 if diff_norm_sq < 1.0e-9
                     cost = calculate_cost(vector_x, vector_y, alpha_j, beta_j)
-                    println(f, "cost = $cost $j times to finish")
+                    println(f, "alpha_hat = $alpha_j, beta_hat = $beta_j")
+                    println(f, "cost = $cost $j")
                     println(f, "--------------------------")
                     break
                 end
