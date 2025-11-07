@@ -89,7 +89,6 @@ function main()
         best_cost = Inf
         best_centers = nothing
         best_assignments = nothing
-        best_initial_centers = nothing
 
         for k in 1:30
             initial_indices = sample(1:data_N, 3, replace=false)
@@ -108,7 +107,6 @@ function main()
                         best_cost = cost
                         best_centers = centers_j
                         best_assignments = assignments_j
-                        best_initial_centers = initial_centers_copy
                     end
                     break
                 end
@@ -118,10 +116,18 @@ function main()
             end
         end
 
-        for k in 1:NUM_CLUSTERS
-            println(f, "$k  $(best_centers[k, 1])  $(best_centers[k, 2])  $(best_assignments[k])")
-        end          
+        println(f, "best_cost = $best_cost")
+        println(f, "best_centers = $best_centers")
+        println(f, "----------------------------------------------------")
 
+        for k in 1:3
+            for i in 1:data_N
+                if best_assignments[i] == k
+                    println(f, "$(vector_x1[i])  $(vector_x2[i])  $(best_assignments[i])")
+                end
+            end
+            println(f, "----------------------------------------------------")
+        end
     end
 end
 
