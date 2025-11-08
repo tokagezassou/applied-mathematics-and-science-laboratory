@@ -108,6 +108,7 @@ function main()
                         best_centers = centers_j
                         best_assignments = assignments_j
                     end
+                    println(f, "cost = $cost")
                     break
                 end
                 if j == MAX_ITERATIONS

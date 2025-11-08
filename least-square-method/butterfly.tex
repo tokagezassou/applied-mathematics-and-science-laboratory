@@ -6,6 +6,8 @@
 \usepackage{listings}
 \usepackage{subcaption}
 \usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
 \lstset{%
   language={C},
   basicstyle={\small},%
@@ -653,6 +655,108 @@ $\gamma = 0.99$の忘却係数付きの逐次二乗法で推定した各時刻�
   \frac{V_0}{V_k^s} &= 0.42842
   \label{val:q11-3}
 \end{align}
+
+
+\section{課題13 交互最小二乗法の実践}
+\label{sec:q13}
+方程式
+\begin{gather}
+  y_i = \alpha^T \phi(x_i) \beta + w_i
+\end{gather}
+で定められる10000組の入出力データ$(x_i, y_i)$と観測誤差$w_i$に対して, 
+交互最小二乗法を用いて$\alpha, \beta$の推定値$\hat{\alpha}, \hat{\beta}$を計算した. 
+推定のコスト$c$を
+\begin{gather}
+  c = \sum_{i=1}^{10000} (y_i - \hat{\alpha} \phi(x_i) \hat{\beta})^2
+  \label{cost}
+\end{gather}
+と定め, $c$の値が小さくなるほど精度の高い推定だと判断した. 
+10組の異なる初期値に対して$c$の値は有効数字5桁の範囲では$3328.9$で一致していたが, 
+パラメータの推定値は初期値ごとに全く異なる値となった. 
+例えば初期値
+\begin{align}
+  \alpha_0 &= 
+  \begin{pmatrix}
+    6.3885 \\
+    28.376
+  \end{pmatrix}
+  \\
+  \beta_0 &= 
+  \begin{pmatrix}
+    7.9060 \\
+    -34.272 \\
+    -35.332
+  \end{pmatrix}
+\end{align}
+に対しては 
+\begin{align}
+  \hat{\alpha} &= 
+  \begin{pmatrix}
+    0.12850 \\
+    -0.25706
+  \end{pmatrix}
+  \label{val:q12-a1}
+  \\
+  \hat{\beta} &= 
+  \begin{pmatrix}
+    3.9414 \\
+    -7.7566 \\
+    15.567
+  \end{pmatrix}
+  \label{val:q12-b1}
+\end{align}
+となり, 初期値
+\begin{align}
+  \alpha_0 &= 
+  \begin{pmatrix}
+    18.091 \\
+    -19.104
+  \end{pmatrix}
+  \\
+  \beta_0 &= 
+  \begin{pmatrix}
+    38.046 \\
+    40.631 \\
+    34.433
+  \end{pmatrix}
+\end{align}
+に対しては 
+\begin{align}
+  \hat{\alpha} &= 
+  \begin{pmatrix}
+    0.057873 \\
+    -0.11578
+  \end{pmatrix}
+  \label{val:q12-a2}
+  \\
+  \hat{\beta} &= 
+  \begin{pmatrix}
+    8.7511 \\
+    -17.222 \\
+    34.564
+  \end{pmatrix}
+  \label{val:q12-b2}
+\end{align}
+となった. \\
+
+ここで$\alpha, \beta$の真値$\hat{\alpha}, \hat{\beta}$に対して式\ref{cost}のコストを計算すると
+\begin{align}
+  c &= \sum_{i=1}^{10000} (\hat{\alpha} \phi(x_i) \hat{\beta} + w_i - \hat{\alpha} \phi(x_i) \hat{\beta})^2 \\
+  &= \sum_{i=1}^{10000} {w_i}^2 \\
+  &\approx 10000 \ \mathrm{E}[{w_i}^2] \\
+  &= 10000 \ ( \mathrm{V}[w_i] + \mathrm{E}[{w_i}]^2) \\
+  &= 10000 \ ( \frac{1}{3} + 0) \ \because w_i ~ \mathrm{U}[-1,1] \\
+  &\approx 3333.3
+\end{align}
+となり, 今回の推定のコスト$3328.9$と近いため, 推定値$\hat{\alpha}, \hat{\beta}$の精度は高いといえる. \\
+それにも関わらず推定値が初期値によって異なる値をとったのは, 今回の$\alpha, \beta$に定数倍の自由度があるからである. 
+出力の真値$\hat{y}$に対してある$(\hat{\alpha}_1, \hat{\beta}_1)$が
+\begin{gather}
+  \hat{y} = {\hat{\alpha}}^T \phi(x_i) \hat{\beta}
+\end{gather}
+を満たすとき, $0$でない任意の定数$k$に対して$(\frac{1}{k} \hat{\alpha}_1, k \hat{\beta}_1)$も上式を満たす. 
+実際に今回の式\ref{val:q12-a1}, \ref{val:q12-b1}の推定値と式\ref{val:q12-a2}, \ref{val:q12-b2}の推定値に対しては, 
+$k \approx 2.22$となっている.
 
 
 
