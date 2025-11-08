@@ -589,6 +589,70 @@ $M, D, K$の値は真値に近く, 精度は高いといえる.
   \label{val:q9-4-4}
 \end{align}
 
+\newpage
+\section{課題10 非定常時系列データの推定}
+\label{sec:q10}
+$y_k = \sin{0.00001 k} + w_K$で表される信号に対して$\theta_k := sin{0.00001 k}$が未知であるとき, 
+$\gamma = 0.99$の忘却係数付きの逐次二乗法で推定した各時刻ごとの$\theta_k$の値は図\ref{fig:q10}の通り. 
+誤差による上下のブレはあるものの, 平均的には正しく推定できているといえる. 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question10/q10.png}
+  \caption{非定常時系列データの推定値と真値}
+  \label{fig:q10}
+\end{figure}
+
+
+\newpage
+\section{課題11 Kalmanフィルタを用いたダイナミクスの推定}
+\label{sec:q11}
+ダイナミクス
+\begin{gather}
+  \theta_k = 0.9 \theta_{k^1} + v_k
+\end{gather}
+及び観測方程式
+\begin{gather}
+  y_k = 2 \theta_k + w_k
+\end{gather}
+に対して, 時刻$k _ 1,...,100$における$\theta_k$の値及びその推定値$\hat{\theta}_k$は図\ref{fig:q11}の通り. 
+推定値は真値と近い分布となっており, 精度の高い推定といえる. 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question11/q11.png}
+  \caption{Kalmanフィルタを用いた推定値と真値}
+  \label{fig:q11}
+\end{figure}
+
+
+\newpage
+\section{課題12 Kalmanスムーザを用いた初期分散の推定}
+\label{sec:q12}
+ダイナミクス
+\begin{gather}
+  \theta_k = 0.9 \theta_{k^1} + v_k
+\end{gather}
+及び観測方程式
+\begin{gather}
+  y_k = 2 \theta_k + w_k
+\end{gather}
+に対して, \ref{sec:q11}節で求めた分布を元に初期値及び初期分散を推定する. 
+初期値$\theta_0$, 初期分散$V_0$, 初期分散$V_k^s$に対する推定誤差分散の比$\frac{V_0}{V_k^s}$は, 
+それぞれ式\ref{val:q11-1}, \ref{val:q11-2}, \ref{val:q11-3}の通り. 
+式\ref{val:q11-3}より推定誤差分散が初期分散と比較して$0.42842$になっているので, 
+初期分散の推定には成功しているといえる. 
+
+\begin{align}
+  \theta_0 &= 4.1870
+  \label{val:q11-1}
+  \\
+  V_0 &= 0.85685
+  \label{val:q11-2}
+  \\
+  \frac{V_0}{V_k^s} &= 0.42842
+  \label{val:q11-3}
+\end{align}
 
 
 
