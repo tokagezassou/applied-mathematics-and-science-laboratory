@@ -135,7 +135,7 @@ function estimate_parameters_with_random_force(dt)
 
     for k in 1:10000
         w_k = rand() * 2.0 - 1.0
-        F_km2 = 1.0e3 * sin((k-2) *  1.7)
+        F_km2 = 500 * sin((k-2) *  1.7)
         
         y_k = theta_true[1] * y_km1 + theta_true[2] * y_km2 + theta_true[3] * F_km2 + w_k
 
@@ -177,22 +177,26 @@ function main()
         println(f, "----- constant_force -----")
         theta_hat = estimate_parameters_with_constant_force(dt)
         M_est, D_est, K_est = from_theta_to_MDK(theta_hat, dt)
-        println(f, "$M_est  $D_est  $K_est")
+        println(f, "theta_hat = $theta_hat")
+        println(f, "MDK = $M_est  $D_est  $K_est")
 
         println(f, "----- sin_force -----")
         theta_hat = estimate_parameters_with_sin_force(dt)
         M_est, D_est, K_est = from_theta_to_MDK(theta_hat, dt)
-        println(f, "$M_est  $D_est  $K_est")
+        println(f, "theta_hat = $theta_hat")
+        println(f, "MDK = $M_est  $D_est  $K_est")
 
         println(f, "----- huge_force -----")
         theta_hat = estimate_parameters_with_huge_force(dt)
         M_est, D_est, K_est = from_theta_to_MDK(theta_hat, dt)
-        println(f, "$M_est  $D_est  $K_est")
+        println(f, "theta_hat = $theta_hat")
+        println(f, "MDK = $M_est  $D_est  $K_est")
 
         println(f, "----- random_force -----")
         theta_hat = estimate_parameters_with_random_force(dt)
         M_est, D_est, K_est = from_theta_to_MDK(theta_hat, dt)
-        println(f, "$M_est  $D_est  $K_est")
+        println(f, "theta_hat = $theta_hat")
+        println(f, "MDK = $M_est  $D_est  $K_est")
     end
 end
 
