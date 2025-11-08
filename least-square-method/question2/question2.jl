@@ -56,7 +56,7 @@ function increase_data_num(f, matrix_X, vector_y)
         
         min_sqr_err_estimate = inv(cut_X' * cut_X) * (cut_X' * cut_y)
         
-        println(f, "$data_num  $(min_sqr_err_estimate[1])  $(min_sqr_err_estimate[2])")
+        println(f, "$data_num  $(min_sqr_err_estimate[1])  $(min_sqr_err_estimate[2])  $(min_sqr_err_estimate[3])  $(min_sqr_err_estimate[4])")
     end
 end
 
