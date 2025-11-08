@@ -287,6 +287,95 @@ $y=-0.50, y = 2.0, y = 0.20, y = -0.099$の直線を付している. \\
 \end{figure}
 
 
+\section{課題6 異なるデータセットの入力を持つ重み付き最小二乗法の実践}
+\label{sec:q6}
+
+1000個のデータを用いて重みを考慮せずに推定した最小二乗誤差推定量$\hat{\theta}_N$は
+式\ref{val:q6-s}の通りで, 用いるデータ数$N$を$N = 2,4,8,...,2^9 = 512$と増やしていったときの, 
+最小二乗誤差推定量$\hat{\theta}_{N}$の値をプロットしたグラフは図\ref{fig:q6-s}の通り.
+グラフには$\hat{\theta}_N$の各成分を有効数字2桁で表した
+$y = 3.1, y = -2.1$の直線を付している. \\
+また重みを考慮して推定した最小二乗誤差推定量$\hat{\theta}_{Nw}$は
+式\ref{val:q6-w}の通りで, 用いるデータ数$N$を$N = 2,4,8,...,2^9 = 512$と増やしていったときの, 
+最小二乗誤差推定量$\hat{\theta}_{Nw}$の値をプロットしたグラフは図\ref{fig:q6-w}の通り.
+グラフには$\hat{\theta}_N$の各成分を有効数字2桁で表した
+$y = 3.0, y = -2.0$の直線を付している. \\
+式\ref{val:q6-s}, \ref{val:q6-w}より推定値は近い値になっている. 
+また図\ref{fig:q6-w}では十分な収束が確認できるが, 図\ref{fig:q6-s}では特に第1成分で収束が確認できない. 
+したがって重みを考慮して計算した推定値の方が信頼性が高いといえる. 
+
+\begin{align}
+  \hat{\theta}_N &= 
+  \begin{pmatrix}
+    3.1884 \\
+    -2.0922
+  \end{pmatrix}
+  \label{val:q6-s}
+  \\
+  \hat{\theta}_{Nw} &= 
+  \begin{pmatrix}
+    2.9942 \\
+    -2.0147
+  \end{pmatrix}
+  \label{val:q6-w}
+\end{align}
+
+\begin{figure}[htbp]
+  \centering
+
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question6/q6_standard.png}
+    \caption{重み無し}
+    \label{fig:q6-s}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question6/q6_weighted.png}
+    \caption{重み付き}
+    \label{fig:q6-w}
+  \end{subfigure}
+  
+  \caption{最小二乗誤差推定量の収束}
+  \label{fig:q6}
+\end{figure}
+
+
+\section{課題7 入力のデータセットを分割した場合の重み付き最小二乗法の実践}
+\label{sec:q7}
+
+1000個のデータを用いて推定した最小二乗誤差推定量$\hat{\theta}_N$及び推定共分散行列$\hat{V}_N$は
+式\ref{val:q4-1}, \ref{val:q4-2}の通り. 
+推定共分散行列の各成分のオーダーが$10^{-1}$から$10^{2}$だったので, 
+課題2の式\ref{val:q2-1-2}と比較してほとんど収束していないといえる. \\
+課題2と違う点は2つあり, 1つはデータ数が少ないこと, もう1つは入力値$x_i$の範囲が$[0,1]$に限定されていることである. 
+データ数が少ないことで推測に使う方程式が少なくなっており, 
+また入力値の範囲が絞られていることで方程式の係数の種類が少なくなり, 推測に有効な方程式の数がさらに少なくなっている. 
+したがって課題2と比較して収束が弱く, 値の信頼性も低くなっている. 
+つまり信頼性の高い推定値を得るためには, データの数を増やして, 
+かつ入力値と出力値の範囲を広く設定するべきだといえる.
+
+\begin{align}
+  \hat{\theta}_N &= 
+  \begin{pmatrix}
+    -0.57772 \\
+    2.0968 \\
+    -0.39506 \\
+    0.54912
+  \end{pmatrix}
+  \label{val:q7-1}
+  \\
+  \hat{V}_N &= 
+  \begin{pmatrix}
+    0.15324 & -1.1488 & 2.2964 & -1.3389 \\
+    -1.1488 & 11.459 & -25.752 & 16.010 \\
+    2.2964 & -25.752 & 61.720 & -39.966 \\
+    -1.3389 & 16.010 & -39.966 & 26.617
+  \end{pmatrix}
+  \label{val:q4-2}
+\end{align}
+
 
 
 \end{document}
