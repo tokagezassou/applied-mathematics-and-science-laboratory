@@ -1,0 +1,110 @@
+\documentclass[uplatex,a4j]{jsarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath,ascmac}
+\usepackage{bm}
+\usepackage{algorithm,algorithmic}
+\usepackage{listings}
+\usepackage{subcaption}
+\usepackage{amsfonts}
+\lstset{%
+  language={C},
+  basicstyle={\small},%
+  identifierstyle={\small},%
+  commentstyle={\small\itshape},%
+  keywordstyle={\small\bfseries},%
+  ndkeywordstyle={\small},%
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},%
+  numbers=left,%
+  xrightmargin=0zw,%
+  xleftmargin=3zw,%
+  numberstyle={\scriptsize},%
+  stepnumber=1,
+  numbersep=1zw,%
+  lineskip=-0.5ex%
+}
+\renewcommand{\lstlistingname}{コード}
+\renewcommand{\lstlistlistingname}{コード目次}
+\renewcommand{\thesubsection}{(\arabic{subsection})}
+\renewcommand{\thesection}{\arabic{section}}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vfill
+    
+    {\Huge 数理工学実験\par}
+    \vspace{1cm}
+    
+    {\Large 最小二乗法レポート\par}
+    
+    \vfill
+    
+    {\Large
+    所属: 工学部情報学科数理工学コース2年\par
+    学籍番号: 1029-36-1263\par
+    氏名: 天野 塁\par
+    }
+    
+    \vfill
+    
+    {\Large 提出日: \today \par}
+    
+    \vfill
+\end{titlepage}
+
+\section{課題1 重回帰問題}
+\label{sec:q1}
+
+\subsection{全データを用いたパラメータの推定}
+\label{sec:q1-1}
+10000個全てのデータを用いて推定した最小二乗誤差推定量$\hat{\theta}_N$及び推定共分散行列$\hat{V}_N$は
+式\ref{val:q1-1-1}, \ref{val:q1-1-2}の通り. 
+推定共分散行列の各成分のオーダーが$10^{-4}$ - $10^{-7}$だったので, 十分収束していると言える.
+
+\begin{align}
+  \hat{\theta}_N &= 
+  \begin{pmatrix}
+    1.5066 \\
+    1.9977
+  \end{pmatrix}
+  \label{val:q1-1-1}
+  \\
+  \hat{V}_N &= 
+  \begin{pmatrix}
+    986.65 & -4.0817 \\
+    -4.0817 & 1005.2
+  \end{pmatrix} \times 10^{-7}
+  \label{val:q1-1-2}
+\end{align}
+
+\subsection{最小二乗誤差推定量$\hat{\theta}_N$の収束確認}
+\label{sec:q1-2}
+用いるデータ数$N$を$N = 2,4,8,...,2^{13} = 8192$と増やしていったときの, 
+最小二乗誤差推定量$\hat{\theta}_N$の値をプロットしたグラフは図\ref{fig:q1-2}の通り. 
+グラフには$\hat{\theta}_N$の各成分を有効数字2桁で表した$y=1.5$と$y = 2.0$の直線を付している. 
+その直線とプロットされた点を比較することによっても, 最小二乗誤差推定量$\hat{\theta}_N$の収束を確認できる. 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question1/q1.png}
+  \caption{最小二乗誤差推定量の収束}
+  \label{fig:q1-2}
+\end{figure}
+
+\subsection{全データを用いた決定変数の計算}
+\label{sec:q1-3}
+10000個全てのデータを用いて推定した決定変数$C$は
+式\ref{val:q1-3}の通り. 
+値が$0$よりも$1$に大幅に近いため, 式\ref{val:q1-1-1}の推定値は信頼できるといえる. 
+
+\begin{align}
+  C = 0.86297
+  \label{val:q1-3}
+\end{align}
+
+
+\end{document}
