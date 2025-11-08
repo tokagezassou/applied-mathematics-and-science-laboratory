@@ -668,7 +668,7 @@ $\gamma = 0.99$の忘却係数付きの逐次二乗法で推定した各時刻�
 推定のコスト$c$を
 \begin{gather}
   c = \sum_{i=1}^{10000} (y_i - \hat{\alpha} \phi(x_i) \hat{\beta})^2
-  \label{cost}
+  \label{q13:cost}
 \end{gather}
 と定め, $c$の値が小さくなるほど精度の高い推定だと判断した. 
 10組の異なる初期値に対して$c$の値は有効数字5桁の範囲では$3328.9$で一致していたが, 
@@ -739,7 +739,7 @@ $\gamma = 0.99$の忘却係数付きの逐次二乗法で推定した各時刻�
 \end{align}
 となった. \\
 
-ここで$\alpha, \beta$の真値$\hat{\alpha}, \hat{\beta}$に対して式\ref{cost}のコストを計算すると
+ここで$\alpha, \beta$の真値$\hat{\alpha}, \hat{\beta}$に対して式\ref{q13:cost}のコストを計算すると
 \begin{align}
   c &= \sum_{i=1}^{10000} (\hat{\alpha} \phi(x_i) \hat{\beta} + w_i - \hat{\alpha} \phi(x_i) \hat{\beta})^2 \\
   &= \sum_{i=1}^{10000} {w_i}^2 \\
@@ -757,6 +757,29 @@ $\gamma = 0.99$の忘却係数付きの逐次二乗法で推定した各時刻�
 を満たすとき, $0$でない任意の定数$k$に対して$(\frac{1}{k} \hat{\alpha}_1, k \hat{\beta}_1)$も上式を満たす. 
 実際に今回の式\ref{val:q12-a1}, \ref{val:q12-b1}の推定値と式\ref{val:q12-a2}, \ref{val:q12-b2}の推定値に対しては, 
 $k \approx 2.22$となっている.
+
+
+\section{課題14 K-平均法の実践}
+\label{sec:q14}
+異なる30組の初期値に対して, 与えられたデータ1000個のデータ$x_i$を3つのクラスタに分類した. 
+推定のコスト$c$を
+\begin{gather}
+  c = \sum_{l=1}^{1000} \sum_{i_l \in \nu_l} \| x_{il} - \mu(\nu_l) \|^2
+  \label{q14:cost}
+\end{gather}
+と定め, $c$の値が小さくなるほど精度の高い推定だと判断した. \\
+異なる30組の初期値のうち, 13組は$c = 3516.1$, 15組は$c = 4014.8$, 2組は$4029.9$で, 
+それぞれ有効数字5桁の範囲で一致した. \\
+\ref{sec:q13}節の課題13と違って誤差の分布が分からないためこれらのコストから精度が高いかは判断できないが, 
+複数の初期値から同じ値に収束していることから, この予想を信頼することにする. 
+3種類のコストの収束先のうち, 最も小さい$c = 3516.1$に収束したクラスタの分類のうちの1つは図\ref{fig:q14}の通り. 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question14/q14.png}
+  \caption{3つのクラスタへの分類}
+  \label{fig:q14}
+\end{figure}
 
 
 
