@@ -26,7 +26,7 @@ function main()
         delta_t_map = [0.5, 1.5]
         for i in 1:2
             delta_t = delta_t_map[i]
-            u_0 = 0
+            u_0 = 1.0
 
             t = 0.0
             u_est_cn = u_0
