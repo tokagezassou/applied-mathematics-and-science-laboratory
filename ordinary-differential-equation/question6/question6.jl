@@ -21,13 +21,13 @@ function main()
         u_0_map = [0.50, 1.0, 1.50]
         for i in 1:3
             u_0 = u_0_map[i]
-            delta_t = 0.02
+            delta_t = 0.001
             u_est = u_0
             t = 0.0
 
             println(f, "----- u_0 = $u_0 -----")
 
-            for i in 1:100
+            while t < 1.2
                 t += delta_t
                 u_est = runge_kutta(u_est, delta_t, t)
 

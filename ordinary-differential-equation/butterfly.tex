@@ -238,6 +238,56 @@ $\Delta t = 0.5$及び$\Delta t = 1.5$のときの解の挙動は, それぞれ\
 \end{figure}
 
 
+\section{課題6 常微分方程式の初期値による解の振舞いの差異}
+\label{sec:q6}
+$t \in [0, \infty]$における常微分方程式の初期値問題
+\begin{gather}
+  u' = (u - 1) u, \ u(0) = u_0
+\end{gather}
+を考える. 
+数値計算は$\Delta t = 0.01$として$t \in [0, 1.2]$の範囲で, 
+初期値を$u_0 = 0.5, 1.0, 1.5$の3通りで実行した. その結果は図\ref{fig:q6}の通り.
+$u_0 = 0.5, 1.0$の場合は一定の値に収束しているのに対し, $u_0 = 1.5$の場合は$t = 1.1$付近で急激に値が増加している. 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question6/q6.png}
+  \caption{初期値による解の振舞いの差異}
+  \label{fig:q6}
+\end{figure}
+
+
+\section{課題7 Lorenz方程式の解の振舞い}
+\label{sec:q7}
+連立常微分方程式である, Lorenz方程式
+\begin{align}
+  x' &= 10(y - x), \ x(0) = 1 + \epsilon \\
+  y' &= 28x - y - xz, \ y(0) = 0 \\
+  z' &= xy - \frac{8}{3}z, \ z(0) = 0
+\end{align}
+を考える. 
+
+\subsection{解の非周期的な長時間挙動}
+\label{sec:7-1}
+本節では$\epsilon = 0$として考える. 
+時間に対する$x(t)$挙動及び$(x(t), y(t), z(t))$の挙動は, それぞれ図\ref{fig:q7-1a}, \ref{fig:q7-1b}の通り. 
+確かに解の挙動は複雑で, カオスになっていることが確認できる. 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question7/q7-1a.png}
+  \caption{時間に対する$x(t)$の挙動}
+  \label{fig:q7-1a}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question7/q7-1b.png}
+  \caption{$(x(t), y(t), z(t))$の挙動}
+  \label{fig:q7-1b}
+\end{figure}
+
+
 \newpage
 \section{実行環境}
 \label{sec:env}
