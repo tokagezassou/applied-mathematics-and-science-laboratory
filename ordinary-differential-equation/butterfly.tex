@@ -97,6 +97,108 @@
 \end{align}
 
 
+\section{課題3 常微分方程式の計算法の精度}
+\label{sec:q3}
+常微分方程式の初期値問題
+\begin{gather}
+  u' = u, \ u(0) = 1
+\end{gather}
+を$t \in [0,1]$の範囲で数値的に解いて精度を比較する. 
+ステップ数を$N = 2^i$とし, $i$の値を$i = 1, 2, ... , 8$と変化させた. 
+このとき$t = 1$における数値解$u_N^{i}$と解析解の差$E^{(i)}$は
+\begin{gather}
+  E^{(i)} = |u_N^{i} - e|
+\end{gather}
+と表され, これを用いて計算法の次数$p$は
+\begin{gather}
+  p \approx \log_2{\frac{E^{(i - 1)}}{E^{(i)}}}
+\end{gather}
+と表され, 右辺の$i$が大きくなるほど$p$の値は次数に近づく. \\
+
+前進Euler法, 2次及び3次のAdams-Bashforth法, Heun法, 4次のRunge-Kutta法の
+計算次数の漸近の様子は図\ref{fig:q3}の通りで, 最終的な計算次数は表\ref{tab:q3}の通り.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question3/q3.png}
+  \caption{計算法の次数}
+  \label{fig:q3}
+\end{figure}
+
+\begin{table}[ht]
+  \centering
+  \caption{計算法の次数}
+  \label{tab:q3}
+  \begin{tabular}[ht]{c c}
+    \hline
+    前進Euler法 & 1次 \\
+    2次のAdams-Bashforth法 & 2次 \\
+    3次のAdams-Bashforth法 & 3次 \\
+    Heun法 & 2次 \\
+    4次のRunge-Kutta法 & 4次 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\section{課題4 常微分方程式の計算法の安定性}
+\label{sec:q4}
+$t \in [0, \infty]$における常微分方程式の初期値問題
+\begin{gather}
+  u' = -2u + 1, \ u(0) = 1
+\end{gather}
+を考える. \\
+このときCrank-Nicolson法は
+\begin{gather}
+  u_n \approx u_{n-1} + \frac{\Delta t}{2} [(-2u_{n-1} + 1) + (-2u_n + 1)]
+\end{gather}
+で表され, $u_n \approx a_1 u_{n^1} + a_0$の形に変形すると, 
+\begin{gather}
+  a_1 = \frac{1 - \Delta t}{1 + \Delta t}
+\end{gather}
+となる. ここで$\Delta t \geq 0$より, 常に$|a_1| \leq 0$である. 
+つまりCrank-Nicolson法は$\Delta t$の値によらず常に安定である. \\
+一方1次のAdams-Bashforth法と2次のAdams-Moulton法を組み合わせた予測子・修正子法, すなわちHeun法は
+\begin{align}
+  u_n &\approx u_{n-1} + \frac{\Delta t}{2} {-2(u_{n-1} - 2\Delta t u_{n-1} - 2 u_{n-1})} + const \\
+  &= (\frac{1}{2}x^2 - x + 1)u_{n-1} + const \ \text{(ただし$x = 2\Delta t$)}
+\end{align}
+で表され,
+\begin{gather}
+  a_1 = \frac{1}{2}x^2 - x + 1
+\end{gather}
+となる. ここで$|a_1| \leq 1$を解くと$0 \leq x \leq 2$となるので, Heun法が安定する$\Delta t$の範囲は
+\begin{gather}
+  0 \leq \Delta t \leq 1
+\end{gather}
+である. \\
+実際の数値計算は$\Delta t = 0.5, 1.5$の2種類の値で$t \in [0, 50]$の範囲で実行した. 
+$\Delta t = 0.5$及び$\Delta t = 1.5$のときの解の挙動は, それぞれ\ref{fig:q4-1}, \ref{fig:q4-2}の通り. 
+いずれの場合でもCrank-Nicolson法で求めた数値解は解析解と同じ挙動で収束している. 
+一方Heun法で求めた数値解は, $\Delta t = 1.5$の場合に指数関数のオーダーで発散していることが確認できる. 
+
+
+\begin{figure}[htbp]
+  \centering
+
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question4/q4-1.png}
+    \caption{$\Delta t = 0.5$}
+    \label{fig:q4-1}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question4/q4-2.png}
+    \caption{$\Delta t = 1.5$}
+    \label{fig:q4-2}
+  \end{subfigure}
+  
+  \caption{解の挙動}
+  \label{fig:q6_re}
+\end{figure}
+
+
 \newpage
 \section{実行環境}
 \label{sec:env}
