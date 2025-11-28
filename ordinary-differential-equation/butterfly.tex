@@ -287,8 +287,55 @@ $u_0 = 0.5, 1.0$の場合は一定の値に収束しているのに対し, $u_0 
   \label{fig:q7-1b}
 \end{figure}
 
-
 \newpage
+\subsection{数値計算の誤差が解に与える影響}
+\label{sec:7-2}
+本節では$\epsilon = 0$として考える. 
+$\Delta t = 0.01 \times 2^{-i}, \ i = 0, 1, ... , 13$として, 
+前進Euler法とRunge-Kutta法を用いてLorenz方程式の数値解を計算した. 
+$t = 15, 30, 60$における$i$と数値解$x(t)$の関係は, 図\ref{fig:q7-2a}, \ref{fig:q7-2b}, \ref{fig:q7-2c}の通り. 
+$t = 15$では$i$が大きくなる, つまり$\Delta t$が小さくなるにつれて, $x(t)$は一定の値に収束している. 
+$t = 30$ではRunge-Kutta法で計算した数値解は同様に収束しているが, 前進Euler法で計算した数値解は値が定まっていない. 
+$t = 60$ではいずれの方法で求めた数値解も値が定まっていない. 
+このことから, 数値計算の誤差が解に与える影響は$t$が大きくなるほど大きくなっているといえる. 
+また誤差の影響の受けにくさはRunge-Kutta法の方が優れているといえる. 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question7/q7-2a.png}
+  \caption{$t = 15$における$i$と数値解$x(t)$の関係}
+  \label{fig:q7-2a}
+\end{figure}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question7/q7-2b.png}
+  \caption{$t = 30$における$i$と数値解$x(t)$の関係}
+  \label{fig:q7-2b}
+\end{figure}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question7/q7-2c.png}
+  \caption{$t = 60$における$i$と数値解$x(t)$の関係}
+  \label{fig:q7-2c}
+\end{figure}
+
+
+\clearpage
+\subsection{初期値の微小な変化が解に与える影響}
+\label{sec:7-3}
+Lorenz方程式の初期値のパラメータである$\epsilon$の値を$\epsilon = 0, 0.1, 0.01, 0.001$と変化させて解を計算した. 
+数値計算は$\Delta t = 0.001$として$t \in [0, 100]$の範囲で実行した. 
+数値計算の結果は図\ref{fig:q7-3}の通り. 
+初期値はほとんど変化していないが数値解の振舞いは大きく異なっており, カオスが確認できる. 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question7/q7-3.png}
+  \caption{初期値を微小に変化させたときの解の振舞い}
+  \label{fig:q7-3}
+\end{figure}
+
+\clearpage
 \section{実行環境}
 \label{sec:env}
 本課題の実行環境は表\ref{tab:env}の通り.
