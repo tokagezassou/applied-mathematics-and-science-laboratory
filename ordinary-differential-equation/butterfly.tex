@@ -176,7 +176,6 @@ $\Delta t = 0.5$及び$\Delta t = 1.5$のときの解の挙動は, それぞれ\
 いずれの場合でもCrank-Nicolson法で求めた数値解は解析解と同じ挙動で収束している. 
 一方Heun法で求めた数値解は, $\Delta t = 1.5$の場合に指数関数のオーダーで発散していることが確認できる. 
 
-
 \begin{figure}[htbp]
   \centering
 
@@ -196,6 +195,46 @@ $\Delta t = 0.5$及び$\Delta t = 1.5$のときの解の挙動は, それぞれ\
   
   \caption{解の挙動}
   \label{fig:q6_re}
+\end{figure}
+
+
+\section{課題5 常微分方程式の爆発解}
+\label{sec:q5}
+\ref{sec:q4}章と同じく, $t \in [0, \infty]$における常微分方程式の初期値問題
+\begin{gather}
+  u' = -2u + 1, \ u(0) = 1
+\end{gather}
+を考える. \\
+以下の陽解法
+\begin{align}
+  u_n &= u_{n-2} + 2 f(t_{n-1}, u_{n-1})\Delta t \\
+  &= -4 \Delta t u_{n-1} + u_{n-2} + 2\Delta t
+\end{align}
+を用いて数値解を求める. このとき特性方程式
+\begin{gather}
+  \lambda^2 + 4\Delta t \lambda - 1 = 0
+\end{gather}
+の解は
+\begin{align}
+  \lambda_1 &= -2\Delta t + \sqrt{4 \Delta t^2 + 1} \\
+  \lambda_2 &= -2\Delta t - \sqrt{4 \Delta t^2 + 1}
+\end{align}
+である. ここで$\Delta t > 0$より
+\begin{align}
+  |\lambda_2| &= 2\Delta t + \sqrt{4 \Delta t^2 + 1} \\
+  &> 0 + \sqrt{0 + 1} \\
+  &= 1
+\end{align}
+であるので, この解法は常に不安定である. \\
+実際の数値計算は$\Delta t = 0.1$として$t \in [0, 10]$の範囲で実行した. 
+その結果は図\ref{fig:q5}の通り. 
+真の解は収束しているのに対し, この計算方法で求めた数値解は指数関数のオーダーで発散している. 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question5/q5.png}
+  \caption{爆発解の挙動}
+  \label{fig:q5}
 \end{figure}
 
 
