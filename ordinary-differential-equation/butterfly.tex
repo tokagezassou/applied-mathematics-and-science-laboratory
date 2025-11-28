@@ -1,0 +1,125 @@
+\documentclass[uplatex,a4j]{jsarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath,ascmac}
+\usepackage{bm}
+\usepackage{algorithm,algorithmic}
+\usepackage{listings}
+\usepackage{subcaption}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\lstset{%
+  language={C},
+  basicstyle={\small},%
+  identifierstyle={\small},%
+  commentstyle={\small\itshape},%
+  keywordstyle={\small\bfseries},%
+  ndkeywordstyle={\small},%
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},%
+  numbers=left,%
+  xrightmargin=0zw,%
+  xleftmargin=3zw,%
+  numberstyle={\scriptsize},%
+  stepnumber=1,
+  numbersep=1zw,%
+  lineskip=-0.5ex%
+}
+\renewcommand{\lstlistingname}{コード}
+\renewcommand{\lstlistlistingname}{コード目次}
+\renewcommand{\thesubsection}{(\arabic{subsection})}
+\renewcommand{\thesection}{\arabic{section}}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vfill
+    
+    {\Huge 数理工学実験\par}
+    \vspace{1cm}
+    
+    {\Large 常微分方程式レポート\par}
+    
+    \vfill
+    
+    {\Large
+    所属: 工学部情報学科数理工学コース2年\par
+    学籍番号: 1029-36-1263\par
+    氏名: 天野 塁\par
+    }
+    
+    \vfill
+    
+    {\Large 提出日: \today \par}
+    
+    \vfill
+\end{titlepage}
+
+\section{課題1 身の回りの常微分方程式}
+\label{sec:q1}
+
+上空から落下する雨粒の運動を考える. 雨粒の位置を$x$, 速度を$v$, 質量を$m$とし, 重力加速度を$g$とする. 
+また落下する雨粒に働く空気抵抗は速度に比例し, $-kv \ (k > 0)$と表されるとする. 
+また初期位置及び初期速度を$x_0, v_0$とする.
+このとき雨粒の運動は 
+\begin{align}
+  \begin{cases}
+    x' = v \\
+    m v' = mg - kv \\
+    x(0) = x_0 \\
+    v(0) = v_0
+  \end{cases}
+\end{align}
+で表される. 
+
+
+\section{課題2 常微分方程式の数値計算法の構成}
+\label{sec:q2}
+4次のAdams-Bashforth法及び4次のAdams-Moulton法は式\ref{eq:ab}, \ref{eq:am}の通り. 
+ただし特に引数を明記しない限り$f_k = f_k(t_k, u_k)$とする. 
+\begin{align}
+  u_n &\approx u_{n-1} + \frac{\Delta t}{24} (55f_{n-1} - 59f_{n-2} + 37f_{n-3} - 9f_{n-4})
+  \label{eq:ab} \\
+  u_n &\approx u_{n-1} + \frac{\Delta t}{24} (9f_n + 19f_{n-1} - 5f_{n-2} + f_{n-3})
+  \label{eq:am}
+\end{align}
+また式\ref{eq:ab}, \ref{eq:am}を用いた予測子・修正子法は式\ref{eq:q2}の通り. 
+
+\begin{align}
+  \begin{cases}
+    u_n^* &\approx u_{n-1} + \frac{\Delta t}{24} (55f_{n-1} - 59f_{n-2} + 37f_{n-3} - 9f_{n-4}) \\
+    u_n &\approx u_{n-1} + \frac{\Delta t}{24} (9f(t_n, u_n^*) + 19f_{n-1} - 5f_{n-2} + f_{n-3})
+  \end{cases}
+  \label{eq:q2}
+\end{align}
+
+
+\newpage
+\section{実行環境}
+\label{sec:env}
+本課題の実行環境は表\ref{tab:env}の通り.
+
+\begin{table}[ht]
+  \centering
+  \caption{実行環境}
+  \label{tab:env}
+  \begin{tabular}[ht]{c c}
+    \hline
+    OS & Ubuntu 22.04.5 LTS \\
+    CPU & 13th Gen Intel(R) Core(TM) i7-1360P \\
+    メモリ & 8GB \\
+    使用言語 & julia 1.12.1 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\section{参考文献}
+\label{sec:ref}
+数値計算のためのコードで誤っている箇所の修正, 及びより良い書き方の勉強のため, 
+Gemini 2.5 Pro及びGemini 3.0 Proを使用した.
+
+
+\end{document}
