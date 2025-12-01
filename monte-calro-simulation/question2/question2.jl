@@ -29,8 +29,11 @@ function main()
                 numerator += (fx_means[c] - fx_est)^2
             end
 
-            accuracy = sqrt(numerator / 10 / (10 - 1))
-            println(f, "$sample_num  $fx_est  $accuracy")
+            accuracy = sqrt(numerator / (10 * (10 - 1)))
+            true_accuracy = sqrt((2 *pi + 4 - pi^2) / (sample_num * 10))
+            ratio = accuracy / true_accuracy
+
+            println(f, "$sample_num  $fx_est  $accuracy  $ratio")
         end
     end
 end
