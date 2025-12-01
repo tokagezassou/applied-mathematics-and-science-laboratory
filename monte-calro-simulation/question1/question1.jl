@@ -43,18 +43,19 @@ function transit(states, index, p)
 end    
 
 function main()
-    open("output.dat", "w") do f
+    open("q1_output.dat", "w") do f
         states_matrix = zeros(Int, 10, 64)
         mid_index = trunc(Int, size(states_matrix, 2) / 2)
         states_matrix[:, mid_index] .= 1
         p = 0.7
+        
+        new_states = zeros(Int, 64)
 
         for t in 1:256
             print(f, "$t")
 
             for s in 1:10
                 prev_states = states_matrix[s, :]
-                new_states = zeros(Int, 64)
                 infection_sum = 0
 
                 for i in 1:64
@@ -68,6 +69,41 @@ function main()
 
             print(f, "\n")
         end
+    end
+
+    open("q2_output.dat", "w") do f
+        states_matrix = zeros(Int, 4, 10000, 64)
+        mid_index = trunc(Int, size(states_matrix, 3) / 2)
+        states_matrix[:, :, mid_index] .= 1
+        p_map = [0.64, 0.66, 0.68, 0.7]
+
+        new_states = zeros(Int, 64)
+
+        for t in 1:256
+            print(f, "$t")
+
+            for p_index in 1:4
+                p = p_map[p_index]
+                infection_sum = 0
+
+                for s in 1:10000
+                    prev_states = states_matrix[p_index, s, :]
+
+                    for i in 1:64
+                        new_states[i] = transit(prev_states, i, p)
+                        infection_sum += new_states[i]
+                    end
+
+                    states_matrix[p_index, s, :] = new_states
+                end
+
+                infection_mean = infection_sum / 10000
+                print(f, "  $infection_mean")
+            end
+
+            print(f, "\n")
+        end
+
     end
 end
 
