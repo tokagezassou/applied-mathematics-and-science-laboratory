@@ -8,7 +8,6 @@ function main()
         
         for s in 1:4
             sample_num = sample_num_map[s]
-            fx_est_sum = 0.0
             fx_means = zeros(10)
 
             for c in 1:10
@@ -30,7 +29,7 @@ function main()
                 numerator += (fx_means[c] - fx_est)^2
             end
 
-            accuracy = numerator / 10 * (10 - 1)
+            accuracy = sqrt(numerator / 10 / (10 - 1))
             println(f, "$sample_num  $fx_est  $accuracy")
         end
     end
