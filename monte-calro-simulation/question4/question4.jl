@@ -64,7 +64,7 @@ function gibbs_sampling(states, temp_z)
 end
 
 function main()
-    open("output1.dat", "w") do f
+    open("output2.dat", "w") do f
         println(f, "----- question 4-2 metropolis -----")
         states = ones(Int, 64, 64)
         temp_z = sqrt(2)
@@ -83,6 +83,34 @@ function main()
             states = gibbs_sampling(states, temp_z)
             magnetization = calculate_magnetization(states)
             println(f, "$i  $magnetization")
+        end
+    end
+
+    open("output3.dat", "w") do f
+        println(f, "# system_size  temp_z  magnetization_mean")
+        size_list = [12, 16, 24, 32, 48, 64]
+
+        for system_size in size_list
+            for temp_z in range(1.225, stop=1.5, length=12)
+                println("system_size = $system_size, temp_z = $temp_z")
+                magnetization_sum = 0
+
+                for _ = 1:10
+                    states = ones(Int, system_size, system_size)
+
+                    for i in 1:2000
+                        states = gibbs_sampling(states, temp_z)
+                    end
+
+                    for i in 1:100000
+                        states = gibbs_sampling(states, temp_z)
+                        magnetization_sum += calculate_magnetization(states)
+                    end
+                end
+
+                magnetization_mean = magnetization_sum / 1000000
+                println(f, "$system_size  $temp_z  $magnetization_mean")
+            end
         end
     end
 end
