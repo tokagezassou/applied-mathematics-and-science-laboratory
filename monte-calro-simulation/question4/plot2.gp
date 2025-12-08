@@ -23,8 +23,8 @@ set ylabel offset 1,0
 # set key at 0.54, 0.8
 # set key outside
 
-plot 'output.dat' using 1:2 every ::1::10000 linetype 1 pointsize 0.3 pointtype 7 notitle ,\
-    'output.dat' using 1:2 every ::10002::20001 linetype 2 pointsize 0.3 pointtype 7 notitle ,\
+plot 'output1.dat' using 1:2 every ::1::10000 linetype 1 pointsize 0.3 pointtype 7 notitle ,\
+    'output1.dat' using 1:2 every ::10002::20001 linetype 2 pointsize 0.3 pointtype 7 notitle ,\
     keyentry with points linetype 1 pointsize 1.3 pointtype 7 title 'Metroplice' ,\
     keyentry with points linetype 2 pointsize 1.3 pointtype 7 title 'Gibbs Sampling'
 

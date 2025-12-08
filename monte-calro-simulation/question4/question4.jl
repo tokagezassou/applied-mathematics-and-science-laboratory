@@ -64,11 +64,11 @@ function gibbs_sampling(states, temp_z)
 end
 
 function main()
-    open("output.dat", "w") do f
+    open("output1.dat", "w") do f
         println(f, "----- question 4-2 metropolis -----")
         states = ones(Int, 64, 64)
         temp_z = sqrt(2)
-        
+
         for i in 1:10000
             states = metropolis(states, temp_z)
             magnetization = calculate_magnetization(states)
