@@ -294,6 +294,20 @@ $x_1, x_2, ...$と順番に状態が遷移するとしても一般性を失わ�
 
 一般に遷移確率が式\ref{eq:q3-detailed-balance}の詳細釣り合い条件を満たす場合は, 
 式\ref{eq:q3-balance}の釣り合い条件を満たすことを示す. \\
+式\ref{eq:q3-detailed-balance}の詳細釣り合い条件は
+\begin{gather}
+  ^{\forall} X, ^{\forall} Y, \ P(X \to Y) W(X) = P(Y \to X) W(Y)
+\end{gather}
+$Y$について左辺の和をとると
+\begin{align}
+  \sum_{Y} P(X \to Y) W(X) &= W(X) \sum_{Y} P(X \to Y) \\
+  &= W(X)
+\end{align}
+したがって$^{\forall}X$に対して
+\begin{gather}
+  W(X) = \sum_{Y} P(Y \to X) W(Y)
+\end{gather}
+となるので, 式\ref{eq:q3-balance}の釣り合い条件を満たす. 
 
 
 
