@@ -351,7 +351,37 @@ $Y$について左辺の和をとると
 
 \subsection{磁化の期待値の温度とシステムサイズへの依存度}
 \label{sec:q4-3}
+イジングモデルの磁化の期待値の温度とシステムサイズへの依存度を求めるため, 
+温度$T = \frac{2}{1 + z}$のパラメータ$z$を$z = 1.225, 1.250, ..., 1.500$の12通り, 
+システムサイズ$L$を$L = 12, 16, 24, 32, 48, 64$の6通りのパターンで磁化$m$の期待値を計算した. 
+図\ref{fig:q4-2}より, 多めに見積もっても時刻2000では初期値の影響が十分消えているといえる. 
+そこで最初の2000ステップは磁化$m$の期待値に含めず, 以降の100000ステップの磁化$m$を期待値に含める, 
+という計算を10回繰り返して, 全ての試行を含めた磁化$m$の期待値を計算した. 
+その結果は図\ref{fig:q4-3}の通り. 
+特に図\ref{fig:q4-3-1}が温度のパラメータ$z$と磁化の期待値との関係を, 
+図\ref{fig:q4-3-2}がシステムサイズ$L$と磁化の期待値との関係を表している. 
 
+
+\begin{figure}[htbp]
+  \centering
+
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question4/q4-3-1.png}
+    \caption{磁化の期待値の温度への依存度}
+    \label{fig:q4-3-1}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question4/q4-3-2.png}
+    \caption{磁化の期待値のシステムサイズへの依存度}
+    \label{fig:q4-3-2}
+  \end{subfigure}
+  
+  \caption{磁化の期待値の温度とシステムサイズへの依存度}
+  \label{fig:q4-3}
+\end{figure}
 
 
 
