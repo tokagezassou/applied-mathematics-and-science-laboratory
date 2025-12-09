@@ -310,6 +310,50 @@ $Y$について左辺の和をとると
 となるので, 式\ref{eq:q3-balance}の釣り合い条件を満たす. 
 
 
+\section{問題4 イジングモデルのモンテカルロシミュレーション}
+\label{sec:q4}
+
+\subsection{イジングモデルの熱浴法の手順}
+\label{sec:q4-1}
+イジングモデルの熱浴法の手順は以下の通り. \\
+手順1: ランダムに格子点を1つ選び, 選んだ格子点の状態変数を$s$, フリップしたものを$s'$とする. \\
+手順2: 以下の式\ref{eq:q4-1}の確率$Q(s')$で$s$をフリップさせる. 
+\begin{align}
+  Q(s') &= \frac{P(..., s', ...)}{P(..., s, ...) + P(..., s', ...)} \\
+  &= \frac{1}{\frac{P(..., s, ...)}{P(..., s', ...)} + 1}
+  \label{eq:q4-1} \\
+  \text{ただし} P(..., s, ...) &= \frac{e^{- \frac{E(S)}{T}}}{Z} \\
+  E(S) &= -\sum_{i,j} s_i s_j \\
+  Z &= \sum_{S} e^{- \frac{-E(S)}{T}}
+\end{align}
+なお実際の計算では効率を上げるため, 式を整理して
+\begin{align}
+  Q(s') &= \frac{1}{\frac{P(..., s, ...)}{P(..., s', ...)} + 1} \\
+  &= \frac{1}{e^{\frac{E(S') - E(S)}{T}} + 1}
+\end{align}
+として, $Q(s')$をエネルギーの差$E(S') - E(S)$の関数として計算している. 
+
+\subsection{イジングモデルの磁化の推移}
+\label{sec:q4-2}
+メトロポリス法及び熱浴法を用いて, 各時刻ごとの磁化
+\begin{gather}
+  m = \frac{1}{L^2} | \sum_{i}s_i |
+\end{gather}
+を計算した. その結果は図\ref{fig:q4-2}の通り. 
+ただし温度は$T = \frac{2}{1 + z}, z = \sqrt{2}$, システムサイズは$L = 64$, 初期状態は全てのイジングスピンが1とした. 
+いずれの方法でも磁化は一定の区間を振動しており, その振幅は熱浴法の方が小さい. 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question4/q4-2.png}
+  \caption{各時刻ごとの磁化の推移}
+  \label{fig:q4-2}
+\end{figure}
+
+\subsection{磁化の期待値の温度とシステムサイズへの依存度}
+\label{sec:q4-3}
+
+
+
 
 \clearpage
 \section{実行環境}
