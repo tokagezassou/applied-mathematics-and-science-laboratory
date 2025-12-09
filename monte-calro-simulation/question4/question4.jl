@@ -87,7 +87,7 @@ function main()
     end
 
     open("output3.dat", "w") do f
-        println(f, "# system_size  temp_z  magnetization_mean")
+        println(f, "system_size  temp_z  magnetization_mean")
         size_list = [12, 16, 24, 32, 48, 64]
 
         for system_size in size_list
