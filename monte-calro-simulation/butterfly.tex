@@ -1,0 +1,126 @@
+\documentclass[uplatex,a4j]{jsarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath,ascmac}
+\usepackage{bm}
+\usepackage{algorithm,algorithmic}
+\usepackage{listings}
+\usepackage{subcaption}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\lstset{%
+  language={C},
+  basicstyle={\small},%
+  identifierstyle={\small},%
+  commentstyle={\small\itshape},%
+  keywordstyle={\small\bfseries},%
+  ndkeywordstyle={\small},%
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},%
+  numbers=left,%
+  xrightmargin=0zw,%
+  xleftmargin=3zw,%
+  numberstyle={\scriptsize},%
+  stepnumber=1,
+  numbersep=1zw,%
+  lineskip=-0.5ex%
+}
+\renewcommand{\lstlistingname}{コード}
+\renewcommand{\lstlistlistingname}{コード目次}
+\renewcommand{\thesubsection}{(\arabic{subsection})}
+\renewcommand{\thesection}{\arabic{section}}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vfill
+    
+    {\Huge 数理工学実験\par}
+    \vspace{1cm}
+    
+    {\Large モンテカルロシミュレーションレポート\par}
+    
+    \vfill
+    
+    {\Large
+    所属: 工学部情報学科数理工学コース2年\par
+    学籍番号: 1029-36-1263\par
+    氏名: 天野 塁\par
+    }
+    
+    \vfill
+    
+    {\Large 提出日: \today \par}
+    
+    \vfill
+\end{titlepage}
+
+\section{問題1 疫病の確率的な感染モデル}
+\label{sec:q1}
+
+人が1列に並んだ状態で, 場所$i$にいる人の状態を, 状態変数$s_i$を用いて表す. 
+疫病にかかった状態を$s_i = 1$, かかっていない状態を$s_i = 0$とする. 
+また時刻$t+1$における感染状況は前の時刻$t$での場所$[i-1, i, i+1]$における感染状況
+$[s_{i-1}, s_i, s_{i+1}]$にのみ依存して確率的に決まるとする. 
+ただし境界条件は周期的であるとする. 
+$n_i = s_{i-1} + s_{i+1}$としたとき, 次の時刻において$s_i(t+1) = 1$となる確率$P(1|s_i, n_i)$は, 
+パラメータ$p$を用いて以下の式\ref{eq:q1}の通りに定義する. 
+
+\begin{align}
+  \begin{cases}
+    P(1|0, 0) &= 0 \ \text{吸収状態} \\
+    P(1|0, 1) &= p^2 \\
+    P(1|0, 2) &= p^2 (2 - p^2) \\
+    P(1|1, 0) &= p^2 (2 - p^2) \\
+    P(1|1, 1) &= p^2 (p^3 - 2p^2 - p + 3) \\
+    P(1|1, 2) &= p^2 (2 - p) (p^3 - 2p^2 + 2) \\
+  \end{cases}
+  \label{eq:q1}
+\end{align}
+
+\subsection{サンプルにごとの感染者数の遷移}
+\label{sec:q1-1}
+
+システムサイズ$64$, 最終時刻$256$, $p = 0.70$とし, 初期状態は1人だけが感染しているという条件の下で, 
+サンプル状態列を10個作成した. 
+各時刻における感染者数を表したグラフは図\ref{fig:q1-1}の通り. 
+どのサンプルでも感染者数の推移は似ており, 時刻$80$あたりまでは増加し続け, 
+それ以降は概ね$40$から$60$の間を振動している. 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question1/q1-1.png}
+  \caption{サンプルにごとの感染者数}
+  \label{fig:q1-1}
+\end{figure}
+
+
+\clearpage
+\section{実行環境}
+\label{sec:env}
+本課題の実行環境は表\ref{tab:env}の通り.
+
+\begin{table}[ht]
+  \centering
+  \caption{実行環境}
+  \label{tab:env}
+  \begin{tabular}[ht]{c c}
+    \hline
+    OS & Ubuntu 22.04.5 LTS \\
+    CPU & 13th Gen Intel(R) Core(TM) i7-1360P \\
+    メモリ & 8GB \\
+    使用言語 & julia 1.12.1 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\section{参考文献}
+\label{sec:ref}
+数値計算のためのコードで誤っている箇所の修正, 及びより良い書き方の勉強のため, 
+Gemini 3.0 Proを使用した.
+
+
+\end{document}
