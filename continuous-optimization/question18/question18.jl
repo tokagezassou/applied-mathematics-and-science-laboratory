@@ -77,7 +77,7 @@ function main()
         ro = 0.5
         epsilon = 1e-6
         max_calculate_num = 100000
-        println(f, "optimal_solution  optimal_solution  loop_count")
+        println(f, "optimal_solution  optimal_value  loop_count")
 
         println(f, "----- gradient_descent -----")
         is_continuing = true
