@@ -2,6 +2,10 @@ function func(x)
     return x^3 + 2*x^2 - 5*x - 6
 end
 
+function func_dash(x)
+    return 3*x^2 + 4*x -5
+end
+
 function bisection(under, over, epsilon)
     middle = (under + over) / 2
     y = func(middle)
@@ -20,6 +24,18 @@ function bisection(under, over, epsilon)
     end
 
     return under, over, is_continuing
+end
+
+function newton(x, epsilon)
+    is_continuing = true
+    delta_x = - func(x) / func_dash(x)
+    x += delta_x
+
+    if abs(func(x)) < epsilon
+        is_continuing = false
+    end
+
+    return x, is_continuing
 end
 
 function main()
@@ -51,7 +67,22 @@ function main()
             while is_continuing
                 under, over, is_continuing = bisection(under, over, epsilon)
             end
+            
             println(f, "$(under_map[i])  $(over_map[i])  $under")
+        end
+
+        println(f, "----- newton -----")
+        init_map = [-3.1, -1.1, 2.1]
+
+        for  i in 1:3
+            solution = init_map[i]
+            is_continuing = true
+
+            while is_continuing
+                solution, is_continuing = newton(solution, epsilon)
+            end
+            
+            println(f, "$(init_map[i])  $solution")
         end
     end
 end
