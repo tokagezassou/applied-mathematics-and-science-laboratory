@@ -1,0 +1,101 @@
+\documentclass[uplatex,a4j]{jsarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath,ascmac}
+\usepackage{bm}
+\usepackage{algorithm,algorithmic}
+\usepackage{listings}
+\usepackage{subcaption}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\lstset{%
+  language={C},
+  basicstyle={\small},%
+  identifierstyle={\small},%
+  commentstyle={\small\itshape},%
+  keywordstyle={\small\bfseries},%
+  ndkeywordstyle={\small},%
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},%
+  numbers=left,%
+  xrightmargin=0zw,%
+  xleftmargin=3zw,%
+  numberstyle={\scriptsize},%
+  stepnumber=1,
+  numbersep=1zw,%
+  lineskip=-0.5ex%
+}
+\renewcommand{\lstlistingname}{コード}
+\renewcommand{\lstlistlistingname}{コード目次}
+\renewcommand{\thesubsection}{(\arabic{subsection})}
+\renewcommand{\thesection}{\arabic{section}}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vfill
+    
+    {\Huge 数理工学実験\par}
+    \vspace{1cm}
+    
+    {\Large 連続最適化レポート\par}
+    
+    \vfill
+    
+    {\Large
+    所属: 工学部情報学科数理工学コース2年\par
+    学籍番号: 1029-36-1263\par
+    氏名: 天野 塁\par
+    }
+    
+    \vfill
+    
+    {\Large 提出日: \today \par}
+    
+    \vfill
+\end{titlepage}
+
+\section{問題1 疫病の確率的な感染モデル}
+\label{sec:q1}
+
+
+\subsection{サンプルごとの感染者数の推移}
+\label{sec:q1-1}
+
+
+
+
+
+
+
+
+
+\clearpage
+\section{実行環境}
+\label{sec:env}
+本課題の実行環境は以下の表\ref{tab:env}の通り.
+
+\begin{table}[ht]
+  \centering
+  \caption{実行環境}
+  \label{tab:env}
+  \begin{tabular}[ht]{c c}
+    \hline
+    OS & Ubuntu 22.04.5 LTS \\
+    CPU & 13th Gen Intel(R) Core(TM) i7-1360P \\
+    メモリ & 8GB \\
+    使用言語 & julia 1.12.1 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\section{参考文献}
+\label{sec:ref}
+数値計算のためのコードで誤っている箇所の修正, 及びより良い書き方の勉強のため, 
+Gemini 3.0 Proを使用した.
+
+
+\end{document}
