@@ -72,7 +72,7 @@ function main()
         end
 
         println(f, "----- newton -----")
-        init_map = [-3.1, -1.1, 2.1]
+        init_map = [-3.3, -1.3, 2.3]
 
         for  i in 1:3
             solution = init_map[i]

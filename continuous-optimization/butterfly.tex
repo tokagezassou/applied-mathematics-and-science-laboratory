@@ -79,6 +79,7 @@
   \label{fig:q15-1}
 \end{figure}
 
+
 \subsection{二分法による零点の探索}
 \label{sec:q15-2}
 二分法を用いて関数$f(x)$の零点を数値的に求める. 二分法のアルゴリズムは以下の通り. 
@@ -88,7 +89,7 @@
     \item[step 0:]$f(a_0)<0, f(b_0) \geq 0$を満たす初期点$a_0, b_0$を選び, 
     終了条件$\epsilon > 0$を決める. 
     \item[step 1:] 中間点 $c_n := (a_n + b_n)/2$ を求める. 
-    求めた$c_n$が終了条件$|f(c_N)| \leq \epsilon$を満たせば, $c_n$を零点として終了する. 
+    求めた$c_n$が終了条件$|f(c_n)| \leq \epsilon$を満たせば, $c_n$を零点として終了する. 
     \item[step 2:]$f(c_n) < 0$であれば$a_{n+1} = c_n,\ b_{b+1} = b_n$とし, 
     $f(c_n) \geq 0$であれば$a_{n+1} = a_n,\ b_{b+1} = c_n$として, step 1へ戻る. 
   \end{description}
@@ -108,6 +109,39 @@
     $-3.0000$ & $(a_0, b_0) = (-3.3, -2.7)$ \\
     $-1.0000$ & $(a_0, b_0) = (-0.7, -1.3)$ \\
     $2.0000$ & $(a_0, b_0) = (1.7, 2.3)$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+
+\subsection{ニュートン法による零点の探索}
+\label{sec:q15-3}
+ニュートン法を用いて関数$f(x)$の零点を数値的に求める. ニュートン法のアルゴリズムは以下の通り. 
+
+\begin{itembox}[l]{ニュートン法}
+  \begin{description}
+    \item[step 0:]初期点$x_0$を選び, 終了条件$\epsilon > 0$を決める. 
+    \item[step 1:]$\Delta x_n = \frac{-f(x_n)}{f'(x_n)}$とし, 
+    $x_{n+1} = x_n + \Delta x_n$とする. 
+    \item[step 2:]求めた$x_{n+1}$が終了条件$|f(c_N)| \leq \epsilon$を満たせば, $x_{n+1}$を零点として終了する. 
+    満たさなければstep 1に戻る. 
+  \end{description}
+\end{itembox}
+
+図\ref{fig:q15-1}のグラフの概形を元に, 零点の近くに初期値を設定した. 
+二分法で求めた関数$f(x)$の零点とその初期値の組は以下の表\ref{tab:q15-3}の通り. 
+
+\begin{table}[ht]
+  \centering
+  \caption{ニュートン法で求めた零点}
+  \label{tab:q15-3}
+  \begin{tabular}[ht]{c c}
+    \hline
+    零点 & 初期値 \\
+    \hline
+    $-3.0000$ & $x_0 = -3.3$ \\
+    $-1.0000$ & $x_0 = -1.3$ \\
+    $2.0000$ & $x_0 = 2.3$ \\
     \hline
   \end{tabular}
 \end{table}
