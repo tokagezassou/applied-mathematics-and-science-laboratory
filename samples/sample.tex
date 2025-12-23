@@ -7,8 +7,6 @@
 \usepackage{subcaption}
 \usepackage{amsfonts}
 \usepackage{amssymb}
-\usepackage{amsmath}
-\usepackage[most]{tcolorbox}
 \lstset{%
   language={C},
   basicstyle={\small},%
@@ -33,19 +31,7 @@
 \renewcommand{\thesubsection}{(\arabic{subsection})}
 \renewcommand{\thesection}{\arabic{section}}
 
-\newtcolorbox{myroundedbox}[1]{
-  colback=white,           % 背景色
-  colframe=gray!80,       % 枠の色
-  arc=3mm,                 % 角の丸み
-  boxrule=0.5pt,           % 枠線の太さ
-  title=#1,                % タイトルの設定
-  fonttitle=\bfseries,     % タイトルのフォント
-  coltitle=black,          % タイトルの文字色
-  colbacktitle=gray!20,    % タイトル部分の背景色
-  enhanced,
-  attach boxed title to top left={xshift=5mm, yshift=-2mm}, % タイトルを少しずらす
-  boxed title style={arc=1mm, colframe=gray!80}
-}
+
 
 %
 % 以後をレポート課題ごとに書き換える。
@@ -139,6 +125,17 @@
 コード\ref{code:sample}は有名なサンプルコードです。
 
 \lstinputlisting[caption=ハローワールド,label=code:sample]{sample.go}
+
+\begin{itembox}[l]{二分法}
+  \begin{description}
+    \item[step 0:]$f(a_0)<0, f(b_0) \geq 0$を満たす初期点$a_0, b_0$を選び, 
+    終了条件$\epsilon > 0$を決める. 
+    \item[step 1:] 中間点 $c_n := (a_n + b_n)/2$ を求める. 
+    求めた$c_n$が終了条件$|f(c_N)| \leq \epsilon$を満たせば, $c_n$を零点として終了する. 
+    \item[step 2:]$f(c_n) < 0$であれば$a_{n+1} = c_n,\ b_{b+1} = b_n$とし, 
+    $f(c_n) \geq 0$であれば$a_{n+1} = a_n,\ b_{b+1} = c_n$として, step 1へ戻る. 
+  \end{description}
+\end{itembox}
 
 \section{まとめ}
 読みやすいレポートを書きましょう。

@@ -32,6 +32,7 @@
 \renewcommand{\thesubsection}{(\arabic{subsection})}
 \renewcommand{\thesection}{\arabic{section}}
 
+
 \begin{document}
 
 \begin{titlepage}
@@ -58,17 +59,58 @@
     \vfill
 \end{titlepage}
 
-\section{問題1 疫病の確率的な感染モデル}
-\label{sec:q1}
+\section{課題15 二分法及びニュートン法の実践}
+\label{sec:q15}
+次の関数$f: \mathbb{R} \to \mathbb{R}$
+\begin{gather}
+  f(x) := x^3 + 2x^2 - 5x - 6
+\end{gather}
+の零点を数値的に求める. 
 
+\subsection{グラフの描画}
+\label{sec:q15-1}
+関数$y = f(x)$を$-10 \leq x \leq 10, \ -10 \leq y \leq 10$の範囲で描画すると, 図\ref{fig:q15-1}のようになる. 
+グラフの概形を見ると, 零点は$x = -3, -1, 2$付近に存在していると読み取れる. 
 
-\subsection{サンプルごとの感染者数の推移}
-\label{sec:q1-1}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question15/q15.png}
+  \caption{関数$y = f(x)$の概形}
+  \label{fig:q15-1}
+\end{figure}
 
+\subsection{二分法による零点の探索}
+\label{sec:q15-2}
+二分法を用いて関数$f(x)$の零点を数値的に求める. 二分法のアルゴリズムは以下の通り. 
 
+\begin{itembox}[l]{二分法}
+  \begin{description}
+    \item[step 0:]$f(a_0)<0, f(b_0) \geq 0$を満たす初期点$a_0, b_0$を選び, 
+    終了条件$\epsilon > 0$を決める. 
+    \item[step 1:] 中間点 $c_n := (a_n + b_n)/2$ を求める. 
+    求めた$c_n$が終了条件$|f(c_N)| \leq \epsilon$を満たせば, $c_n$を零点として終了する. 
+    \item[step 2:]$f(c_n) < 0$であれば$a_{n+1} = c_n,\ b_{b+1} = b_n$とし, 
+    $f(c_n) \geq 0$であれば$a_{n+1} = a_n,\ b_{b+1} = c_n$として, step 1へ戻る. 
+  \end{description}
+\end{itembox}
 
+図\ref{fig:q15-1}のグラフの概形を元に, 初期値の組$a_0, b_0$の間にちょうど1つだけ零点が含まれるように初期値を設定した. 
+二分法で求めた関数$f(x)$の零点とその初期値の組は以下の表\ref{tab:q15-2}の通り. 
 
-
+\begin{table}[ht]
+  \centering
+  \caption{二分法で求めた零点}
+  \label{tab:q15-2}
+  \begin{tabular}[ht]{c c}
+    \hline
+    零点 & 初期値の組 \\
+    \hline
+    $-3.0000$ & $(a_0, b_0) = (-3.3, -2.7)$ \\
+    $-1.0000$ & $(a_0, b_0) = (-0.7, -1.3)$ \\
+    $2.0000$ & $(a_0, b_0) = (1.7, 2.3)$ \\
+    \hline
+  \end{tabular}
+\end{table}
 
 
 
