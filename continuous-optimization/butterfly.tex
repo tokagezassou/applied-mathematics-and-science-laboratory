@@ -59,7 +59,7 @@
     \vfill
 \end{titlepage}
 
-\section{課題15 二分法及びニュートン法の実践}
+\section{課題15 二分法及びニュートン法による零点探索}
 \label{sec:q15}
 次の関数$f: \mathbb{R} \to \mathbb{R}$
 \begin{gather}
@@ -123,13 +123,13 @@
     \item[step 0:]初期点$x_0$を選び, 終了条件$\epsilon > 0$を決める. 
     \item[step 1:]$\Delta x_n = \frac{-f(x_n)}{f'(x_n)}$とし, 
     $x_{n+1} = x_n + \Delta x_n$とする. 
-    \item[step 2:]求めた$x_{n+1}$が終了条件$|f(c_N)| \leq \epsilon$を満たせば, $x_{n+1}$を零点として終了する. 
+    \item[step 2:]求めた$x_{n+1}$が終了条件$|f(x_{n+1})| \leq \epsilon$を満たせば, $x_{n+1}$を零点として終了する. 
     満たさなければstep 1に戻る. 
   \end{description}
 \end{itembox}
 
 図\ref{fig:q15-1}のグラフの概形を元に, 零点の近くに初期値を設定した. 
-二分法で求めた関数$f(x)$の零点とその初期値の組は以下の表\ref{tab:q15-3}の通り. 
+ニュートン法で求めた関数$f(x)$の零点とその初期値の組は以下の表\ref{tab:q15-3}の通り. 
 
 \begin{table}[ht]
   \centering
@@ -142,6 +142,77 @@
     $-3.0000$ & $x_0 = -3.3$ \\
     $-1.0000$ & $x_0 = -1.3$ \\
     $2.0000$ & $x_0 = 2.3$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+
+\section{課題16 再急降下法及びニュートン法による停留点探索}
+\label{sec:q16}
+次の関数$f: \mathbb{R} \to \mathbb{R}$
+\begin{gather}
+  f(x) := \frac{1}{3} x^3 - x^2 - 3x + \frac{5}{3}
+\end{gather}
+の零点を数値的に求める. 
+
+
+\subsection{再急降下法による停留点の探索}
+\label{sec:q16-1}
+再急降下法を用いて関数$f(x)$の停留点を数値的に求める. 再急降下法のアルゴリズムは以下の通り. 
+ただしステップサイズは一括で$t_n = \frac{1}{n+1}$とする. 
+
+\begin{itembox}[l]{再急降下法}
+  \begin{description}
+    \item[step 0:]初期点$x_0$を選び, 終了条件$\epsilon > 0$を決める. 
+    \item[step 1:]$d_n = - \nabla f(x_n)$とし, ステップサイズ$t_n$を決定する. 
+    \item[step 2:]$x_{n+1} = x_n + t_n d_n$とし, 
+    求めた$x_{n+1}$が終了条件$|f(x_{n+1})| \leq \epsilon$を満たせば, $x_{n+1}$を零点として終了する. 
+    満たさなければstep 1に戻る. 
+  \end{description}
+\end{itembox}
+
+再急降下法で求めた関数$f(x)$の停留点とその初期値の組は以下の表\ref{tab:q16-1}の通り. 
+
+\begin{table}[ht]
+  \centering
+  \caption{再急降下法で求めた停留点}
+  \label{tab:q16-1}
+  \begin{tabular}[ht]{c c}
+    \hline
+    停留点 & 初期値 \\
+    \hline
+    $3.0000$ & $x_0 = 0.50000$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+
+\subsection{ニュートン法による停留点の探索}
+\label{sec:q16-2}
+再急降下法を用いて関数$f(x)$の停留点を数値的に求める. ニュートン法のアルゴリズムは以下の通り. 
+ただしステップサイズは一括で$t_n = 1.0$とする. 
+
+\begin{itembox}[l]{ニュートン法}
+  \begin{description}
+    \item[step 0:]初期点$x_0$を選び, 終了条件$\epsilon > 0$を決める. 
+    \item[step 1:]$d_n = - \nabla^2 f(x_n)^{-1} \nabla f(x_n)$とし, ステップサイズ$t_n$を決定する. 
+    \item[step 2:]$x_{n+1} = x_n + t_n d_n$とし, 
+    求めた$x_{n+1}$が終了条件$|f(x_{n+1})| \leq \epsilon$を満たせば, $x_{n+1}$を零点として終了する. 
+    満たさなければstep 1に戻る. 
+  \end{description}
+\end{itembox}
+
+ニュートン法で求めた関数$f(x)$の停留点とその初期値の組は以下の表\ref{tab:q16-2}の通り. 
+
+\begin{table}[ht]
+  \centering
+  \caption{ニュートン法で求めた停留点}
+  \label{tab:q16-2}
+  \begin{tabular}[ht]{c c}
+    \hline
+    停留点 & 初期値 \\
+    \hline
+    $3.0000$ & $x_0 = 5.0000$ \\
     \hline
   \end{tabular}
 \end{table}
