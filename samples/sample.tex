@@ -4,6 +4,11 @@
 \usepackage{bm}
 \usepackage{algorithm,algorithmic}
 \usepackage{listings}
+\usepackage{subcaption}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[most]{tcolorbox}
 \lstset{%
   language={C},
   basicstyle={\small},%
@@ -25,6 +30,22 @@
 }
 \renewcommand{\lstlistingname}{コード}
 \renewcommand{\lstlistlistingname}{コード目次}
+\renewcommand{\thesubsection}{(\arabic{subsection})}
+\renewcommand{\thesection}{\arabic{section}}
+
+\newtcolorbox{myroundedbox}[1]{
+  colback=white,           % 背景色
+  colframe=gray!80,       % 枠の色
+  arc=3mm,                 % 角の丸み
+  boxrule=0.5pt,           % 枠線の太さ
+  title=#1,                % タイトルの設定
+  fonttitle=\bfseries,     % タイトルのフォント
+  coltitle=black,          % タイトルの文字色
+  colbacktitle=gray!20,    % タイトル部分の背景色
+  enhanced,
+  attach boxed title to top left={xshift=5mm, yshift=-2mm}, % タイトルを少しずらす
+  boxed title style={arc=1mm, colframe=gray!80}
+}
 
 %
 % 以後をレポート課題ごとに書き換える。

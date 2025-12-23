@@ -35,9 +35,8 @@ set ylabel offset 1,0
 # set key outside
 
 plot 'graph.dat' using 1:2 linetype 1 pointsize 0.3 pointtype 7 notitle ,\
-    'graph.dat' using 1:3 linetype 2 pointsize 0.3 pointtype 7 notitle ,\
     keyentry with points linetype 1 pointsize 1.3 pointtype 7 title 'y = f(x)' ,\
-    keyentry with points linetype 2 pointsize 1.3 pointtype 7 title 'y = 0' ,\
+    0 with lines linetype 2 linewidth 1.8 title 'y = 0'
 
 
 quit

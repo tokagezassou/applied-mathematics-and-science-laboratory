@@ -48,7 +48,7 @@ function main()
         for i in 0:calculate_num
             x = start + division_width * i
             y = func(x)
-            println(f, "$x  $y  0")
+            println(f, "$x  $y")
         end
     end
 
@@ -56,8 +56,8 @@ function main()
         epsilon = 1e-6
 
         println(f, "----- bisection -----")
-        under_map = [-3.1, -0.9, 1.9]
-        over_map = [-2.9, -1.1, 2.1]
+        under_map = [-3.3, -0.7, 1.7]
+        over_map = [-2.7, -1.3, 2.3]
 
         for i in 1:3
             under = under_map[i]
