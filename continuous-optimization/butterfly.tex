@@ -218,6 +218,68 @@
 \end{table}
 
 
+\section{課題17 2次元の最適化問題の準備}
+\label{sec:q17}
+次の2次元の最適化問題
+\begin{alignat}{2}
+  \label{eq:q17}
+  &\text{minimize} \quad && f(x) = x_0^2 + e^{x_0} + x_1^4 + x_1^2 - 2 x_0 x_1 + 3 \\
+  &\text{subject to} \quad  &&x = (x_0, x_1)^\top \in \mathbb{R}^2
+\end{alignat}
+の解を数値的に求める. そのためにまずは必要な関数を実装する. 
+
+
+\subsection{xを入力として$f(x)$を出力する関数の作成}
+\label{sec:q17-1}
+点$x$を引数にとり, 目的関数の値$f(x)$を返すjuliaの関数は以下のコード\ref{code:1}の通り.
+
+\lstinputlisting[
+  caption=$\nabla f(x)$を出力する関数,
+  label=code:1,
+  linerange={1-5}
+]{question18/question18.jl}
+
+
+\subsection{xを入力として$\nabla f(x)$を出力する関数の作成}
+\label{sec:q17-2}
+勾配ベクトル$\nabla f(x)$は
+\begin{gather}
+  \nabla f(x) =
+  \begin{pmatrix}
+    2 x_0 + e_{x_0} - 2 x_1 \\
+    4 x_1^3 + 2 x_1 - 2 x_0
+  \end{pmatrix}
+\end{gather}
+となる. 
+点$x$を引数にとり, 勾配ベクトル$\nabla f(x)$を返すjuliaの関数は以下のコード\ref{code:2}の通り.
+
+\lstinputlisting[
+  caption=$f(x)$を出力する関数,
+  label=code:2,
+  linerange={7-14}
+]{question18/question18.jl}
+
+
+\subsection{xを入力として$\nabla^2 f(x)$を出力する関数の作成}
+\label{sec:q17-3}
+ヘッセ行列$\nabla^2 f(x)$は
+\begin{gather}
+  \nabla f(x) =
+  \begin{pmatrix}
+    2 + e^{x_0} & -2 \\
+    -2 & 12 x_1^2 + 2
+  \end{pmatrix}
+\end{gather}
+となる. 
+点$x$を引数にとり, ヘッセ行列$\nabla f(x)$を返すjuliaの関数は以下のコード\ref{code:3}の通り.
+
+\lstinputlisting[
+  caption=$\nabla^2 f(x)$を出力する関数,
+  label=code:3,
+  linerange={16-23}
+]{question18/question18.jl}
+
+
 
 
 \clearpage
