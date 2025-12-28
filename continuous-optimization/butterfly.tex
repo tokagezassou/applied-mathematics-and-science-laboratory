@@ -32,6 +32,14 @@
 \renewcommand{\thesubsection}{(\arabic{subsection})}
 \renewcommand{\thesection}{\arabic{section}}
 
+\newcounter{algonum}
+\newenvironment{algoitembox}[1]{%
+  \refstepcounter{algonum}% カウンターを1進める
+  \begin{itembox}[l]{(\thealgonum) #1}% タイトルに番号を表示
+}{%
+  \end{itembox}%
+}
+
 
 \begin{document}
 
@@ -84,7 +92,8 @@
 \label{sec:q15-2}
 二分法を用いて関数$f(x)$の零点を数値的に求める. 二分法のアルゴリズムは以下の通り. 
 
-\begin{itembox}[l]{二分法}
+\begin{algoitembox}{二分法}
+  \label{algo:bisec}
   \begin{description}
     \item[step 0:]$f(a_0)<0, f(b_0) \geq 0$を満たす初期点$a_0, b_0$を選び, 
     終了条件$\epsilon > 0$を決める. 
@@ -93,7 +102,7 @@
     \item[step 2:]$f(c_n) < 0$であれば$a_{n+1} = c_n,\ b_{b+1} = b_n$とし, 
     $f(c_n) \geq 0$であれば$a_{n+1} = a_n,\ b_{b+1} = c_n$として, step 1へ戻る. 
   \end{description}
-\end{itembox}
+\end{algoitembox}
 
 図\ref{fig:q15-1}のグラフの概形を元に, 初期値の組$a_0, b_0$の間にちょうど1つだけ零点が含まれるように初期値を設定した. 
 二分法で求めた関数$f(x)$の零点とその初期値の組は以下の表\ref{tab:q15-2}の通り. 
@@ -118,7 +127,8 @@
 \label{sec:q15-3}
 ニュートン法を用いて関数$f(x)$の零点を数値的に求める. ニュートン法のアルゴリズムは以下の通り. 
 
-\begin{itembox}[l]{ニュートン法}
+\begin{algoitembox}{ニュートン法}
+  \label{algo:old_newton}
   \begin{description}
     \item[step 0:]初期点$x_0$を選び, 終了条件$\epsilon > 0$を決める. 
     \item[step 1:]$\Delta x_n = \frac{-f(x_n)}{f'(x_n)}$とし, 
@@ -126,7 +136,7 @@
     \item[step 2:]求めた$x_{n+1}$が終了条件$|f(x_{n+1})| \leq \epsilon$を満たせば, $x_{n+1}$を零点として終了する. 
     満たさなければstep 1に戻る. 
   \end{description}
-\end{itembox}
+\end{algoitembox}
 
 図\ref{fig:q15-1}のグラフの概形を元に, 零点の近くに初期値を設定した. 
 ニュートン法で求めた関数$f(x)$の零点とその初期値の組は以下の表\ref{tab:q15-3}の通り. 
@@ -161,7 +171,8 @@
 再急降下法を用いて関数$f(x)$の停留点を数値的に求める. 再急降下法のアルゴリズムは以下の通り. 
 ただしステップサイズは一括で$t_n = \frac{1}{n+1}$とする. 
 
-\begin{itembox}[l]{再急降下法}
+\begin{algoitembox}{再急降下法}
+  \label{algo:sdm}
   \begin{description}
     \item[step 0:]初期点$x_0$を選び, 終了条件$\epsilon > 0$を決める. 
     \item[step 1:]$d_n = - \nabla f(x_n)$とし, ステップサイズ$t_n$を決定する. 
@@ -169,7 +180,7 @@
     求めた$x_{n+1}$が終了条件$|f(x_{n+1})| \leq \epsilon$を満たせば, $x_{n+1}$を零点として終了する. 
     満たさなければstep 1に戻る. 
   \end{description}
-\end{itembox}
+\end{algoitembox}
 
 再急降下法で求めた関数$f(x)$の停留点とその初期値の組は以下の表\ref{tab:q16-1}の通り. 
 
@@ -180,7 +191,6 @@
   \begin{tabular}[ht]{c c}
     \hline
     停留点 & 初期値 \\
-    \hline
     $3.0000$ & $x_0 = 0.50000$ \\
     \hline
   \end{tabular}
@@ -192,7 +202,8 @@
 再急降下法を用いて関数$f(x)$の停留点を数値的に求める. ニュートン法のアルゴリズムは以下の通り. 
 ただしステップサイズは一括で$t_n = 1.0$とする. 
 
-\begin{itembox}[l]{ニュートン法}
+\begin{algoitembox}{ニュートン法}
+  \label{algo:newton}
   \begin{description}
     \item[step 0:]初期点$x_0$を選び, 終了条件$\epsilon > 0$を決める. 
     \item[step 1:]$d_n = - \nabla^2 f(x_n)^{-1} \nabla f(x_n)$とし, ステップサイズ$t_n$を決定する. 
@@ -200,7 +211,7 @@
     求めた$x_{n+1}$が終了条件$|f(x_{n+1})| \leq \epsilon$を満たせば, $x_{n+1}$を零点として終了する. 
     満たさなければstep 1に戻る. 
   \end{description}
-\end{itembox}
+\end{algoitembox}
 
 ニュートン法で求めた関数$f(x)$の停留点とその初期値の組は以下の表\ref{tab:q16-2}の通り. 
 
@@ -211,7 +222,6 @@
   \begin{tabular}[ht]{c c}
     \hline
     停留点 & 初期値 \\
-    \hline
     $3.0000$ & $x_0 = 5.0000$ \\
     \hline
   \end{tabular}
@@ -279,6 +289,30 @@
   linerange={16-23}
 ]{question18/question18.jl}
 
+
+\section{課題18 バックトラック法を取り入れた2次元の最適化問題}
+\label{sec:q18}
+課題17の式\ref{eq:q17}の最適化問題の解を数値的に求める.
+その際にアルゴリズム\ref{algo:bisec}, \ref{algo:newton}のステップサイズ$t_n$を決める方法として, 
+以下のアルゴリズム\ref{algo:bt}のバックトラック法を採用する. 
+
+\begin{algoitembox}{バックトラック法}
+  \label{algo:bt}
+  \begin{description}
+    \item[step 0:]パラメータ$\xi \in (0,1),\ \rho \in (0,1)$及び初期ステップサイズ$\bar{t} > 0$を選ぶ. 
+    \item[step 1:]次式を満たすまで$t \gets \rho t$とする. 
+    \begin{gather}
+      f(x^n + t d^n) \geq f(x^n) + \xi t \langle d^n, \nabla f(x^n) \rangle
+    \end{gather}
+    \item[step 2:]上式を満たせば, $t_n = t$とする. 
+  \end{description}
+\end{algoitembox}
+
+今回は$\xi = 10^{-4},\ \rho = 0.5,\ \bar{t} = 1$と設定した. 
+
+
+\subsection{バックトラック法を取り入れた再急降下法による最適化問題の解の探索}
+\label{sec:q18-1}
 
 
 
