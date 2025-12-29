@@ -459,6 +459,34 @@ $J$最適解となる添字集合$J^k$と解$x^k$を逐次生成していくア�
   \end{description}
 \end{algoitembox}
 
+\subsection{凸二次計画問題の求解}
+\label{sec:add-4}
+凸二次計画問題\eqref{eq:add}として, 次のパラメータをもつ問題を考える. 
+\begin{align}
+  Q &=\begin{pmatrix}
+    2 & 0 \\
+    0 & 1
+  \end{pmatrix}
+  , \quad c = -\begin{pmatrix}
+    1 \\
+    1
+  \end{pmatrix} \\
+  A &= \begin{pmatrix}
+    1 & 1
+  \end{pmatrix}
+  , \quad b = 0
+\end{align}
+数値解$x^*$を求めるためにjuliaの最適化を行う標準的なパッケージJuMPと
+二次計画問題に適したソルバーIpoptを用いた. \\
+その結果最適解$x^*$は
+\begin{gather}
+  x^* = \begin{pmatrix}
+    0 \\
+    0
+  \end{pmatrix}
+\end{gather}
+と求まった. 
+
 
 \clearpage
 \section{実行環境}
