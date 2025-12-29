@@ -376,7 +376,88 @@ $w \in \mathbb{R}^n$は重みベクトルで$b \in \mathbb{R}^n$はバイアス�
 
 \subsection{凸二次計画問題の解法}
 \label{sec:add-3}
+凸二次計画問題の解法である双対法は以下の通り. 
+双対法は繰り返しのインデックスを$k = 0,1,...$とし, 
+$J$最適解となる添字集合$J^k$と解$x^k$を逐次生成していくアルゴリズムである. 
 
+\begin{algoitembox}{双対法}
+  \label{algo:dual}
+  \begin{description}
+    \item[step 0:]$J^0 = \emptyset$とし, 初期点$x^0$を制約条件を全く考慮しない場合の最小解とし, 
+    それに対応するラグランジュ乗数を$\bm{\lambda}_J^0$とし, 各$\lambda_j = 0, k = 0$とする. 
+
+    \item[step 1:]$J^k$最適解$x^k$が全ての不等式制約を満たしていれば, $x^k$を解として終了する. 
+    そうでなければ, $x^k$が満たしていない制約条件を1つ選び, その添え字を$s$とする. 
+    \item[step 2:]\begin{align}
+      H_J &= Q^{-1}(I - A_J A_J^+) \text{とし} \\
+      z^k &= - H_J a^s \\
+      r^k &= - A_J^+ a^s \\
+    \end{align} 
+    により探索方向$z^k$と$r^k$を定める. ただし$a^s$は行列$A$の第$s$行を表す行ベクトルである.
+
+    \item[step 3:]もし$z^k = 0$ならば$t_k^{(P)} = \infty$とおき, そうでなければ
+    \begin{gather}
+      \lambda_s = \frac{b_s - (a^s)^\top x^k}{-(a^s)^\top H_J a^s}
+    \end{gather}
+    により$\lambda_s$を定める. 
+    ただし$\hat{x}$は添え字$s$に対する不等式制約を満たしていない$J \cup \lbrace s \rbrace$準最適解である. \\
+    もし$r^k \geq 0$ならば$t_k^{(D)} = \infty$とおき, そうでなければ
+    \begin{align}
+      \hat{\lambda}_J &= -(A_J^\top Q^{-1} A_J)^{-1} b_J - A_J^+ c \\
+      t_k^{(D)} &= \min \Biggl\{- \frac{\hat{\lambda}_j}{r_j} 
+      \Biggm\vert r_j < 0, j \in J^k \rbrace \Biggr\}
+    \end{align}
+    により$t_k^{(D)}$を定める. $t_k = \min \Bigl\{ \lambda_s, t_k^{(D)} \Bigr\}$とする. 
+
+    \item[step 4:]もし$t_k = \infty$ならばこの凸二次計画問題\eqref{eq:add}には実行可能解が存在しないとして終了する. 
+    $t_k^{(D)} = \infty$のときに手順\ref{item:4-a}を実行し, そうでなければ手順\ref{item:4-b}を実行する. 
+    \begin{enumerate}[label=(\alph*), ref=(\alph*)]
+    \item 添字集合$J^k$からステップ幅$t_k^{(D)} = - \frac{\lambda_l^k}{r_l}$となる添字$l$を取り除いて
+    改めて$J^k$とおき, 
+    \begin{gather}
+      \lambda_j^k = 
+      \begin{cases}
+        \lambda_j^k - \frac{r_j \lambda_l^k}{r_l} & j \in J^k \\
+        \frac{\lambda_l^k}{r_l} & j = s \\
+        0 & \text{それ以外}
+      \end{cases}
+    \end{gather}
+    として, step 2へ戻る.
+    \label{item:4-a}
+
+    \item \begin{gather}
+      \begin{pmatrix}
+        \bar{x} \\
+        \bar{\bm{\lambda}}_J \\
+        \bar{\lambda}_s        
+      \end{pmatrix}
+    = \begin{pmatrix}
+        x^k \\
+        \bm{\lambda}_J^k \\
+        \lambda_s^k     
+      \end{pmatrix}
+    + t_k \begin{pmatrix}
+        z^k \\
+        r^k \\
+        1  
+      \end{pmatrix}
+    \end{gather}
+    とする. もし$\lambda_s < t_k^{(D)}$ならば手順\ref{item:4-b-1}を実行し, 
+    そうでなければ手順\ref{item:4-b-2}を実行する.
+    \begin{enumerate}[label=(b-\arabic*), ref=(b-\arabic*)]
+      \item $(x^{k+1}, \bm{\lambda}_J^{k+1}, \lambda_s^{k+1}) = (\bar{x}, \bar{\bm{\lambda}}_J, \bar{\lambda}_s), 
+      J^{k+1} = J^k \cup \lbrace s \rbrace$とおき, $k = k+1$としてstep 2へ戻る.
+      \label{item:4-b-1}
+
+      \item $(x^k, \bm{\lambda}_J^k, \bm{\lambda_s^k}) = (\bar{x}, \bar{\bm{\lambda}}_J, \bar{\lambda}_s)$とし,
+      添字集合$J^k$からステップ幅$t_k^{(D)} = - \frac{\lambda_l^k}{r_l}$となる添字$l$を取り除いて, 
+      改めて$J^k$とおいてstep 2へ戻る. 
+      \label{item:4-b-2}
+    \end{enumerate}
+    \label{item:4-b}
+\end{enumerate}
+  \end{description}
+\end{algoitembox}
 
 
 \clearpage
