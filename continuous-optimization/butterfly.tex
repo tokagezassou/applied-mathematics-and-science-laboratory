@@ -168,7 +168,8 @@
 \end{table}
 
 
-\section{課題16 再急降下法及びニュートン法による停留点探索}
+\clearpage
+\section{課題16 最急降下法及びニュートン法による停留点探索}
 \label{sec:q16}
 次の関数$f: \mathbb{R} \to \mathbb{R}$
 \begin{gather}
@@ -177,12 +178,12 @@
 の零点を数値的に求める. 
 
 
-\subsection{再急降下法による停留点の探索}
+\subsection{最急降下法による停留点の探索}
 \label{sec:q16-1}
-再急降下法を用いて関数$f(x)$の停留点を数値的に求める. 再急降下法のアルゴリズムは以下の通り. 
+最急降下法を用いて関数$f(x)$の停留点を数値的に求める. 最急降下法のアルゴリズムは以下の通り. 
 ただしステップサイズは一括で$t_n = \frac{1}{n+1}$とする. 
 
-\begin{algoitembox}{再急降下法}
+\begin{algoitembox}{最急降下法}
   \label{algo:sdm}
   \begin{description}
     \item[step 0:]初期点$x_0$を選び, 終了条件$\epsilon > 0$を決める. 
@@ -193,11 +194,11 @@
   \end{description}
 \end{algoitembox}
 
-再急降下法で求めた関数$f(x)$の停留点とその初期値の組は以下の表\ref{tab:q16-1}の通り. 
+最急降下法で求めた関数$f(x)$の停留点とその初期値の組は以下の表\ref{tab:q16-1}の通り. 
 
 \begin{table}[ht]
   \centering
-  \caption{再急降下法で求めた停留点}
+  \caption{最急降下法で求めた停留点}
   \label{tab:q16-1}
   \begin{tabular}[ht]{c c}
     \hline
@@ -210,7 +211,7 @@
 
 \subsection{ニュートン法による停留点の探索}
 \label{sec:q16-2}
-再急降下法を用いて関数$f(x)$の停留点を数値的に求める. ニュートン法のアルゴリズムは以下の通り. 
+最急降下法を用いて関数$f(x)$の停留点を数値的に求める. ニュートン法のアルゴリズムは以下の通り. 
 ただしステップサイズは一括で$t_n = 1.0$とする. 
 
 \begin{algoitembox}{ニュートン法}
@@ -224,6 +225,7 @@
   \end{description}
 \end{algoitembox}
 
+\clearpage
 ニュートン法で求めた関数$f(x)$の停留点とその初期値の組は以下の表\ref{tab:q16-2}の通り. 
 
 \begin{table}[ht]
@@ -322,11 +324,82 @@
 今回は$\xi = 10^{-4},\ \rho = 0.5,\ \bar{t} = 1$と設定した. 
 
 
-\subsection{バックトラック法を取り入れた再急降下法による最適化問題の解の探索}
+\subsection{バックトラック法を取り入れた最急降下法による最適化問題の解の探索}
 \label{sec:q18-1}
+アルゴリズム\ref{algo:sdm}の最急降下法のステップサイズの決め方にアルゴリズム\ref{algo:bt}を用いて
+式\eqref{eq:q17}の最適化問題の解を数値的に求めた. 
+その最適解, 最適値, 反復回数は以下の表\ref{tab:q18-1}の通り. 
+
+\begin{table}[ht]
+  \centering
+  \caption{最急降下法による式\ref{eq:q17}の数値計算結果}
+  \label{tab:q18-1}
+  \begin{tabular}[ht]{|c|c|}
+    \hline
+    最適解 & $(-0.73345, -0.49333)^\top$ \\
+    最適値 & $3.5971$ \\
+    反復回数 & 31回 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+
+\subsection{バックトラック法を取り入れたニュートン法による最適化問題の解の探索}
+\label{sec:q18-2}
+アルゴリズム\ref{algo:newton}の最急降下法のステップサイズの決め方にアルゴリズム\ref{algo:bt}を用いて
+式\eqref{eq:q17}の最適化問題の解を数値的に求めた. 
+その最適解, 最適値, 反復回数は以下の表\ref{tab:q18-2}の通り. 
+最適解及び最適値は, 2つの手法の間で有効数字9桁の範囲で一致していた. 
+
+\begin{table}[ht]
+  \centering
+  \caption{ニュートン法による式\ref{eq:q17}の数値計算結果}
+  \label{tab:q18-2}
+  \begin{tabular}[ht]{|c|c|}
+    \hline
+    最適解 & $(-0.73345, -0.49333)^\top$ \\
+    最適値 & $3.5971$ \\
+    反復回数 & 6回 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+
+\section{課題19 ニュートン法の修正}
+\label{sec:q19}
+アルゴリズム\ref{algo:newton}のニュートン法はヘッセ行列$\nabla^2 f(x_k)$が
+一様かつ正定値であるという仮定の下で実行しているが, 
+実際には一様正定値でない場合も多々ある. 
+その場合には, $\nabla^2 f(x_k)$の最小固有値(負の固有値の中で絶対値が最も大きいもの)を$\lambda_{min}$としたときに, 
+$\nabla^2 f(x_K)$の代わりに$\nabla^2 f(x_K) + \lambda_{min} + \alpha$
+($\alpha$は$10^{-1}$や$10^{-2}$などの定数)を用いて, ヘッセ行列$\nabla^2 f(x_k)$を正定値になるように補正している. \\
+\ref{sec:q18}章のニュートン法にこの修正を加えて, 他のアルゴリズム及び条件は同じにして最適化問題
+\begin{alignat}{2}
+  \label{eq:q19}
+  &\text{minimize} \quad && f(x) = \sum_{i=0}^{2} f_i(x)^2 \\
+  &\text{subject to} \quad  && x \in \mathbb{R}^2 \\
+\end{alignat}
+ただし,$f_i(x) = y_i - [x]_0 (1 - [x]_1^{i+1}) \ (i = 0,1,2)$と定義し, 
+$y_0 = 1.5,\ y_1 = 2.25,\ y_2 = 2.625$とする. \\
+数値計算で求めた最適解及び各手法の反復回数は, 以下の表\ref{tab:q19}の通り. 
+最適解及び最適値は, 2つの手法の間で有効数字7桁の範囲で一致していた. 
+
+\begin{table}[ht]
+  \centering
+  \caption{式\ref{eq:q19}の数値計算結果}
+  \label{tab:q19}
+  \begin{tabular}[ht]{|c|c|}
+    \hline
+    最適解 & $(3.0000, 0.50000)^\top$ \\
+    最急降下法の反復回数 & 791回 \\
+    ニュートン法の反復回数 & 5回 \\
+    \hline
+  \end{tabular}
+\end{table}
 
 
 
+\clearpage
 \section{追加課題 制約条件付き凸二次計画問題}
 \label{sec:add}
 目的関数が二次で制約条件が線形である、二次計画問題
