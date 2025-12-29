@@ -1,5 +1,6 @@
-\documentclass[uplatex,a4j]{jsarticle}
-\usepackage[dvipdfmx]{graphicx}
+% !TEX program = lualatex
+\documentclass[...]{ltjsarticle}
+\usepackage{graphicx}
 \usepackage{amsmath,ascmac}
 \usepackage{bm}
 \usepackage{algorithm,algorithmic}
@@ -8,9 +9,18 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{enumitem}
+\lstdefinelanguage{Julia}%
+  {morekeywords={abstract,break,case,catch,const,continue,do,else,elseif,end,export,false,for,function,immutable,import,importall,if,in,macro,module,quote,return,struct,true,try,type,typealias,using,while},%
+   sensitive=true,%
+   morecomment=[l]{\#},%      % # を \# に修正
+   morecomment=[s]{\#=}{=\#},% % # を \# に修正
+   morestring=[b]",%
+   morestring=[m]'%
+  }
 \lstset{%
-  language={C},
-  basicstyle={\small},%
+  language={Julia}, % Juliaをメインで使うならここを {Julia} にしてもOKです
+  basicstyle={\small\ttfamily}, % 読みやすさのため ttfamily を推奨
   identifierstyle={\small},%
   commentstyle={\small\itshape},%
   keywordstyle={\small\bfseries},%
@@ -18,13 +28,14 @@
   stringstyle={\small\ttfamily},
   frame={tb},
   breaklines=true,
-  columns=[l]{fullflexible},%
+  columns=fullflexible, % [l] を外すとより安定します
+  keepspaces=true, % スペースを維持
   numbers=left,%
-  xrightmargin=0zw,%
-  xleftmargin=3zw,%
+  xrightmargin=0pt, % 0zw から 0pt に変更
+  xleftmargin=3em,  % 3zw から 3em に変更（1zw ≒ 1em です）
   numberstyle={\scriptsize},%
   stepnumber=1,
-  numbersep=1zw,%
+  numbersep=1em,    % 1zw から 1em に変更
   lineskip=-0.5ex%
 }
 \renewcommand{\lstlistingname}{コード}
@@ -35,7 +46,7 @@
 \newcounter{algonum}
 \newenvironment{algoitembox}[1]{%
   \refstepcounter{algonum}% カウンターを1進める
-  \begin{itembox}[l]{(\thealgonum) #1}% タイトルに番号を表示
+  \begin{itembox}[l]{[\thealgonum] #1}% タイトルに番号を表示
 }{%
   \end{itembox}%
 }
@@ -244,8 +255,8 @@
 点$x$を引数にとり, 目的関数の値$f(x)$を返すjuliaの関数は以下のコード\ref{code:1}の通り.
 
 \lstinputlisting[
-  caption=$\nabla f(x)$を出力する関数,
-  label=code:1,
+  caption={f(x)を出力する関数},
+  label={code:1},
   linerange={1-5}
 ]{question18/question18.jl}
 
@@ -256,7 +267,7 @@
 \begin{gather}
   \nabla f(x) =
   \begin{pmatrix}
-    2 x_0 + e_{x_0} - 2 x_1 \\
+    2 x_0 + e^{x_0} - 2 x_1 \\
     4 x_1^3 + 2 x_1 - 2 x_0
   \end{pmatrix}
 \end{gather}
@@ -264,8 +275,8 @@
 点$x$を引数にとり, 勾配ベクトル$\nabla f(x)$を返すjuliaの関数は以下のコード\ref{code:2}の通り.
 
 \lstinputlisting[
-  caption=$f(x)$を出力する関数,
-  label=code:2,
+  caption={$\nabla f(x)$を出力する関数},
+  label={code:2},
   linerange={7-14}
 ]{question18/question18.jl}
 
@@ -274,25 +285,25 @@
 \label{sec:q17-3}
 ヘッセ行列$\nabla^2 f(x)$は
 \begin{gather}
-  \nabla f(x) =
+  \nabla^2 f(x) =
   \begin{pmatrix}
     2 + e^{x_0} & -2 \\
     -2 & 12 x_1^2 + 2
   \end{pmatrix}
 \end{gather}
 となる. 
-点$x$を引数にとり, ヘッセ行列$\nabla f(x)$を返すjuliaの関数は以下のコード\ref{code:3}の通り.
+点$x$を引数にとり, ヘッセ行列$\nabla^2 f(x)$を返すjuliaの関数は以下のコード\ref{code:3}の通り.
 
 \lstinputlisting[
-  caption=$\nabla^2 f(x)$を出力する関数,
-  label=code:3,
+  caption={$\nabla^2 f(x)$を出力する関数},
+  label={code:3},
   linerange={16-23}
 ]{question18/question18.jl}
 
 
 \section{課題18 バックトラック法を取り入れた2次元の最適化問題}
 \label{sec:q18}
-課題17の式\ref{eq:q17}の最適化問題の解を数値的に求める.
+課題17の式\eqref{eq:q17}の最適化問題の解を数値的に求める.
 その際にアルゴリズム\ref{algo:bisec}, \ref{algo:newton}のステップサイズ$t_n$を決める方法として, 
 以下のアルゴリズム\ref{algo:bt}のバックトラック法を採用する. 
 
@@ -313,6 +324,58 @@
 
 \subsection{バックトラック法を取り入れた再急降下法による最適化問題の解の探索}
 \label{sec:q18-1}
+
+
+
+\section{追加課題 制約条件付き凸二次計画問題}
+\label{sec:add}
+目的関数が二次で制約条件が線形である、二次計画問題
+\begin{alignat}{2}
+  \label{eq:add}
+  &\text{minimize} \quad && \frac{1}{2} x^\top Q x + c^\top x \\
+  &\text{subject to} \quad  && A x \leq b
+\end{alignat}
+を考える. ただし$Q \in \mathbb{R}^{n \times n}$は対称行列, $c \in \mathbb{R}^n$, 
+$A \in \mathbb{R}^{m \times n}$, $b \in \mathbb{R}^m$である. 
+
+\subsection{二次計画問題の例}
+\label{sec:add-1}
+データを2種類に分類する機械学習は, 
+データが全て正しい側に配置されているという線形の制約条件のもとで, 
+重みベクトル$w = (w_1, w_2, ..., w_n)^\top$の大きさの二乗
+$\| w \|^2 = w_1^2 + w_2^2 + ,,,+ w_n^2$を最小化する問題である. 
+この問題は次のように定式化できる.
+\begin{alignat}{2}
+  \label{eq:svm}
+  &\text{minimize} \quad  &&  \frac{1}{2}\| w \|^2 \\
+  &\text{subject to} \quad  && y_i(w^\top x_i + b) \geq 1 \ (i = 1,2,...,n)
+\end{alignat}
+ただし$x_i \in \mathbb{R}^n$は$i$番目のデータの特徴ベクトルで, $y_i$はその正しいクラス, 
+$w \in \mathbb{R}^n$は重みベクトルで$b \in \mathbb{R}^n$はバイアスを表す\cite{svm}. \\
+(文献と授業で習った記憶を整合したのですが, その場合はどう書けばいいでしょうか)
+
+\subsection{目的関数が凸であることの重要性}
+\label{sec:add-2}
+二次計画問題\eqref{eq:add}の行列$Q$の固有値が全て非負のとき, その目的関数を凸関数といい, 
+二次計画問題\eqref{eq:add}を凸二次計画問題という. 
+凸計画問題に対しては, 一般の最適化問題と違って
+\begin{enumerate}[label=(\alph*), ref=(\alph*)]
+    \item 局所最小解が大域最小解になる \label{item:a}
+    \item 最適性の条件を満たす点が大域最小解になる \label{item:b}
+    \item 双対問題が元の凸計画問題と同じ最適値をもつ \label{item:c}
+\end{enumerate}
+という性質がある. 
+特に\ref{item:a}, \ref{item:b}について, 
+局所最小解や最適性の条件を満たす点を求めることは大域最小解を求めることよりも簡単なため, 
+凸二次計画問題の解法は一般の二次計画問題よりも簡単になる. 
+また\ref{item:c}について, 双対問題は元の問題と比べて扱いやすい性質があるので, 
+理論的にも実用的にも考えやすくなる. 
+逆に一般の二次計画問題には\ref{item:a}-\ref{item:c}の性質がなく, 上記のような問題の簡単化ができないため, 
+凸二次計画問題と比べて難しくなる\cite{nonlinear}. 
+
+
+\subsection{凸二次計画問題の解法}
+\label{sec:add-3}
 
 
 
@@ -337,6 +400,19 @@
 
 \section{参考文献}
 \label{sec:ref}
+\begin{thebibliography}{9} % {9} は文献数が1桁（1〜9個）の場合のインデント幅。10〜99個なら {99}。
+
+\bibitem{svm}
+Kenta Nakamura, 『機械学習の定番「サポートベクターマシン（SVM）」を高校生でもわかるよう解説』, 
+https://qiita.com/c60evaporator/items/8864f7c1384a3c6e9bd9, 
+最終更新日:2022/03/24, 閲覧日2025/12/28.
+
+\bibitem{nonlinear}
+山下信雄, 『非線形計画法』, 朝倉書店, 2015, pp.36-37,91-102.
+
+
+\end{thebibliography}
+
 数値計算のためのコードで誤っている箇所の修正, 及びより良い書き方の勉強のため, 
 Gemini 3.0 Proを使用した.
 
