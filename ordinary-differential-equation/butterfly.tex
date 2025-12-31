@@ -78,7 +78,9 @@
 
 \section{課題2 常微分方程式の数値計算法の構成}
 \label{sec:q2}
-4次のAdams-Bashforth法及び4次のAdams-Moulton法は式\eqref{eq:ab}, \eqref{eq:am}の通り. 
+常微分方程式
+
+4次のAdams-Bashforth法及び4次のAdams-Moulton法は式\eqref{eq:ab}, \eqref{eq:am}の通りである. 
 ただし特に引数を明記しない限り$f_k = f_k(t_k, u_k)$とする. 
 \begin{align}
   u_n &\approx u_{n-1} + \frac{\Delta t}{24} (55f_{n-1} - 59f_{n-2} + 37f_{n-3} - 9f_{n-4})
@@ -86,7 +88,7 @@
   u_n &\approx u_{n-1} + \frac{\Delta t}{24} (9f_n + 19f_{n-1} - 5f_{n-2} + f_{n-3})
   \label{eq:am}
 \end{align}
-また式\eqref{eq:ab}, \eqref{eq:am}を用いた予測子・修正子法は式\eqref{eq:q2}の通り. 
+また式\eqref{eq:ab}, \eqref{eq:am}を用いた予測子・修正子法は式\eqref{eq:q2}の通りである. 
 
 \begin{align}
   \begin{cases}
@@ -116,7 +118,7 @@
 と表され, 右辺の$i$が大きくなるほど$p$の値は次数に近づく. \\
 
 前進Euler法, 2次及び3次のAdams-Bashforth法, Heun法, 4次のRunge-Kutta法の
-計算次数の漸近の様子は図\ref{fig:q3}の通りで, 最終的な計算次数は表\ref{tab:q3}の通り.
+計算次数の漸近の様子は図\ref{fig:q3}の通りであるで, 最終的な計算次数は表\ref{tab:q3}の通りである.
 
 \begin{figure}[ht]
   \centering
@@ -172,7 +174,7 @@ $t \in [0, \infty]$における常微分方程式の初期値問題
 \end{gather}
 である. \\
 実際の数値計算は$\Delta t = 0.5, 1.5$の2種類の値で$t \in [0, 50]$の範囲で実行した. 
-$\Delta t = 0.5$及び$\Delta t = 1.5$のときの解の挙動は, それぞれ\ref{fig:q4-1}, \ref{fig:q4-2}の通り. 
+$\Delta t = 0.5$及び$\Delta t = 1.5$のときの解の挙動は, それぞれ\ref{fig:q4-1}, \ref{fig:q4-2}の通りである. 
 いずれの場合でもCrank-Nicolson法で求めた数値解は解析解と同じ挙動で収束している. 
 一方Heun法で求めた数値解は, $\Delta t = 1.5$の場合に指数関数のオーダーで発散していることが確認できる. 
 
@@ -227,7 +229,7 @@ $\Delta t = 0.5$及び$\Delta t = 1.5$のときの解の挙動は, それぞれ\
 \end{align}
 であるので, この解法は常に不安定である. \\
 実際の数値計算は$\Delta t = 0.1$として$t \in [0, 10]$の範囲で実行した. 
-その結果は図\ref{fig:q5}の通り. 
+その結果は図\ref{fig:q5}の通りである. 
 真の解は収束しているのに対し, この計算方法で求めた数値解は指数関数のオーダーで発散している. 
 
 \begin{figure}[ht]
@@ -246,7 +248,7 @@ $t \in [0, \infty]$における常微分方程式の初期値問題
 \end{gather}
 を考える. 
 数値計算は$\Delta t = 0.01$として$t \in [0, 1.2]$の範囲で, 
-初期値を$u_0 = 0.5, 1.0, 1.5$の3通りで実行した. その結果は図\ref{fig:q6}の通り.
+初期値を$u_0 = 0.5, 1.0, 1.5$の3通りで実行した. その結果は図\ref{fig:q6}の通りである.
 $u_0 = 0.5, 1.0$の場合は一定の値に収束しているのに対し, $u_0 = 1.5$の場合は$t = 1.1$付近で急激に値が増加している. 
 
 \begin{figure}[ht]
@@ -270,7 +272,7 @@ $u_0 = 0.5, 1.0$の場合は一定の値に収束しているのに対し, $u_0 
 \subsection{解の非周期的な長時間挙動}
 \label{sec:7-1}
 本節では$\epsilon = 0$として考える. 
-時間に対する$x(t)$挙動及び$(x(t), y(t), z(t))$の挙動は, それぞれ図\ref{fig:q7-1a}, \ref{fig:q7-1b}の通り. 
+時間に対する$x(t)$挙動及び$(x(t), y(t), z(t))$の挙動は, それぞれ図\ref{fig:q7-1a}, \ref{fig:q7-1b}の通りである. 
 確かに解の挙動は複雑で, カオスになっていることが確認できる. 
 
 \begin{figure}[ht]
@@ -293,7 +295,7 @@ $u_0 = 0.5, 1.0$の場合は一定の値に収束しているのに対し, $u_0 
 本節では$\epsilon = 0$として考える. 
 $\Delta t = 0.01 \times 2^{-i}, \ i = 0, 1, ... , 13$として, 
 前進Euler法とRunge-Kutta法を用いてLorenz方程式の数値解を計算した. 
-$t = 15, 30, 60$における$i$と数値解$x(t)$の関係は, 図\ref{fig:q7-2a}, \ref{fig:q7-2b}, \ref{fig:q7-2c}の通り. 
+$t = 15, 30, 60$における$i$と数値解$x(t)$の関係は, 図\ref{fig:q7-2a}, \ref{fig:q7-2b}, \ref{fig:q7-2c}の通りである. 
 $t = 15$では$i$が大きくなる, つまり$\Delta t$が小さくなるにつれて, $x(t)$は一定の値に収束している. 
 $t = 30$ではRunge-Kutta法で計算した数値解は同様に収束しているが, 前進Euler法で計算した数値解は値が定まっていない. 
 $t = 60$ではいずれの方法で求めた数値解も値が定まっていない. 
@@ -325,7 +327,7 @@ $t = 60$ではいずれの方法で求めた数値解も値が定まっていな
 \label{sec:7-3}
 Lorenz方程式の初期値のパラメータである$\epsilon$の値を$\epsilon = 0, 0.1, 0.01, 0.001$と変化させて解を計算した. 
 数値計算は$\Delta t = 0.001$として$t \in [0, 100]$の範囲で実行した. 
-数値計算の結果は図\ref{fig:q7-3}の通り. 
+数値計算の結果は図\ref{fig:q7-3}の通りである. 
 初期値はほとんど変化していないが数値解の振舞いは大きく異なっており, カオスが確認できる. 
 
 \begin{figure}[ht]
@@ -338,7 +340,7 @@ Lorenz方程式の初期値のパラメータである$\epsilon$の値を$\epsil
 \clearpage
 \section{実行環境}
 \label{sec:env}
-本課題の実行環境は表\ref{tab:env}の通り.
+本課題の実行環境は表\ref{tab:env}の通りである.
 
 \begin{table}[ht]
   \centering
