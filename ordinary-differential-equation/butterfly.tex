@@ -78,7 +78,7 @@
 
 \section{課題2 常微分方程式の数値計算法の構成}
 \label{sec:q2}
-4次のAdams-Bashforth法及び4次のAdams-Moulton法は式\eqref:ab}, \eqref:am}の通り. 
+4次のAdams-Bashforth法及び4次のAdams-Moulton法は式\eqref{eq:ab}, \eqref{eq:am}の通り. 
 ただし特に引数を明記しない限り$f_k = f_k(t_k, u_k)$とする. 
 \begin{align}
   u_n &\approx u_{n-1} + \frac{\Delta t}{24} (55f_{n-1} - 59f_{n-2} + 37f_{n-3} - 9f_{n-4})
@@ -86,7 +86,7 @@
   u_n &\approx u_{n-1} + \frac{\Delta t}{24} (9f_n + 19f_{n-1} - 5f_{n-2} + f_{n-3})
   \label{eq:am}
 \end{align}
-また式\eqref:ab}, \eqref:am}を用いた予測子・修正子法は式\eqref:q2}の通り. 
+また式\eqref{eq:ab}, \eqref{eq:am}を用いた予測子・修正子法は式\eqref{eq:q2}の通り. 
 
 \begin{align}
   \begin{cases}
