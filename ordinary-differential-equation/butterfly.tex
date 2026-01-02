@@ -1,5 +1,6 @@
-\documentclass[uplatex,a4j]{jsarticle}
-\usepackage[dvipdfmx]{graphicx}
+% !TEX program = lualatex
+\documentclass[...]{ltjsarticle}
+\usepackage{graphicx}
 \usepackage{amsmath,ascmac}
 \usepackage{bm}
 \usepackage{algorithm,algorithmic}
@@ -8,9 +9,18 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{enumitem}
+\lstdefinelanguage{Julia}%
+  {morekeywords={abstract,break,case,catch,const,continue,do,else,elseif,end,export,false,for,function,immutable,import,importall,if,in,macro,module,quote,return,struct,true,try,type,typealias,using,while},%
+   sensitive=true,%
+   morecomment=[l]{\#},%      % # を \# に修正
+   morecomment=[s]{\#=}{=\#},% % # を \# に修正
+   morestring=[b]",%
+   morestring=[m]'%
+  }
 \lstset{%
-  language={C},
-  basicstyle={\small},%
+  language={Julia}, % Juliaをメインで使うならここを {Julia} にしてもOKです
+  basicstyle={\small\ttfamily}, % 読みやすさのため ttfamily を推奨
   identifierstyle={\small},%
   commentstyle={\small\itshape},%
   keywordstyle={\small\bfseries},%
@@ -18,13 +28,14 @@
   stringstyle={\small\ttfamily},
   frame={tb},
   breaklines=true,
-  columns=[l]{fullflexible},%
+  columns=fullflexible, % [l] を外すとより安定します
+  keepspaces=true, % スペースを維持
   numbers=left,%
-  xrightmargin=0zw,%
-  xleftmargin=3zw,%
+  xrightmargin=0pt, % 0zw から 0pt に変更
+  xleftmargin=3em,  % 3zw から 3em に変更（1zw ≒ 1em です）
   numberstyle={\scriptsize},%
   stepnumber=1,
-  numbersep=1zw,%
+  numbersep=1em,    % 1zw から 1em に変更
   lineskip=-0.5ex%
 }
 \renewcommand{\lstlistingname}{コード}
@@ -79,17 +90,37 @@
 \section{課題2 常微分方程式の数値計算法の構成}
 \label{sec:q2}
 常微分方程式
-
-4次のAdams-Bashforth法及び4次のAdams-Moulton法は式\eqref{eq:ab}, \eqref{eq:am}の通りである. 
-ただし特に引数を明記しない限り$f_k = f_k(t_k, u_k)$とする. 
+\begin{gather}
+  u' = f(t, u(t)), \quad u(0) = u_0
+\end{gather}
+を$t \in [t_{n-1}, t_n]$の範囲で積分すると
+\begin{gather}
+  u_n - u_{n-1} = \int_{t_{n-1}}^{t_n} f(\tau, u(\tau)) d\tau
+  \label{eq:int}
+\end{gather}
+となる. この被積分関数$f$を$\tau$に関する$N$次多項式$p_N(\tau)$で近似することを考える. 
+例えば$N=3$として3次関数で近似する場合, 
+$p_N(\tau)$をLagrange補間で構成するには4つの点が必要である. 
+陽解法であるAdams-Bashforth法は4つの点を
+$(t_{n-1}, f_{n-1}), (t_{n-2}, f_{n-2}), (t_{n-3}, f_{n-3}), (t_{n-4}, f_{n-4})$
+とし, 被積分関数を
 \begin{align}
-  u_n &\approx u_{n-1} + \frac{\Delta t}{24} (55f_{n-1} - 59f_{n-2} + 37f_{n-3} - 9f_{n-4})
-  \label{eq:ab} \\
-  u_n &\approx u_{n-1} + \frac{\Delta t}{24} (9f_n + 19f_{n-1} - 5f_{n-2} + f_{n-3})
-  \label{eq:am}
+  p_N(\tau) &= L_1 f_{n-1} + L_2 f_{n-2} + L_3 f_{n-3} + L_4 f_{n-4} \\
+  \text{ただし } L_j &= \prod_{k=1, k \neq j}^{4} \frac{\tau - t_{n-k}}{t_{n-j} - t_{n-k}},\ (j = 1,2,3,4)
 \end{align}
-また式\eqref{eq:ab}, \eqref{eq:am}を用いた予測子・修正子法は式\eqref{eq:q2}の通りである. 
-
+として式\eqref{eq:int}の積分を計算することで, 次の式\eqref{eq:ab}の通りに構成される. 
+\begin{gather}
+  u_n \approx u_{n-1} + \frac{\Delta t}{24} (55f_{n-1} - 59f_{n-2} + 37f_{n-3} - 9f_{n-4})
+  \label{eq:ab}
+\end{gather}
+陰解法であるAdams-Moulton法は場合は点の取り方を
+$(t_n, f_n), (t_{n-1}, f_{n-1}), (t_{n-2}, f_{n-2}), (t_{n-3}, f_{n-3})$
+として同様に計算することで, 次の式\eqref{eq:am}の通りに構成される. 
+\begin{gather}
+  u_n \approx u_{n-1} + \frac{\Delta t}{24} (9f_n + 19f_{n-1} - 5f_{n-2} + f_{n-3})
+  \label{eq:am}
+\end{gather}
+また式\eqref{eq:ab}, \eqref{eq:am}を用いた予測子・修正子法は次の式\eqref{eq:q2}の通りに構成される. 
 \begin{align}
   \begin{cases}
     u_n^* &\approx u_{n-1} + \frac{\Delta t}{24} (55f_{n-1} - 59f_{n-2} + 37f_{n-3} - 9f_{n-4}) \\
@@ -118,12 +149,15 @@
 と表され, 右辺の$i$が大きくなるほど$p$の値は次数に近づく. \\
 
 前進Euler法, 2次及び3次のAdams-Bashforth法, Heun法, 4次のRunge-Kutta法の
-計算次数の漸近の様子は図\ref{fig:q3}の通りであるで, 最終的な計算次数は表\ref{tab:q3}の通りである.
+計算次数の漸近の様子は図\ref{fig:q3}の通りである. 
+また$i=8$における$p$の値と理論上の計算次数との比較は表\ref{tab:q3}の通りである. 
+図\ref{fig:q3}より$i$の値が大きくなってステップ数が増えるほど, 数値的に求めた計算次数$p$は理論上の値に近づいており, 
+表\ref{tab:q3}$i=8$の段階では$p$の値は理論上の計算次数とほぼ一致している. 
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.8\textwidth]{question3/q3.png}
-  \caption{計算法の次数}
+  \caption{計算法の次数の漸近}
   \label{fig:q3}
 \end{figure}
 
@@ -131,13 +165,15 @@
   \centering
   \caption{計算法の次数}
   \label{tab:q3}
-  \begin{tabular}[ht]{c c}
+  \begin{tabular}[ht]{c c c}
     \hline
-    前進Euler法 & 1次 \\
-    2次のAdams-Bashforth法 & 2次 \\
-    3次のAdams-Bashforth法 & 3次 \\
-    Heun法 & 2次 \\
-    4次のRunge-Kutta法 & 4次 \\
+    計算法 & $p$の値 & 計算次数 \\
+    \hline
+    前進Euler法 & 0.99486 & 1次 \\
+    2次のAdams-Bashforth法 & 1.9965 & 2次 \\
+    3次のAdams-Bashforth法 & 2.9940 & 3次 \\
+    Heun法 & 1.9965 & 2次 \\
+    4次のRunge-Kutta法 & 3.9943 & 4次 \\
     \hline
   \end{tabular}
 \end{table}
@@ -153,16 +189,53 @@ $t \in [0, \infty]$における常微分方程式の初期値問題
 \begin{gather}
   u_n \approx u_{n-1} + \frac{\Delta t}{2} [(-2u_{n-1} + 1) + (-2u_n + 1)]
 \end{gather}
-で表され, $u_n \approx a_1 u_{n^1} + a_0$の形に変形すると, 
+で表され, $u_n \approx a_1 u_{n-1} + a_0$の形に変形すると, 
 \begin{gather}
   a_1 = \frac{1 - \Delta t}{1 + \Delta t}
 \end{gather}
 となる. ここで$\Delta t \geq 0$より, 常に$|a_1| \leq 0$である. 
-つまりCrank-Nicolson法は$\Delta t$の値によらず常に安定である. \\
-一方1次のAdams-Bashforth法と2次のAdams-Moulton法を組み合わせた予測子・修正子法, すなわちHeun法は
+つまりCrank-Nicolson法は$\Delta t$の値によらず常に安定である.
+
+また2次のAdams-Bashforth法と3次のAdams-Moulton法を組み合わせた予測子・修正子法は
 \begin{align}
-  u_n &\approx u_{n-1} + \frac{\Delta t}{2} {-2(u_{n-1} - 2\Delta t u_{n-1} - 2 u_{n-1})} + const \\
-  &= (\frac{1}{2}x^2 - x + 1)u_{n-1} + const \ \text{(ただし$x = 2\Delta t$)}
+  \begin{cases}
+    u_n^* &\approx u_{n-1} + \frac{\Delta t}{2} [3(-2 u_{n-1} + 1) - (-2 u_{n-2} + 1)] \\
+    u_n &\approx u_{n-1} + \frac{\Delta t}{12} [5(-2 u_n^* + 1) + 8(-2 u_{n-1} + 1) - (-2 u_{n-2} + 1)]
+  \end{cases}
+\end{align}
+で表され, 整理すると
+\begin{gather}
+  u_n = \left( 1 - \frac{13}{6}\Delta t + \frac{5}{2}\Delta t^2 \right)u_{n-1} 
+  + \left( \frac{1}{6}\Delta t - \frac{5}{6}\Delta t^2 \right)u_{n-2} 
+  + (\Delta t - \frac{5}{6}\Delta t^2)
+\end{gather}
+となる. 
+予測子・修正子法が安定であるための必要十分条件は, 特性方程式
+\begin{gather}
+  P(\lambda) = \lambda^2 
+  - \left( 1 - \frac{13}{6}\Delta t + \frac{5}{2}\Delta t^2 \right)\lambda 
+  - \left( \frac{1}{6}\Delta t - \frac{5}{6}\Delta t^2 \right) 
+  = 0
+\end{gather}
+の2解$\lambda_1, \lambda_2$が$|\lambda_1| \leq 1,\ |\lambda_2| \leq 1$を満たすことである. 
+Juryの判定法を用いると安定であるための必要十分条件は
+\begin{gather}
+  \begin{cases}
+    P(1) \geq 0 \\
+    P(-1) \leq 0 \\
+    -1 \leq \frac{1}{6}\Delta t - \frac{5}{6}\Delta t^2 \leq 1
+  \end{cases}
+\end{gather}
+書き換えられるので, これを解いて予測子修正子法が安定する$\Delta t$の範囲は
+\begin{gather}
+  0 \leq \Delta t \leq 1.2
+\end{gather}
+と求まる. 
+
+またHeun法は
+\begin{align}
+  u_n &\approx u_{n-1} + \frac{\Delta t}{2} {-2(u_{n-1} - 2\Delta t u_{n-1} - 2 u_{n-1})} + \text{const} \\
+  &= (\frac{1}{2}x^2 - x + 1)u_{n-1} + \text{const} \ \text{(ただし$x = 2\Delta t$)}
 \end{align}
 で表され,
 \begin{gather}
