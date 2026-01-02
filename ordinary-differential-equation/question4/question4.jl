@@ -13,8 +13,8 @@ end
 
 #予測子・修正子法
 function predictor_corrector(u_est, f_m1, f_m2, delta_t, t)
-    u_est_star = u_est + delta_t / 2 * (3*f_m1 + f_m2)
-    u_est += delta_t / 12 * (5*u_prime(t, u_est_star) + 8*f_m1 ^ f_m2)
+    u_est_star = u_est + delta_t / 2 * (3*f_m1 - f_m2)
+    u_est += delta_t / 12 * (5*u_prime(t, u_est_star) + 8*f_m1 - f_m2)
 
     f_m2 = f_m1
     f_m1 = u_prime(t, u_est)
@@ -43,10 +43,13 @@ function main()
             u_est_cn = u_0
             u_est_pc = u_0
             u_est_h = u_0
-            f_m1_cn = (u_0 - 1/2) * exp(-2 * t) + 1/2
-            f_m1_pc = (u_0 - 1/2) * exp(-2 * t) + 1/2
-            f_m2_pc = (u_0 - 1/2) * exp(-2 * (t - delta_t)) + 1/2
-            f_m1_h = (u_0 - 1/2) * exp(-2 * t) + 1/2
+            
+            f_m1_cn = u_prime(t, u_est_cn)
+            f_m1_pc = u_prime(t, u_est_pc)
+            f_m1_h  = u_prime(t, u_est_h)
+
+            u_true_prev = (u_0 - 0.5) * exp(-2.0 * (t - delta_t)) + 0.5
+            f_m2_pc = u_prime(t - delta_t, u_true_prev)
 
             while t < 50
                 t += delta_t
