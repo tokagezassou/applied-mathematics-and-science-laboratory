@@ -18,16 +18,16 @@ end
 
 function main()
     open("output.dat", "w") do f
-        u_0_map = [0.50, 1.0, 1.50]
+        u_0_map = [0.9, 1.0, 1.1]
         for i in 1:3
             u_0 = u_0_map[i]
-            delta_t = 0.001
+            delta_t = 0.01
             u_est = u_0
             t = 0.0
 
             println(f, "----- u_0 = $u_0 -----")
 
-            while t < 1.2
+            while t < 3
                 t += delta_t
                 u_est = runge_kutta(u_est, delta_t, t)
 
