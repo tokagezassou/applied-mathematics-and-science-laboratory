@@ -97,7 +97,7 @@
 \State bestP := $\emptyset$
 \State minWeight := $\infty$
 \\
-\Function{FindMinPath}{$P, u,$ currentWeight}
+\Function{FindShortestPath}{$P, u,$ currentWeight}
   \State $P$.push($u$);
   \If{$u = t$}
     \If{currentWeight < minWeight}
@@ -106,14 +106,14 @@
     \EndIf
   \Else
     \For{$(u,v) \in E ,\ v \notin P$}
-      \State FindMinPath($P, v, \text{currentWeight} + d(u, v)$)   
+      \State FindShortestPath($P, v, \text{currentWeight} + d(u, v)$)   
     \EndFor
   \EndIf
   \State $P$.pop()
 \EndFunction
 \\
 \State $P := \emptyset$
-\State FindMinPath($P, s, 0$)
+\State FindShortestPath($P, s, 0$)
 \Output{bestP, minWeight}
 \end{algorithmic}
 \end{algorithm}
