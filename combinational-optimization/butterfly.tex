@@ -53,7 +53,8 @@
 \algrenewcommand\algorithmicwhile{\textbf{while}}
 \algrenewcommand\algorithmicprocedure{\textbf{procedure}}
 \algrenewcommand\algorithmicfunction{\textbf{function}}
-\algrenewcommand\algorithmicreturn{\textbf{return}}
+\algnewcommand\algorithmicreturnvalue{\textbf{return}}
+\algnewcommand\ReturnValue[1]{\State \algorithmicreturnvalue\ #1}
 \algnewcommand\algorithmicoutput{\textbf{output}}
 \algnewcommand\Output[1]{\State \algorithmicoutput\ #1}
 \algrenewcommand\algorithmicend{\textbf{end}}
@@ -104,20 +105,89 @@
       \State minWeight $:=$ currentWeight
       \State bestP $:= P$
     \EndIf
+    \ReturnValue{bestP, minWeight}
   \Else
     \For{$(u,v) \in E ,\ v \notin P$}
       \State FindShortestPath($P, v, \text{currentWeight} + d(u, v)$)   
     \EndFor
   \EndIf
+  \\
   \State $P$.pop()
+  \ReturnValue{bestP, minWeight}
 \EndFunction
 \\
 \State $P := \emptyset$
-\State FindShortestPath($P, s, 0$)
+\State bestP, minWeight = FindShortestPath($P, s, 0$)
 \Output{bestP, minWeight}
 \end{algorithmic}
 \end{algorithm}
 
+
+\section{課題3 効率よく最短路を求めるための限定操作アルゴリズムの設計}
+\label{sec:q3}
+現状の重みの和 + 現状のパスに含まれない節点から伸びている負の枝重みの総和
+が暫定値を上回れば刈り
+
+\begin{algorithm}
+\caption{現在のパスの下界値テスト}
+\begin{algorithmic}[1]
+\Function{IsBounded}{$P$, currentWeight, minWeight}
+\State negativePaths := \{ $(u,v) \in E \ |\
+u \in V \backslash P.\text{pop()} ,\ v \in V \backslash P$ \}
+\State lowerBound $:=$ currentWeight
+\For{np $\in$ negativePaths}
+  \State  lowerBound += np.weight
+\EndFor
+\ReturnValue{lowerBound $\geq$ minWeight} \Comment{限定操作をするかをboolで返す}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}
+\caption{限定操作を用いて有効グラフの最短路を効率的に求める}
+\begin{algorithmic}[1]
+\State bestP := $\emptyset$
+\State minWeight := $\infty$
+\\
+\Function{FindShortestPath}{$P, u,$ currentWeight}
+  \State $P$.push($u$);
+  \If{IsBounded($P$, currentWeight, minWeight)} 
+    \State $P$.pop();
+    \ReturnValue{bestP, minWeight} \Comment{ここで探索を打ち切る}
+  \EndIf
+  \\
+  \If{$u = t$}
+    \If{currentWeight < minWeight}
+      \State minWeight $:=$ currentWeight
+      \State bestP $:= P$
+    \EndIf
+    \ReturnValue{bestP, minWeight}
+  \Else
+    \For{$(u,v) \in E ,\ v \notin P$}
+      \State FindShortestPath($P, v, \text{currentWeight} + d(u, v)$)   
+    \EndFor
+  \EndIf
+  \\
+  \State $P$.pop()
+  \ReturnValue{bestP, minWeight}
+\EndFunction
+\\
+\Function{IsBounded}{$P$, currentWeight, minWeight}
+\State negativePaths := \{ $(u,v) \in E \ |\
+u \in V \backslash P.\text{pop()} ,\ v \in V \backslash P$ \}
+\State lowerBound $:=$ currentWeight
+\For{np $\in$ negativePaths}
+  \State  lowerBound += np.weight
+\EndFor
+\ReturnValue{lowerBound $\geq$ minWeight} \Comment{限定操作をするかをboolで返す}
+\EndFunction
+\\
+\State $P := \emptyset$
+\State bestP, minWeight = FindShortestPath($P, s, 0$)
+\Output{bestP, minWeight}
+\end{algorithmic}
+\end{algorithm}
 
 
 
