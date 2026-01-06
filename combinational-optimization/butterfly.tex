@@ -196,14 +196,34 @@ Algorithm \ref{algo:q1}を用いて,
 \end{table}
 
 
-
+\clearpage
 \section{課題3 効率よく最短路を求めるための限定操作アルゴリズムの設計}
 \label{sec:q3}
-現状の重みの和 + 現状のパスに含まれない節点から伸びている負の枝重みの総和
-が暫定値を上回れば刈り
+\ref{sec:q1}のアルゴリズムでは節点数や枝の密度が増えたときに組合せ爆発が起こり, 
+計算コストが著しく増加した. 
+そのため本章では効率よく最短路を求めるため, 限定操作のアルゴリズムを設計した. 
+設計したものはAlgorithm \ref{algo:q3-1}の疑似コードの通り. 
+現在のパスを延長してできる任意のパスの重みは, 
+現在のパスにつながっていない枝のうち重みが負のものを全て加えた値よりも大きくなる. 
+つまり現在のパスを$P$, 現在の点を$p$, 現在のパスの重みを$w$とすると, 
+そこから延長してできるパスの重みの下界値$b$は
+\begin{align}
+  b &= w + \sum_{(u,v) \in \hat{E}} d(u,v) \\
+  \hat{E} &= \{ (u,v) \in E \ |\ 
+  u \in V \backslash (P \backslash p),\ v \in V \backslash P \}
+\end{align}
+となる. 
+この下界値$b$が現在の最短路の重みである暫定値以上になれば, 
+現在の最短路が更新されることはないため, それ以降の探索を打ち切る. \\
+この限定操作を組み込んだ全体のアルゴリズムはAlgorithm \ref{algo:q3-2}の疑似コードの通り. 
+限定操作によって探索を打ち切るかどうかの判定を, 新しく点を探索するたびに行っている. 
+そして打ち切るとなった場合は現時点での最短路を更新せずにそのまま返している. 
+
+
 
 \begin{algorithm}
 \caption{現在のパスの下界値テスト}
+\label{algo:q3-1}
 \begin{algorithmic}[1]
 \Function{IsBounded}{$P$, currentWeight, minWeight}
 \State negativePaths := \{ $(u,v) \in E \ |\
@@ -220,6 +240,7 @@ u \in V \backslash P.\text{pop()} ,\ v \in V \backslash P$ \}
 
 \begin{algorithm}
 \caption{限定操作を用いて有効グラフの最短路を効率的に求める}
+\label{algo:q3-2}
 \begin{algorithmic}[1]
 \State bestP := $\emptyset$
 \State minWeight := $\infty$
