@@ -151,8 +151,9 @@ Algorithm \ref{algo:q1}を用いて,
 計算時間も探索したノード数も, 節点数及び枝の密度が多くなるほど増加しており, 
 その増加割合は節点数及び枝の密度が多くなるほど大きくなっている. 
 このことから組合せ爆発が起きていることが読み取れる. 
-また標準偏差のオーダーが平均値以上になっているデータが多く, 
-計算コストはグラフの形状や探索する順番に大きく依存するといえる. 
+また標準偏差のオーダーが平均値以上になっているデータが多いため, 
+試行回数が少ないことの影響もあるだろうが, 
+計算コストがグラフの形状に依存しているという可能性もある. 
 
 
 \begin{table}[htbp]
@@ -283,6 +284,72 @@ u \in V \backslash P.\text{pop()} ,\ v \in V \backslash P$ \}
 \Output{bestP, minWeight}
 \end{algorithmic}
 \end{algorithm}
+
+
+\clearpage
+\section{課題4 限定操作を取り入れた最短路問題の節点数及び枝数による計算コストの比較}
+\label{sec:q4}
+Algorithm \ref{algo:q3-2}を用いて, 
+グラフの節点数を$5, 7, 9, 11, 13, 15$の6通り, 
+枝の密度を$0.3, 0.5, 0.7, 0.9$の4通りに変化させて最短路問題を解いた. 
+ただし枝の密度とは完全グラフの枝数に対する探索するグラフの枝数の割合で, 
+完全グラフの枝数に密度を掛けた値が整数でない場合は切り捨て処理を行った. 
+このときの枝数及び枝の密度と計算時間及び探索したノード数の関係は以下の表\ref{tab:q4-1}, \ref{tab:q4-2}の通り. 
+ただし各セルの上段の値は5回の試行の平均値であり, 下段の括弧内の値は標準偏差である. 
+またグラフは生成時に始点$s$から終点$t$へのパスが存在することを確認しているため, 
+実行結果にはパスが存在しないものは含まれていない. \\
+\ref{sec:q2}章と比較して, 計算時間も探索したノード数も, 
+節点数及び枝の密度が多くなるほど増加しているという傾向は変わらない. 
+しかし増加の割合は\ref{sec:q2}章よりも大幅に小さく抑えられている. 
+特に節点数が$15$, 枝の密度が$0.9$の組合せ数が最大になる場合で, 
+節点数も枝の密度も\ref{sec:q2}章と比較して$10^{-4}$倍ほどに抑えられている. 
+このことから, Algorithm \ref{algo:q3-1}の限定操作は, 
+組合せの数が増えるほど計算コスト削減に効果的に寄与しているといえる. 
+また標準偏差のオーダーが平均値以上になっているデータが多いため, 
+試行回数が少ないことの影響もあるだろうが, 
+計算コストはグラフの形状や探索する順番に大きく依存するという可能性もある. 
+
+
+\begin{table}[htbp]
+    \centering
+    \caption{節点数及び枝の密度に対する計算時間[ms]}
+    \label{tab:q4-1}
+    \begin{tabular}{cccccc}
+        \toprule
+        & & \multicolumn{4}{c}{枝の密度} \\
+        & & 0.3 & 0.5 & 0.7 & 0.9 \\
+        \midrule
+        \multirow{6}{*}{\rotatebox{90}{節点数[個]}} 
+        & 5  & \makecell{0.0016 \\ ($\pm$ 0.0019)} & \makecell{0.0023 \\ ($\pm$ 0.0020)} & \makecell{0.0023 \\ ($\pm$ 0.0003)} & \makecell{0.0025 \\ ($\pm$ 0.0010)} \\ \addlinespace
+        & 7  & \makecell{0.0022 \\ ($\pm$ 0.0017)} & \makecell{0.0155 \\ ($\pm$ 0.0218)} & \makecell{0.0096 \\ ($\pm$ 0.0033)} & \makecell{0.0087 \\ ($\pm$ 0.0018)} \\ \addlinespace
+        & 9  & \makecell{0.0207 \\ ($\pm$ 0.0216)} & \makecell{0.0152 \\ ($\pm$ 0.0049)} & \makecell{0.0277 \\ ($\pm$ 0.0134)} & \makecell{0.0856 \\ ($\pm$ 0.1070)} \\ \addlinespace
+        & 11 & \makecell{0.0239 \\ ($\pm$ 0.0161)} & \makecell{0.0821 \\ ($\pm$ 0.0889)} & \makecell{0.8805 \\ ($\pm$ 1.8063)} & \makecell{0.7132 \\ ($\pm$ 1.4802)} \\ \addlinespace
+        & 13 & \makecell{0.0528 \\ ($\pm$ 0.0235)} & \makecell{0.0703 \\ ($\pm$ 0.0236)} & \makecell{0.1718 \\ ($\pm$ 0.1475)} & \makecell{11.8041 \\ ($\pm$ 19.7397)} \\ \addlinespace
+        & 15 & \makecell{0.8010 \\ ($\pm$ 1.2805)} & \makecell{4.5081 \\ ($\pm$ 9.8453)} & \makecell{464.2257 \\ ($\pm$ 1014.9181)} & \makecell{7.8398 \\ ($\pm$ 16.1049)} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{節点数及び枝の密度に対する探索したノード数[個]}
+    \label{tab:q4-2}
+    \begin{tabular}{cccccc}
+        \toprule
+        & & \multicolumn{4}{c}{枝の密度} \\
+        & & 0.3 & 0.5 & 0.7 & 0.9 \\
+        \midrule
+        \multirow{6}{*}{\rotatebox{90}{節点数[個]}} 
+        & 5  & \makecell{2.2 \\ ($\pm$ 0.45)} & \makecell{5.6 \\ ($\pm$ 2.30)} & \makecell{7.4 \\ ($\pm$ 1.52)} & \makecell{8.2 \\ ($\pm$ 2.59)} \\ \addlinespace
+        & 7  & \makecell{6.2 \\ ($\pm$ 4.09)} & \makecell{13.6 \\ ($\pm$ 1.67)} & \makecell{17.8 \\ ($\pm$ 5.36)} & \makecell{18.6 \\ ($\pm$ 5.03)} \\ \addlinespace
+        & 9  & \makecell{16.0 \\ ($\pm$ 11.00)} & \makecell{24.2 \\ ($\pm$ 6.72)} & \makecell{44.4 \\ ($\pm$ 23.35)} & \makecell{109.0 \\ ($\pm$ 120.36)} \\ \addlinespace
+        & 11 & \makecell{28.2 \\ ($\pm$ 18.44)} & \makecell{85.4 \\ ($\pm$ 103.31)} & \makecell{985.2 \\ ($\pm$ 2027.30)} & \makecell{771.0 \\ ($\pm$ 1606.19)} \\ \addlinespace
+        & 13 & \makecell{48.2 \\ ($\pm$ 16.66)} & \makecell{57.2 \\ ($\pm$ 23.94)} & \makecell{128.6 \\ ($\pm$ 117.02)} & \makecell{1.11 $\times 10^4$ \\ ($\pm$ 1.86 $\times 10^4$)} \\ \addlinespace
+        & 15 & \makecell{552.8 \\ ($\pm$ 857.26)} & \makecell{2972.2 \\ ($\pm$ 6509.11)} & \makecell{3.27 $\times 10^5$ \\ ($\pm$ 7.13 $\times 10^5$)} & \makecell{4956.2 \\ ($\pm$ 10352.35)} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
 
 
 
