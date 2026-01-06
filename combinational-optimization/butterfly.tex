@@ -11,6 +11,10 @@
 \usepackage{amsmath}
 \usepackage{enumitem}
 \usepackage{algpseudocode}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{makecell}
+\usepackage{booktabs}
 \lstdefinelanguage{Julia}%
   {morekeywords={abstract,break,case,catch,const,continue,do,else,elseif,end,export,false,for,function,immutable,import,importall,if,in,macro,module,quote,return,struct,true,try,type,typealias,using,while},%
    sensitive=true,%
@@ -89,11 +93,21 @@
 
 \section{課題1 最短路を求める分枝アルゴリズムの設計}
 \label{sec:q1}
-
+有効グラフ$G = (V, E)$, 節点$s,t \in V$及び各枝$(u,v) \in E$の重み$d(u,v)$が与えられたとき, 
+点$s$から点$t$へ至る最短路を求める分枝アルゴリズムは, 
+Algorithm \ref{algo:q1}の疑似コードの通り. 
+現在のパスをに節点を1つ追加してパスを延長する関数FindShortestPathを, 
+始点$s$から順に再帰呼び出しすることで深さ優先でグラフの探索を行っている. 
+そして探索中に終点$t$にたどり着いたら, それが現時点での最短路であるかを判定している. 
+これにより, グラフの$s$から$t$へ至る全てのパスを探索し, 
+その中で枝重みの和が最も小さくなるパスを求めることができる. \\
+ただし疑似コード中の$P$.push($v$)はパス$P$の最後尾に節点$v$を追加する操作を, 
+$P$.pop()はパス$P$の最後尾の接点を削除する操作を表す. 
 
 
 \begin{algorithm}
 \caption{有効グラフの最短路を求める}
+\label{algo:q1}
 \begin{algorithmic}[1]
 \State bestP := $\emptyset$
 \State minWeight := $\infty$
@@ -121,6 +135,66 @@
 \Output{bestP, minWeight}
 \end{algorithmic}
 \end{algorithm}
+
+
+\section{課題2 最短路問題の節点数及び枝数による計算コストの比較}
+\label{sec:q2}
+Algorithm \ref{algo:q1}を用いて, 
+グラフの節点数を$5, 7, 9, 11, 13, 15$の6通り, 
+枝の密度を$0.3, 0.5, 0.7, 0.9$の4通りに変化させて最短路問題を解いた. 
+ただし枝の密度とは完全グラフの枝数に対する探索するグラフの枝数の割合で, 
+完全グラフの枝数に密度を掛けた値が整数でない場合は切り捨て処理を行った. 
+このときの枝数及び枝の密度と計算時間及び探索したノード数の関係は以下の表\ref{tab:q2-1}, \ref{tab:q2-2}の通り. 
+ただし各セルの上段の値は5回の試行の平均値であり, 下段の括弧内の値は標準偏差である. 
+またグラフは生成時に始点$s$から終点$t$へのパスが存在することを確認しているため, 
+実行結果にはパスが存在しないものは含まれていない. \\
+計算時間も探索したノード数も, 節点数及び枝の密度が多くなるほど増加しており, 
+その増加割合は節点数及び枝の密度が多くなるほど大きくなっている. 
+このことから組合せ爆発が起きていることが読み取れる. 
+また標準偏差のオーダーが平均値以上になっているデータが多く, 
+計算コストはグラフの形状や探索する順番に大きく依存するといえる. 
+
+
+\begin{table}[htbp]
+    \centering
+    \caption{節点数及び枝の密度に対する計算時間[ms]}
+    \label{tab:q2-1}
+    \begin{tabular}{cccccc}
+        \toprule
+        & & \multicolumn{4}{c}{枝の密度} \\
+        & & 0.3 & 0.5 & 0.7 & 0.9 \\
+        \midrule
+        \multirow{6}{*}{\rotatebox{90}{節点数[個]}} 
+        & 5  & \makecell{0.0010 \\ ($\pm$ 0.0016)} & \makecell{0.0009 \\ ($\pm$ 0.0007)} & \makecell{0.0010 \\ ($\pm$ 0.0005)} & \makecell{0.0014 \\ ($\pm$ 0.0007)} \\ \addlinespace
+        & 7  & \makecell{0.0008 \\ ($\pm$ 0.0002)} & \makecell{0.0014 \\ ($\pm$ 0.0004)} & \makecell{0.0026 \\ ($\pm$ 0.0008)} & \makecell{0.0038 \\ ($\pm$ 0.0024)} \\ \addlinespace
+        & 9  & \makecell{0.0017 \\ ($\pm$ 0.0006)} & \makecell{0.0049 \\ ($\pm$ 0.0017)} & \makecell{0.1887 \\ ($\pm$ 0.1410)} & \makecell{0.1838 \\ ($\pm$ 0.3880)} \\ \addlinespace
+        & 11 & \makecell{0.0092 \\ ($\pm$ 0.0066)} & \makecell{0.2293 \\ ($\pm$ 0.2911)} & \makecell{3.0450 \\ ($\pm$ 6.6555)} & \makecell{44.9794 \\ ($\pm$ 100.5398)} \\ \addlinespace
+        & 13 & \makecell{0.0115 \\ ($\pm$ 0.0075)} & \makecell{0.1013 \\ ($\pm$ 0.1130)} & \makecell{5.0919 \\ ($\pm$ 6.6004)} & \makecell{8.4874 \\ ($\pm$ 15.7890)} \\ \addlinespace
+        & 15 & \makecell{0.0638 \\ ($\pm$ 0.0934)} & \makecell{114.3663 \\ ($\pm$ 255.6798)} & \makecell{3.12 $\times 10^3$ \\ ($\pm$ 6.98 $\times 10^3$)} & \makecell{7.58 $\times 10^4$ \\ ($\pm$ 1.68 $\times 10^5$)} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{節点数及び枝の密度に対する探索したノード数[個]}
+    \label{tab:q2-2}
+    \begin{tabular}{cccccc}
+        \toprule
+        & & \multicolumn{4}{c}{枝の密度} \\
+        & & 0.3 & 0.5 & 0.7 & 0.9 \\
+        \midrule
+        \multirow{6}{*}{\rotatebox{90}{節点数[個]}} 
+        & 5  & \makecell{4.2 \\ ($\pm$ 1.30)} & \makecell{7.8 \\ ($\pm$ 0.84)} & \makecell{8.2 \\ ($\pm$ 3.27)} & \makecell{10.4 \\ ($\pm$ 2.51)} \\ \addlinespace
+        & 7  & \makecell{9.6 \\ ($\pm$ 2.07)} & \makecell{14.0 \\ ($\pm$ 3.08)} & \makecell{16.6 \\ ($\pm$ 4.56)} & \makecell{19.8 \\ ($\pm$ 10.13)} \\ \addlinespace
+        & 9  & \makecell{14.2 \\ ($\pm$ 4.55)} & \makecell{30.4 \\ ($\pm$ 14.83)} & \makecell{631.0 \\ ($\pm$ 526.92)} & \makecell{323.6 \\ ($\pm$ 650.61)} \\ \addlinespace
+        & 11 & \makecell{56.6 \\ ($\pm$ 30.93)} & \makecell{794.8 \\ ($\pm$ 1040.32)} & \makecell{7322.4 \\ ($\pm$ 16178.95)} & \makecell{84916.6 \\ ($\pm$ 189793.76)} \\ \addlinespace
+        & 13 & \makecell{57.8 \\ ($\pm$ 31.62)} & \makecell{253.4 \\ ($\pm$ 245.13)} & \makecell{8216.8 \\ ($\pm$ 10116.28)} & \makecell{11018.0 \\ ($\pm$ 20442.89)} \\ \addlinespace
+        & 15 & \makecell{225.6 \\ ($\pm$ 288.03)} & \makecell{221535.0 \\ ($\pm$ 495253.28)} & \makecell{4.08 $\times 10^6$ \\ ($\pm$ 9.13 $\times 10^6$)} & \makecell{7.06 $\times 10^7$ \\ ($\pm$ 1.56 $\times 10^8$)} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
 
 
 \section{課題3 効率よく最短路を求めるための限定操作アルゴリズムの設計}
