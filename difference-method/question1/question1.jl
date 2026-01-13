@@ -46,6 +46,37 @@ function euler_neumann(f, u_0, J_L, J_R, delta_t, max_time_index, delta_x, max_c
     end
 end
 
+function calculate_alpha_beta(matrix_A, N)
+    alpha = zeros(N)
+    beta = zeros(N-1)
+
+    alpha[1] = matrix_A[1,1]
+    beta[1] = matrix_A[1,2] / alpha[1]
+    for i in 2:N-1
+        alpha[i] = matrix_A[i, i] - matrix_A[i, i-1] * beta[i-1]
+        beta[i] = matrix_A[i, i+1] / alpha[i]
+    end
+    alpha[N] = matrix_A[N, N] - matrix_A[N, N-1] * beta[N-1]
+
+    return alpha, beta
+end
+
+function crank_nicolson_dirichlet(f, u_0, u_L, u_R, delta_t, max_time_index, delta_x, max_coordinate_index)
+    c = delta_t / (delta_x^2)
+
+    matrix_A = zeros(max_coordinate_index, max_coordinate_index)
+    for i in 1:max_coordinate_index
+        matrix_A[i,i] = 1 + c
+    end
+    for i in 1:max_coordinate_index-1
+        matrix_A[i, i-1] = -c / 2
+        matrix_A[i-1, i] = -c / 2
+    end
+
+    alpha, beta = calculate_alpha_beta(matrix_A, max_coordinate_index)
+
+end
+
 function main()
     open("output.dat", "w") do f
         delta_t = 0.01
