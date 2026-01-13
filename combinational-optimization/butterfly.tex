@@ -211,7 +211,7 @@ Algorithm \ref{algo:q1}を用いて,
 \begin{align}
   b &= w + \sum_{(u,v) \in \hat{E}} d(u,v) \\
   \hat{E} &= \{ (u,v) \in E \ |\ 
-  u \in V \backslash (P \backslash p),\ v \in V \backslash P \}
+  u \in V \backslash (P \backslash p),\ v \in V \backslash P,\ d(u,v) < 0 \}
 \end{align}
 となる. 
 この下界値$b$が現在の最短路の重みである暫定値以上になれば, 
@@ -228,7 +228,7 @@ Algorithm \ref{algo:q1}を用いて,
 \begin{algorithmic}[1]
 \Function{IsBounded}{$P$, currentWeight, minWeight}
 \State negativePaths := \{ $(u,v) \in E \ |\
-u \in V \backslash P.\text{pop()} ,\ v \in V \backslash P$ \}
+u \in V \backslash P.\text{pop()} ,\ v \in V \backslash P,\ d(u,v) < 0$ \}
 \State lowerBound $:=$ currentWeight
 \For{np $\in$ negativePaths}
   \State  lowerBound += np.weight
@@ -271,7 +271,7 @@ u \in V \backslash P.\text{pop()} ,\ v \in V \backslash P$ \}
 \\
 \Function{IsBounded}{$P$, currentWeight, minWeight}
 \State negativePaths := \{ $(u,v) \in E \ |\
-u \in V \backslash P.\text{pop()} ,\ v \in V \backslash P$ \}
+u \in V \backslash P.\text{pop()} ,\ v \in V \backslash P,\ d(u,v) < 0$ \}
 \State lowerBound $:=$ currentWeight
 \For{np $\in$ negativePaths}
   \State  lowerBound += np.weight
