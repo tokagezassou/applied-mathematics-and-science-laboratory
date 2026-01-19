@@ -82,7 +82,7 @@ function crank_nicolson_dirichlet(f, u_0, u_L, u_R, delta_t, max_time_index, del
         for j in 2:max_coordinate_index-1
             z[j] = (1 - c) * u_n[j+1] + c / 2 * (u_n[j] + u_n[j+2])
         end
-        z[max_coordinate_index+1] = (1 - c) + u_n[max_coordinate_index+1] + c * u_R + c / 2 * u_n[max_coordinate_index]
+        z[max_coordinate_index] = (1 - c) * u_n[max_coordinate_index+1] + c * u_R + c / 2 * u_n[max_coordinate_index]
 
         y = zeros(max_coordinate_index)
         y[1] = z[1] / alpha[1]
@@ -103,7 +103,52 @@ function crank_nicolson_dirichlet(f, u_0, u_L, u_R, delta_t, max_time_index, del
             end
         end
     end
+end
 
+function crank_nicolson_neumann(f, u_0, J_L, J_R, delta_t, max_time_index, delta_x, max_coordinate_index)
+    c = delta_t / (delta_x^2)
+    u_n = copy(u_0)
+
+    matrix_A = zeros(max_coordinate_index, max_coordinate_index)
+    matrix_A[1, 1] = 1 + c / 2
+    for i in 2:max_coordinate_index-1
+        matrix_A[i,i] = 1 + c
+    end
+    matrix_A[max_coordinate_index, max_coordinate_index] = 1 + c / 2
+    for i in 2:max_coordinate_index
+        matrix_A[i, i-1] = -c / 2
+        matrix_A[i-1, i] = -c / 2
+    end
+
+    alpha, beta = calculate_alpha_beta(matrix_A, max_coordinate_index)
+
+    for t in 1:max_time_index
+        z = zeros(max_coordinate_index)
+        z[1] = (1 - c/2) * u_n[2] - c * J_L * delta_x + c / 2 * u_n[3]
+        for j in 2:max_coordinate_index-1
+            z[j] = (1 - c) * u_n[j+1] + c / 2 * (u_n[j] + u_n[j+2])
+        end
+        z[max_coordinate_index] = (1 - c/2) * u_n[max_coordinate_index+1] + c * J_R * delta_x + c / 2 * u_n[max_coordinate_index]
+
+        y = zeros(max_coordinate_index)
+        y[1] = z[1] / alpha[1]
+        for j in 2:max_coordinate_index
+            y[j] = (z[j] - matrix_A[j, j-1] * y[j-1]) / alpha[j]
+        end
+
+        u_n[max_coordinate_index] = y[max_coordinate_index]
+        for j in max_coordinate_index-1:-1:1
+            u_n[j+1] = y[j] - beta[j] * u_n[j+2]
+        end
+
+        if t in [100, 200, 300, 400, 500]
+            println(f, "----- t = $(t * delta_t) -----")
+            for j in 2:max_coordinate_index+1
+                x = ((j-1) - 0.5) * delta_x
+                println(f, "$x  $(u_n[j])")
+            end
+        end
+    end
 end
 
 function main()
@@ -174,11 +219,35 @@ function main()
         u_0[1] = u_L
         u_0[max_coordinate_index+2] = u_R
 
-        euler_dirichlet(
+        crank_nicolson_dirichlet(
             f,
             u_0,
             u_L,
             u_R,
+            delta_t,
+            max_time_index,
+            delta_x,
+            max_coordinate_index
+        )
+
+        println(f, "----- crank_nicolson_neumann -----")
+        u_0 = zeros(max_coordinate_index + 2)
+        J_L = 0
+        J_R = 0
+
+        for j in 2:max_coordinate_index+1
+            x_minus = (j - 2) * delta_x
+            x_plus = (j - 1) * delta_x
+            u_0[j] = 0.5 * (init_condition(x_minus) + init_condition(x_plus))
+        end
+        u_0[1] = u_0[2] - J_L * delta_x
+        u_0[max_coordinate_index+2] = u_0[max_coordinate_index+1] + J_R * delta_x
+
+        crank_nicolson_neumann(
+            f,
+            u_0,
+            J_L,
+            J_R,
             delta_t,
             max_time_index,
             delta_x,
