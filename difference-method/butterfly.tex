@@ -182,19 +182,40 @@ Neumann境界条件を用いた図\ref{fig:q1-en},\ref{fig:q1-cnn}と比較し�
 数値解法はEuler陽解法
 \begin{gather}
   \frac{u_j^{n+1} - u_j^{n}}{\Delta t} \approx 
-  \frac{u_{j-1}^n - 2u_j^n + u_{j+1}^n}{\Delta x^2} + f(u_j^u)
+  \frac{u_{j-1}^n - 2u_j^n + u_{j+1}^n}{\Delta x^2} + f(u_j^n)
 \end{gather}
 を用い, 刻み幅は$\Delta t = 0.001,\ \Delta x = 0.05$とした. 
 ただし数値解法中の$u$の上付き添字は時間の, 下付き添字は座標のインデックスを表す. 
 境界条件はDirichlet境界条件$u_L = 1,\ u_R = 0$を用いた. 
 パラメータ$b$の値が$b = 0.25, 0.5, 1.0$の3つの場合で, 
 $t = 10,20,30,40$における$u(x,t)$の値を出力した. 
+その結果は図\ref{fig:q2-quater} - \ref{fig:q2-full}の通りである. \\
+$b$及び$t$の値によらず, $u(x,t)$の概形はある$x$を境に$u = 1$から$u = 0$に急激に減少するような形になっており, 
+$u(x,t)$が急激に減少する$x$の値は, 時刻$t$が大きくなるほど大きくなっている. 
+つまり$u(x,t)$が$1$から$0$へ変化する境界が, 時間経過とともに$x$軸の正の方向に進行しているといえる. 
+一方パラメータ$b$の値が大きくなるほど$u(x,t)$が急激に減少する$x$の値は小さくなっており, 
+また減少中の傾きの絶対値も大きくなっている. 
+つまり$b$は$u=1$から$u=0$への変化の緩急を表すパラメータだといえる. 
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.8\textwidth]{question2/}
-  \caption{どおー}
-  \label{fig:tn}
+  \includegraphics[width=0.8\textwidth]{question2/q2-quater.png}
+  \caption{$b = 0.25$}
+  \label{fig:q2-quater}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question2/q2-half.png}
+  \caption{$b = 0.5$}
+  \label{fig:q2-half}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question2/q2-full.png}
+  \caption{$b = 1.0$}
+  \label{fig:q2-full}
 \end{figure}
 
 
