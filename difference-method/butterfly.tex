@@ -103,7 +103,7 @@
 \begin{gather}
   u_0(x) = \frac{1}{\sqrt{2 \pi}} e^{-\frac{1}{2} (x-5)^2}
 \end{gather}
-の元で数値的に解いた. 
+の下で数値的に解いた. 
 数値解法はEuler陽解法
 \begin{gather}
   u_j^{n+1} - u_j^{n} \approx 
@@ -178,7 +178,7 @@ Neumann境界条件を用いた図\ref{fig:q1-en},\ref{fig:q1-cnn}と比較し�
 \begin{gather}
   u_0(x) = \frac{1}{(1 + e^{bx - 5})^2}
 \end{gather}
-の元で数値的に解いた. 
+の下で数値的に解いた. 
 数値解法はEuler陽解法
 \begin{gather}
   \frac{u_j^{n+1} - u_j^{n}}{\Delta t} \approx 
@@ -219,6 +219,52 @@ $u(x,t)$が急激に減少する$x$の値は, 時刻$t$が大きくなるほど�
 \end{figure}
 
 
+\clearpage
+\section{問題3 1次元調和振動子のSchr\"{o}dinger方程式の数値解}
+\label{sec:q3}
+
+Schr\"{o}dinger方程式
+\begin{gather}
+  i \hbar \frac{\partial \psi}{\partial t} (x,t) = 
+  (- \frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} + \frac{k}{2}x^2) \psi (x,t)
+\end{gather}
+を$\psi(x,t) = \psi_R(x,t) + \psi_I(x,t)$として実部と虚部に分けた拡散方程式系
+\begin{align}
+  \hbar \frac{\partial \psi_R}{\partial t} (x,t) &= 
+  (- \frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} + \frac{k}{2}x^2) \psi_I (x,t) \\
+  - \hbar \frac{\partial \psi_I}{\partial t} (x,t) &= 
+  (- \frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} + \frac{k}{2}x^2) \psi_R (x,t) \\
+\end{align}
+を空間$[- \frac{L}{2}, \frac{L}{2}]$, 
+パラメータ$\hbar = 1,\ m = 1,\ k = 1$, 及び初期条件
+\begin{gather}
+  \psi (x,0) = \frac{\sqrt{2}}{\pi^{\frac{1}{4}}} e^{-2 x^2}
+\end{gather}
+の下で数値的に解いた. 
+数値解法はVisscherのスキーム
+\begin{align}
+  R_j^{n+1} &= R_j^n - 
+  \Delta t (-\frac{1}{2} \frac{I_{j-1}^n - 2I_n^n + I_{j+1}^n}{\Delta x^2} + 
+  \frac{1}{2} x_j^2 I_j^n) \\
+  I_j^{n+1} &= I_j^n + 
+  \Delta t (-\frac{1}{2} \frac{R_{j-1}^{n+1} - 2R_n^{n+1} + R_{j+1}^{n+1}}{\Delta x^2} + 
+  \frac{1}{2} x_j^2 R_j^{n+1}) \\
+  \text{ただし } x_j &= (j - \frac{1}{2}) \Delta x - \frac{L}{2}
+\end{align}
+を用いた. 
+ただし数値解法中の$R$及び$I$の上付き添字は時間の, 下付き添字は座標のインデックスを表す. 
+刻み幅は$\Delta t = 0.001,\ \Delta x = 0.05\ (\therefore N = 400)$とし, 
+境界条件は周期境界条件
+\begin{align}
+  &R_0^n = R_N^n, \quad R_{N+1}^n = R_1^n \\
+  &I_0^n = I_N^n, \quad I_{N+1}^n = I_1^n
+\end{align}
+として, 
+$t = 1,2,3,4,5,6,7,8$における確率密度
+\begin{gather}
+  (R_j^n)^2 + I_j^n I_j^{n-1} \ (1 \leq j \leq N)
+\end{gather}
+の値を出力した. 
 
 
 
