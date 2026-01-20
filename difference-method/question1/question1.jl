@@ -90,7 +90,7 @@ function crank_nicolson_dirichlet(f, u_0, u_L, u_R, delta_t, max_time_index, del
             y[j] = (z[j] - matrix_A[j, j-1] * y[j-1]) / alpha[j]
         end
 
-        u_n[max_coordinate_index] = y[max_coordinate_index]
+        u_n[max_coordinate_index+1] = y[max_coordinate_index]
         for j in max_coordinate_index-1:-1:1
             u_n[j+1] = y[j] - beta[j] * u_n[j+2]
         end
@@ -136,7 +136,7 @@ function crank_nicolson_neumann(f, u_0, J_L, J_R, delta_t, max_time_index, delta
             y[j] = (z[j] - matrix_A[j, j-1] * y[j-1]) / alpha[j]
         end
 
-        u_n[max_coordinate_index] = y[max_coordinate_index]
+        u_n[max_coordinate_index+1] = y[max_coordinate_index]
         for j in max_coordinate_index-1:-1:1
             u_n[j+1] = y[j] - beta[j] * u_n[j+2]
         end
