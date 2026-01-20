@@ -91,9 +91,78 @@
 \end{titlepage}
 
 
-\section{課題1 最短路を求める分枝アルゴリズムの設計}
+\section{問題1 拡散方程式の数値解}
 \label{sec:q1}
 
+拡散方程式
+\begin{gather}
+  \frac{\partial u}{\partial t} (x,t) = \frac{\partial^2 u}{\partial x^2} (x,t)
+\end{gather}
+をサイズ$L = 10$及び初期条件
+\begin{gather}
+  u_0(x) = \frac{1}{\sqrt{2 \pi}} e^{-\frac{1}{2} (x-5)^2}
+\end{gather}
+の元で数値的に解いた. 
+数値解法はEuler陽解法
+\begin{gather}
+  u_j^{n+1} - u_j^{n} \approx 
+  \frac{\Delta t}{\Delta x^2} (u_{j-1}^n - 2u_j^n + u_{j+1}^n)
+\end{gather}
+及びCrank-Nicolson法
+\begin{gather}
+  u_j^{n+1} - u_j^{n} \approx 
+  \frac{1}{2} \frac{\Delta t}{\Delta x^2} (u_{j-1}^{n+1} - 2u_j^{n+1} + u_{j+1}^{n+1}) + 
+  \frac{1}{2} \frac{\Delta t}{\Delta x^2} (u_{j-1}^n - 2u_j^n + u_{j+1}^n)
+\end{gather}
+を用い, 刻み幅は$\Delta t = 0.01,\ \Delta x = 0.5$とした. 
+ただし数値解法中の$u$の上付き添字は時間の, 下付き添字は座標のインデックスを表す. 
+境界条件はDirichlet境界条件$u_L = u_R = 0$及びNeumann境界条件$J_L = J_R = 0$を用いた. 
+それぞれの数値解法及び境界条件の計4通りの組み合わせで, 
+$t = 1,2,3,4,5$における$u(x,t)$の値を出力した. 
+その結果は図\ref{fig:q1-ed} - \ref{fig:q1-cnn}の通りである. \\
+今回のDirichlet境界条件は両端の値が$0$であるという条件のため, 
+図\ref{fig:q1-ed},\ref{fig:q1-cnd}において$x = 0, 10$付近の$u(x,t)$の値が
+Neumann境界条件を用いた図\ref{fig:q1-en},\ref{fig:q1-cnn}と比較して$0$に近くなっている. 
+また数値解法の違いによる$u(x,t)$の値の差はほとんど見られなかった. 
+
+\clearpage
+\begin{figure}[htbp]
+  \centering
+
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question1/q1-ed.png}
+    \captionof{figure}{Euler陽解法・Dirichlet境界条件}
+    \label{fig:q1-ed}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question1/q1-en.png}
+    \captionof{figure}{Euler陽解法・Neumann境界条件}
+    \label{fig:q1-en}
+  \end{minipage}
+  
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question1/q1-cnd.png}
+    \captionof{figure}{Crank-Nicolson法・Dirichlet境界条件}
+    \label{fig:q1-cnd}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{question1/q1-cnn.png}
+    \captionof{figure}{Crank-Nicolson法・Neumann境界条件}
+    \label{fig:q1-cnn}
+  \end{minipage}
+  
+\end{figure}
 
 
 
