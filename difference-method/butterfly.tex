@@ -96,6 +96,7 @@
 
 拡散方程式
 \begin{gather}
+  \label{eq:dif}
   \frac{\partial u}{\partial t} (x,t) = \frac{\partial^2 u}{\partial x^2} (x,t)
 \end{gather}
 をサイズ$L = 10$及び初期条件
@@ -165,6 +166,36 @@ Neumann境界条件を用いた図\ref{fig:q1-en},\ref{fig:q1-cnn}と比較し�
 \end{figure}
 
 
+\clearpage
+\section{問題2 Fisher方程式の数値解}
+\label{sec:q2}
+
+式\eqref{eq:dif}の拡散方程式に非線形項$f(u) = u (1 - u)$を加えたFisher方程式
+\begin{gather}
+  \frac{\partial u}{\partial t} (x,t) = \frac{\partial^2 u}{\partial x^2} (x,t) + u (1 - u)
+\end{gather}
+をサイズ$L = 200$及び初期条件
+\begin{gather}
+  u_0(x) = \frac{1}{(1 + e^{bx - 5})^2}
+\end{gather}
+の元で数値的に解いた. 
+数値解法はEuler陽解法
+\begin{gather}
+  \frac{u_j^{n+1} - u_j^{n}}{\Delta t} \approx 
+  \frac{u_{j-1}^n - 2u_j^n + u_{j+1}^n}{\Delta x^2} + f(u_j^u)
+\end{gather}
+を用い, 刻み幅は$\Delta t = 0.001,\ \Delta x = 0.05$とした. 
+ただし数値解法中の$u$の上付き添字は時間の, 下付き添字は座標のインデックスを表す. 
+境界条件はDirichlet境界条件$u_L = 1,\ u_R = 0$を用いた. 
+パラメータ$b$の値が$b = 0.25, 0.5, 1.0$の3つの場合で, 
+$t = 10,20,30,40$における$u(x,t)$の値を出力した. 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{question2/}
+  \caption{どおー}
+  \label{fig:tn}
+\end{figure}
 
 
 
