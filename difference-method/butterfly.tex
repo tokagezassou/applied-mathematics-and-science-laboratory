@@ -1,0 +1,129 @@
+% !TEX program = lualatex
+\documentclass[...]{ltjsarticle}
+\usepackage{graphicx}
+\usepackage{amsmath,ascmac}
+\usepackage{bm}
+\usepackage{algorithm}
+\usepackage{listings}
+\usepackage{subcaption}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{algpseudocode}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{makecell}
+\usepackage{booktabs}
+\lstdefinelanguage{Julia}%
+  {morekeywords={abstract,break,case,catch,const,continue,do,else,elseif,end,export,false,for,function,immutable,import,importall,if,in,macro,module,quote,return,struct,true,try,type,typealias,using,while},%
+   sensitive=true,%
+   morecomment=[l]{\#},%      % # を \# に修正
+   morecomment=[s]{\#=}{=\#},% % # を \# に修正
+   morestring=[b]",%
+   morestring=[m]'%
+  }
+\lstset{%
+  language={Julia}, % Juliaをメインで使うならここを {Julia} にしてもOKです
+  basicstyle={\small\ttfamily}, % 読みやすさのため ttfamily を推奨
+  identifierstyle={\small},%
+  commentstyle={\small\itshape},%
+  keywordstyle={\small\bfseries},%
+  ndkeywordstyle={\small},%
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=fullflexible, % [l] を外すとより安定します
+  keepspaces=true, % スペースを維持
+  numbers=left,%
+  xrightmargin=0pt, % 0zw から 0pt に変更
+  xleftmargin=3em,  % 3zw から 3em に変更（1zw ≒ 1em です）
+  numberstyle={\scriptsize},%
+  stepnumber=1,
+  numbersep=1em,    % 1zw から 1em に変更
+  lineskip=-0.5ex%
+}
+\renewcommand{\lstlistingname}{コード}
+\renewcommand{\lstlistlistingname}{コード目次}
+\renewcommand{\thesubsection}{(\arabic{subsection})}
+\renewcommand{\thesection}{\arabic{section}}
+
+\algrenewcommand\algorithmicif{\textbf{if}}
+\algrenewcommand\algorithmicthen{\textbf{then}}
+\algrenewcommand\algorithmicelse{\textbf{else}}
+\algrenewcommand\algorithmicfor{\textbf{for}}
+\algrenewcommand\algorithmicforall{\textbf{for each}}
+\algrenewcommand\algorithmicdo{\textbf{do}}
+\algrenewcommand\algorithmicwhile{\textbf{while}}
+\algrenewcommand\algorithmicprocedure{\textbf{procedure}}
+\algrenewcommand\algorithmicfunction{\textbf{function}}
+\algnewcommand\algorithmicreturnvalue{\textbf{return}}
+\algnewcommand\ReturnValue[1]{\State \algorithmicreturnvalue\ #1}
+\algnewcommand\algorithmicoutput{\textbf{output}}
+\algnewcommand\Output[1]{\State \algorithmicoutput\ #1}
+\algrenewcommand\algorithmicend{\textbf{end}}
+\algrenewcommand\algorithmicreturn{\textbf{return}}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vfill
+    
+    {\Huge 数理工学実験\par}
+    \vspace{1cm}
+    
+    {\Large 組合せ最適化レポート\par}
+    
+    \vfill
+    
+    {\Large
+    所属: 工学部情報学科数理工学コース2年\par
+    学籍番号: 1029-36-1263\par
+    氏名: 天野 塁\par
+    }
+    
+    \vfill
+    
+    {\Large 提出日: \today \par}
+    
+    \vfill
+\end{titlepage}
+
+
+\section{課題1 最短路を求める分枝アルゴリズムの設計}
+\label{sec:q1}
+
+
+
+
+
+
+
+
+\clearpage
+\section{実行環境}
+\label{sec:env}
+本課題の実行環境は表\ref{tab:env}の通りである.
+
+\begin{table}[ht]
+  \centering
+  \caption{実行環境}
+  \label{tab:env}
+  \begin{tabular}[ht]{c c}
+    \hline
+    OS & Ubuntu 22.04.5 LTS \\
+    CPU & 13th Gen Intel(R) Core(TM) i7-1360P \\
+    メモリ & 8GB \\
+    使用言語 & julia 1.12.1 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\section{参考文献}
+\label{sec:ref}
+数値計算のためのコードで誤っている箇所の修正, 及びより良い書き方の勉強のため, 
+Gemini 3.0 Proを使用した.
+
+
+\end{document}
